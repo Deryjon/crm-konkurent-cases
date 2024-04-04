@@ -6,7 +6,7 @@
     <LayoutHeader class="md:hidden"/>
     <section class="">
         <div class="grid">
-            <LayoutSidebar class="relative hidden lg:block" />
+            <LayoutSidebar class="relative hidden md:block" />
             <div class="bg-[#262626]">
                 <slot />
             </div>
@@ -15,7 +15,7 @@
 </template>
 
 <style scoped>
-@media(min-width: 840px){
+@media(min-width: 768px){
     
     .grid {
         display: grid;
