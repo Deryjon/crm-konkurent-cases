@@ -8,7 +8,13 @@ export default defineNuxtConfig({
     "@nuxt/image",
     'nuxt-headlessui',
     "@morev/vue-transitions/nuxt",
+    "shadcn-nuxt",
+
 
   ],
   headlessui: {prefix: "H"},
+  shadcn: {
+    prefix: "Ui",
+    componentDir: "./components/ui",
+  },
 })
