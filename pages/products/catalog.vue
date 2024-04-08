@@ -29,7 +29,10 @@ const toggleOpen = () => {
 
             <InputSearch class="" />
             
-            <CreateBtn />
+            <router-link to="/products/create">
+
+                <CreateBtn />
+            </router-link>
         </div>
     </section>
 </template>
