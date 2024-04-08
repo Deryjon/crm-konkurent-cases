@@ -76,7 +76,7 @@ const openFilePicker = () => {
         <PriceCreate />
         <div class="barcode w-1/3 mt-10">
             <label for="">Кол-во</label>
-            <UiInput v-model="sellingPrice" placeholder="0" type="number" readonly />
+            <UiInput  placeholder="0" type="number"  />
         </div>
     </section>
 </template>
