@@ -2,6 +2,7 @@
 import PriceCreate from './components/priceCreate.vue';
 import CreateBtn from './components/CreateBtn.vue';
 import { ref } from 'vue';
+import ExitButton from '../../components/layout/ExitButton.vue';
 
 const imageUrls = ref<string[]>([]);
 
@@ -34,10 +35,14 @@ const openFilePicker = () => {
 </script>
 
 <template>
-    <section class="create  py-[20px] px-[15px] md:p-[40px]">
-        <div class="top flex items-center justify-between">
-            <h2 class="text-4xl font-semibold ">Новый продукт</h2>
-            <CreateBtn class="mt-10 ml-auto"/>
+    <section class="create h-[100vh]  py-[20px] px-[15px] md:p-[40px]">
+        <div class="flex items-center justify-between mt-6">
+            <router-link to="/products/catalog">
+
+                <ExitButton/>
+            </router-link>
+            <h2 class="text-4xl font-semibold ml-5">Новый продукт</h2>
+            <CreateBtn class="ml-auto" />
         </div>
         <div class="basic">
             <div class="name mt-10">
@@ -49,9 +54,9 @@ const openFilePicker = () => {
                     <label for="">Артикул</label>
                     <UiInput placeholder="Введите артикул" />
                 </div>
-                <div class="barcode w-1/3">
-                    <label for="">Баркод</label>
-                    <UiInput placeholder="Введите баркод" />
+                <div class="barcode w-1/3 ">
+                    <label for="">Кол-во</label>
+                    <UiInput placeholder="0" type="number" />
                 </div>
             </div>
         </div>
@@ -62,7 +67,7 @@ const openFilePicker = () => {
                     <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[200px] h-[200px] mt-10">
                         <img :src="imageUrl" class="w-full h-full" alt="Выбранное изображение">
                         <button class="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
-                                @click="removeImage(index)">
+                            @click="removeImage(index)">
                             X
                         </button>
                     </div>
@@ -74,9 +79,6 @@ const openFilePicker = () => {
             </div>
         </div>
         <PriceCreate />
-        <div class="barcode w-1/3 mt-10">
-            <label for="">Кол-во</label>
-            <UiInput  placeholder="0" type="number"  />
-        </div>
+
     </section>
 </template>
