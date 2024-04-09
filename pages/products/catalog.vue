@@ -15,16 +15,17 @@ const headers = [
     { text: "Цена продажи", value: "price" },
 ];
 const items = [
-    { name: "Кардиган", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0911202303_photo_2023-11-05_10-32-29-crop-380x575.jpg", code: "19992881", pricecome: 30000, price: 65000, },
+    { name: "Кардиган", photo: "", code: "19992881", pricecome: 30000, price: 65000, },
     { name: "Брюки", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/1410201910_6S9zLaUNscE-380x575.jpg", code: "DDD", pricecome: 150, price: 199, },
     { name: "Белье", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/2003202403_photo_2024-03-07_16-42-18-crop-380x575.jpg", code: "DXX", pricecome: 90, price: 2000, },
     { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, },
+
 ];
 
 </script>
 
 <template>
-    <section class="catalog h-[100vh] py-[20px] px-[15px] md:p-[40px]">
+    <section class="catalog min-h-[100vh] py-[20px] px-[15px] md:p-[40px]">
         <div class="top flex items-center justify-between">
             <h2 class="text-4xl font-semibold ">Каталог</h2>
             <div class="stats flex items-center justify-between  text-[18px] w-[200px] cursor-pointer"
@@ -51,8 +52,12 @@ const items = [
         </div>
         <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
             theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10">
+            <template #item-name="{ name }" >
+                <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" >{{ name }}</p>
+            </template>
             <template #item-photo="{ photo }" >
-                <img :src="photo" alt="Photo" class="photo-cell mx-auto" >
+                <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto" >
+                <img v-if="!photo" src="../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto" >
             </template>
         </EasyDataTable>
 
@@ -66,7 +71,7 @@ const items = [
     --easy-table-border-radius: 1000px;
     --easy-table-row-border: 1px solid #ffffff;
 
-    --easy-table-header-font-size: 14px;
+    --easy-table-header-font-size: 18px;
     --easy-table-header-height: 50px;
     --easy-table-header-font-color: #c1cad4;
     --easy-table-header-background-color: #262626;
@@ -80,8 +85,10 @@ const items = [
     --easy-table-body-row-font-color: #c0c7d2;
     --easy-table-body-row-background-color: #262626;
     --easy-table-body-row-height: 50px;
-    --easy-table-body-row-font-size: 14px;
-
+    --easy-table-body-row-font-size: 17px;
+    
+    --easy-table-body-row-hover-background-color: #535353;
+    --easy-table-body-row-hover-font-color: #c0c7d2;
 
     --easy-table-body-item-padding: 10px 15px;
 
