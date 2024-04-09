@@ -18,7 +18,8 @@
     "nuxt": "^3.11.1",
     "nuxt-headlessui": "^1.1.5",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue3-easy-data-table": "^1.5.47"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.1.5",
