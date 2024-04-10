@@ -1,26 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Stat from './components/Stat.vue';
+import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from './components/CreateBtn.vue';
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;
 };
-const headers = [
-    { text: "Фото", value: "photo" },
-    { text: "Наименование", value: "name" },
-    { text: "Код", value: "code" },
-    { text: "Цена прихода", value: "pricecome" },
-    { text: "Цена продажи", value: "price" },
-];
-const items = [
-    { name: "Кардиган", photo: "", code: "19992881", pricecome: 30000, price: 65000, },
-    { name: "Брюки", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/1410201910_6S9zLaUNscE-380x575.jpg", code: "DDD", pricecome: 150, price: 199, },
-    { name: "Белье", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/2003202403_photo_2024-03-07_16-42-18-crop-380x575.jpg", code: "DXX", pricecome: 90, price: 2000, },
-    { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, },
 
-];
 
 </script>
 
@@ -50,16 +38,18 @@ const items = [
                 <CreateBtn />
             </router-link>
         </div>
-        <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
+        <!-- <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
             theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10">
             <template #item-name="{ name }" >
                 <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" >{{ name }}</p>
             </template>
-            <template #item-photo="{ photo }" >
+<template #item-photo="{ photo }">
                 <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto" >
                 <img v-if="!photo" src="../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto" >
             </template>
-        </EasyDataTable>
+</EasyDataTable> -->
+        <CatalogTable />
+        <KanbanSlideover/>
 
     </section>
 
@@ -85,8 +75,8 @@ const items = [
     --easy-table-body-row-font-color: #c0c7d2;
     --easy-table-body-row-background-color: #262626;
     --easy-table-body-row-height: 50px;
-    --easy-table-body-row-font-size: 17px;
-    
+    --easy-table-body-row-font-size: 18px;
+
     --easy-table-body-row-hover-background-color: #535353;
     --easy-table-body-row-hover-font-color: #c0c7d2;
 

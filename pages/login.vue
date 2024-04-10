@@ -49,11 +49,9 @@
             <form action="">
                 <UiInput placeholder="Email" type="email" class="mb-3" v-model="emailRef" />
                 <UiInput placeholder="Password" type="password" class="mb-3" v-model="passwordRef" />
-                <UiInput placeholder="Name" type="name" class="mb-3" v-model="nameRef" />
             </form>
             <div class="flex items-center justify-center gap-5">
                 <UiButton type="button" @click="login">Login</UiButton>
-                <UiButton type="button" @click="register">Register</UiButton>
             </div>
         </div>
 

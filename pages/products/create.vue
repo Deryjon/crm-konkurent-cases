@@ -45,19 +45,19 @@ const openFilePicker = () => {
             <CreateBtn class="ml-auto" />
         </div>
         <div class="basic">
-            <div class="name mt-10">
-                <label for="">Наименование</label>
-                <UiInput placeholder="Введите наименование" />
-            </div>
             <div class="flex justify-between mt-10">
+                <div class="name w-1/3">
+                    <label for="">Наименование</label>
+                    <UiInput placeholder="Введите наименование" />
+                </div>
                 <div class="articul w-1/3">
                     <label for="">Артикул</label>
                     <UiInput placeholder="Введите артикул" />
                 </div>
-                <div class="barcode w-1/3 ">
+                <!-- <div class="barcode w-1/3 ">
                     <label for="">Кол-во</label>
                     <UiInput placeholder="0" type="number" />
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="photo mt-10">
@@ -78,7 +78,7 @@ const openFilePicker = () => {
                 </div>
             </div>
         </div>
-        <PriceCreate />
+        <!-- <PriceCreate /> -->
 
     </section>
 </template>
