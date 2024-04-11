@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useSearchStore } from '~/store/searchCatalog.store.ts';
+import { useSearchStore } from '../../../store/searchCatalog.store.ts';
 import { ref, computed } from 'vue'
-
 import DeleteBtn from '../../../components/layout/DeleteBtn'
 import EditBtn from '../../../components/layout/EditBtn'
 
 const isOpen = ref(false)
+const deleteOpen = ref(false)
 const store = useSearchStore()
 
 const headers = [
@@ -23,7 +23,6 @@ const items = [
     { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, quantity: 35, },
 ];
 
-// Вычисляемое свойство для отслеживания поискового значения из хранилища
 const searchValue = computed(() => store.searchValue);
 </script>
 
@@ -68,8 +67,22 @@ const searchValue = computed(() => store.searchValue);
             </div>
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn />
+                    <DeleteBtn @click="deleteOpen = true" />
                     <EditBtn />
+                    <UModal v-model="deleteOpen" >
+                
+                        <Placeholder>
+
+                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                            
+                           <div class=" flex gap-10 items-center justify-center my-10">
+   
+   
+                               <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                               <button @click="deleteProduct" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                           </div>
+                        </Placeholder>
+                    </UModal>
                 </div>
             </template>
         </UCard>
