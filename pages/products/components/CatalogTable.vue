@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { useSearchStore } from '../../../store/searchCatalog.store.ts';
-import { ref, computed } from 'vue'
-import DeleteBtn from '../../../components/layout/DeleteBtn'
-import EditBtn from '../../../components/layout/EditBtn'
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
+import EditBtn from '../../../components/layout/EditBtn.vue';
 
-const isOpen = ref(false)
-const deleteOpen = ref(false)
-const store = useSearchStore()
+const isOpen = ref(false);
+const deleteOpen = ref(false);
+const store = useSearchStore();
 
 const headers = [
     { text: "Фото", value: "photo" },
@@ -23,14 +24,20 @@ const items = [
     { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, quantity: 35, },
 ];
 
+const searchField = store.searchField;
 const searchValue = computed(() => store.searchValue);
-</script>
 
+const router = useRouter();
+
+function routeEdit() {
+    router.push('/products/update/id');
+}
+</script>
 
 <template>
     <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
         theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
-        :search-field="setSearchField" :search-value="searchValue">
+        :search-field="searchField" :search-value="searchValue">
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
         </template>
@@ -68,7 +75,7 @@ const searchValue = computed(() => store.searchValue);
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn />
+                    <EditBtn @click="routeEdit" />
                     <UModal v-model="deleteOpen" >
                 
                         <Placeholder>
@@ -79,7 +86,7 @@ const searchValue = computed(() => store.searchValue);
    
    
                                <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                               <button @click="deleteProduct" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                               <button @click="" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                            </div>
                         </Placeholder>
                     </UModal>
