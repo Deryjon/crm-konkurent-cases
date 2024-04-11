@@ -1,36 +1,43 @@
 <script lang="ts" setup>
-// import { useDealSlideStore } from '~/store/deal-slide.store';
-// const store = useDealSlideStore()
-import { ref } from 'vue'
+import { useSearchStore } from '~/store/searchCatalog.store.ts';
+import { ref, computed } from 'vue'
+
 import DeleteBtn from '../../../components/layout/DeleteBtn'
 import EditBtn from '../../../components/layout/EditBtn'
-const isOpen = ref(false)
 
+const isOpen = ref(false)
+const store = useSearchStore()
 
 const headers = [
     { text: "Фото", value: "photo" },
     { text: "Наименование", value: "name" },
     { text: "Артикуль", value: "code" },
+    { text: "Колличество", value: "quantity" },
     { text: "Цена прихода", value: "pricecome" },
     { text: "Цена продажи", value: "price" },
 ];
 const items = [
-    { name: "Кардиган", photo: "", code: "19992881", pricecome: 30000, price: 65000, },
-    { name: "Брюки", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/1410201910_6S9zLaUNscE-380x575.jpg", code: "DDD", pricecome: 150, price: 199, },
-    { name: "Белье", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/2003202403_photo_2024-03-07_16-42-18-crop-380x575.jpg", code: "DXX", pricecome: 90, price: 2000, },
-    { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, },
-
+    { name: "Кардиган", photo: "", code: "19992881", pricecome: 30000, price: 65000, quantity: 65, },
+    { name: "Брюки", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/1410201910_6S9zLaUNscE-380x575.jpg", code: "DDD", pricecome: 150, price: 199, quantity: 6, },
+    { name: "Белье", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/2003202403_photo_2024-03-07_16-42-18-crop-380x575.jpg", code: "DXX", pricecome: 90, price: 2000, quantity: 15, },
+    { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, quantity: 35, },
 ];
+
+// Вычисляемое свойство для отслеживания поискового значения из хранилища
+const searchValue = computed(() => store.searchValue);
 </script>
+
+
 <template>
     <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
-        theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10">
+        theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
+        :search-field="setSearchField" :search-value="searchValue">
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
         </template>
         <template #item-photo="{ photo }">
             <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-if="!photo" src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
+            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">
@@ -48,7 +55,7 @@ const items = [
                     </div>
                 </div>
             </template>
-            
+
             <div class="product">
                 <h3 class="text-2xl font-semibold">Данные о продукте</h3>
                 <div class="flex flex-col gap-10 mt-10">
