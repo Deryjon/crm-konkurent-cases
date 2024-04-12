@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PriceCreate from '../components/priceCreate.vue';
-import CreateBtn from '../components/CreateBtn.vue';
+import EditBtn from '../../../components/layout/EditBtn.vue';
 import { ref } from 'vue';
 import ExitButton from '../../../components/layout/ExitButton.vue';
 
@@ -42,7 +42,7 @@ const openFilePicker = () => {
                 <ExitButton/>
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Редактирование продукт</h2>
-            <CreateBtn class="ml-auto" />
+            <EditBtn class="ml-auto" />
         </div>
         <div class="basic">
             <div class="flex justify-between mt-10">
@@ -50,15 +50,15 @@ const openFilePicker = () => {
                     <label for="">Наименование</label>
                     <UiInput placeholder="Введите наименование" />
                 </div>
-                <div class="articul w-1/3">
-                    <label for="">Артикул</label>
-                    <UiInput placeholder="Введите артикул" />
-                </div>
-                <!-- <div class="barcode w-1/3 ">
+                <div class="barcode w-1/3 ">
                     <label for="">Кол-во</label>
                     <UiInput placeholder="0" type="number" />
-                </div> -->
+                </div>
             </div>
+        </div>
+        <div class="articul w-1/3 mt-10">
+            <label for="">Артикул</label>
+            <UiInput placeholder="Введите артикул" />
         </div>
         <div class="photo mt-10">
             <label for="">Фото</label>
@@ -78,7 +78,7 @@ const openFilePicker = () => {
                 </div>
             </div>
         </div>
-        <!-- <PriceCreate /> -->
+        <PriceCreate />
 
     </section>
 </template>
