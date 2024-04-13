@@ -10,9 +10,9 @@
       <!-- Logo -->
       <div class="img-logo flex">
 
-        <img src="../../assets/icons/logo-konkurent.svg" alt="Analytics logo" class="h-7 w-7 object-contain" />
+        <!-- <img src="../../assets/icons/logo-konkurent.svg" alt="Analytics logo" class="h-7 w-7 object-contain" /> -->
         <!-- Page title -->
-        <NuxtLink class="text-xl font-bold" to="/">Konkurent</NuxtLink>
+        <NuxtLink class="text-xl font-bold" to="/">LIGNIS</NuxtLink>
       </div>
 
     </div>

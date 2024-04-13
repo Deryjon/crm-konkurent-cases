@@ -13,9 +13,9 @@ const toggleOpen = () => {
 </script>
 
 <template>
-    <section class="catalog min-h-[100vh] py-[20px] px-[15px] md:p-[40px]">
+    <section class="catalog">
         <div class="top flex items-center justify-between">
-            <h2 class="text-4xl font-semibold ">Каталог</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ">Каталог</h2>
             <div class="stats flex items-center justify-between  text-[18px] w-[200px] cursor-pointer"
                 @click="toggleOpen">
                 <Icon :class="[open ? 'rotate-180' : '']" name="heroicons:chevron-down"

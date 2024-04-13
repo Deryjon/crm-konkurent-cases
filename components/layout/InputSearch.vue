@@ -11,7 +11,7 @@ const handleInput = (event) => {
 </script>
 
 <template>
-  <div class="bg-[#404040] w-[640px] flex items-center gap-4 py-4 px-3 rounded-2xl">
+  <div class="bg-[#404040] w-[280px] lg:w-[640px] flex items-center gap-4 py-4 px-3 rounded-2xl">
     <Icon name="fluent:search-12-filled" size="22" color=""/>
     <input 
       type="text" 

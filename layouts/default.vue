@@ -13,7 +13,7 @@ const isAuth = ref(true)
             <LayoutSidebar class="sticky top-[20px] hidden h-[calc(100vh-65px)] py-5 lg:col-span-3 lg:block"
                 v-if="isAuth" />
         </div>
-        <div class="bg-[#262626] w-full">
+        <div class="bg-[#262626] w-full min-h-[100vh] py-[20px] px-[15px] md:p-[40px]">
             <slot />
         </div>
     </section>
