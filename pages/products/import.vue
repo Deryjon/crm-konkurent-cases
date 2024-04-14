@@ -2,7 +2,8 @@
 
 </script>
 <template >
-    <div class="h-[100vh]">
-      Импорт
-    </div>
+    <section class="h-[100vh]">
+      <h2 class="text-2xl lg:text-4xl font-semibold ">Импорт</h2>
+    </section>
+    
 </template> 

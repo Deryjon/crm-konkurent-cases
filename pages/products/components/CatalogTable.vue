@@ -142,9 +142,5 @@ function routeEdit() {
     --easy-table-loading-mask-background-color: #2d3a4f;
 }
 
-.photo-cell {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-}
+
 </style>
