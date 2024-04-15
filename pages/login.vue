@@ -1,45 +1,22 @@
 <script setup lang="ts">
-// import { v4 as uuid } from 'uuid';
+import axios from '~/axios.config'
 
 
-// useSeoMeta({
-//     title: 'Login | CRM System'
-// })
+const emailRef = ref('')
+const passwordRef = ref('')
 
-// const emailRef = ref('')
-// const passwordRef = ref('')
-// const nameRef = ref('')
+const login = async () => {
+  try {
+    const response = await axios.post('/login', {
+      login: emailRef.value,
+      password: passwordRef.value
+    })
+    console.log(response.data)
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-
-// const isLoadingStore = useIsLoadingStore()
-// const authStore = useAuthStore()
-// const router = useRouter()
-
-
-// const login = async () => {
-//     isLoadingStore.set(true)
-//     await account.createEmailPasswordSession(emailRef.value, passwordRef.value)
-//     const response = await account.get()
-//     if (response) {
-//         authStore.set({
-//             email: response.email,
-//             name: response.name,
-//             status: response.status,
-//         })
-//     }
-
-//     emailRef.value = ''
-//     passwordRef.value = ''
-//     nameRef.value = ''
-
-//     await router.push('/')
-//     isLoadingStore.set(false)
-// }
-
-// const register = async () => {
-//     await account.create(uuid(), emailRef.value, passwordRef.value, nameRef.value)
-//     await login()
-// }
 
 </script>
 <template>

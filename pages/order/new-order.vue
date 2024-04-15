@@ -32,13 +32,24 @@ const selectButton = (button: string) => {
                             1
                         </div>
                     </div>
-                    <div class="sellers mt-5 flex gap-3">
-                        <button class="all bg-[#1F78FF] rounded-2xl px-4 py-1">
-                            <p class="px-auto">Все продавцы</p>
-                        </button>
-                        <button class="all bg-[#404040] rounded-2xl px-4 py-1">
-                            <Icon name="ic:baseline-plus" />
-                        </button>
+                    <div class="agents flex gap-6">
+                         
+                        <div class="sellers mt-5 flex gap-3">
+                            <button class="all bg-[#1F78FF] rounded-2xl px-4 py-1">
+                                <p class="px-auto">Все продавцы</p>
+                            </button>
+                            <button class="all bg-[#404040] rounded-2xl px-4 py-1">
+                                <Icon name="ic:baseline-plus" />
+                            </button>
+                        </div>
+                        <div class="sellers mt-5 flex gap-3">
+                            <button class="all bg-[#1F78FF] rounded-2xl px-4 py-1">
+                                <p class="px-auto">Все агенты</p>
+                            </button>
+                            <button class="all bg-[#404040] rounded-2xl px-4 py-1">
+                                <Icon name="ic:baseline-plus" />
+                            </button>
+                        </div>
                     </div>
                     <!-- <div class="cart h-[300px] rounded-2xl mt-5 ">
                         <p class="text-center text-lg mt-[130px]">Корзинка пока x`что пуста</p>
@@ -79,7 +90,7 @@ const selectButton = (button: string) => {
             </div>
         </div>
         <div class="right w-[300px] p-5 h-[630px]">
-            <div class="clients">
+            <div class="clients mt-6">
                 <div class="top flex justify-between font-semibold text-lg ">
 
                     <p class="">Клиент</p>
