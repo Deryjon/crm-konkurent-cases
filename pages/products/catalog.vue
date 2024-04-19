@@ -38,22 +38,9 @@ const toggleOpen = () => {
                 <CreateBtn />
             </router-link>
         </div>
-        <!-- <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
-            theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10">
-            <template #item-name="{ name }" >
-                <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" >{{ name }}</p>
-            </template>
-<template #item-photo="{ photo }">
-                <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto" >
-                <img v-if="!photo" src="../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto" >
-            </template>
-</EasyDataTable> -->
         <CatalogTable />
         <KanbanSlideover/>
-
     </section>
-
-
 </template>
 <style scoped>
 .customize-table {
@@ -104,12 +91,7 @@ const toggleOpen = () => {
 
 .photo-cell {
     width: 50px;
-    /* Установите желаемую ширину */
     height: 50px;
-    /* Установите желаемую высоту */
     object-fit: cover;
-    /* Убедитесь, что фотографии корректно масштабируются в ячейках */
-    /* border-radius: 50%; */
-    /* Округлите углы для круглого изображения */
 }
 </style>
