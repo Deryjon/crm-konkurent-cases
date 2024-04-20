@@ -28,9 +28,6 @@ const selectButton = (button: string) => {
                     </button>
                 </div>
                 <div class="body mt-5">
-                    <!-- <div class="cart h-[300px] rounded-2xl mt-5 ">
-                        <p class="text-center text-lg mt-[130px]">Продажей еще не было</p>
-                    </div> -->
                     <div class="cards mt-5">
                         <div class="card bg-[#404040] p-4 rounded-2xl flex items-center justify-between font-medium">
                             <div class="left flex items-center gap-6">

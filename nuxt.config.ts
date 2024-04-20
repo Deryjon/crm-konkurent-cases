@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@pinia/nuxt",
   ],
+  // tailwindcss: {exposeConfig: true},  
   headlessui: { prefix: "H" },
   shadcn: {
     prefix: "Ui",
