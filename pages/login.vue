@@ -5,7 +5,7 @@
             <UiInput placeholder="Login" type="text" class="mb-3" v-model="loginRef" />
             <UiInput placeholder="Password" type="password" class="mb-3" v-model="passwordRef" />
             <div class="flex items-center justify-center gap-5">
-                <UiButton type="submit" class="border p-3 rounded-xl" @click="loginUser">Login</UiButton>
+                <UiButton type="submit" class="border p-3 rounded-xl cursor-pointer" @click="loginUser">Login</UiButton>
             </div>
         </div>
     </form>
@@ -34,6 +34,11 @@ export default defineComponent({
       }
     };
 
+    onMounted( () => {
+        if(authStore.status) {
+         router.push('/');
+      }
+    })
     return {
         loginRef,
         passwordRef,
