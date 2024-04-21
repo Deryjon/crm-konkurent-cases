@@ -23,7 +23,7 @@ onBeforeMount(() => {
 
 
 <template>
-    <LayoutHeader class="md:hidden" />
+    <LayoutHeader class="md:hidden" v-if="isLoading" />
     <LayoutTheLoader v-if="!isLoading" />
     <section class="flex" v-else>
         <div :class="{ grid: store.isAuth }">
