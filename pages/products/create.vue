@@ -35,17 +35,17 @@ const openFilePicker = () => {
 const createProduct = async () => {
     const formData = new FormData();
     for (let i = 0; i < imageUrls.value.length; i++) {
-        formData.append('photos', imageUrls.value[i]);
+        formData.append('photo', imageUrls.value[i]);
     }
     formData.append('name', name.value);
     formData.append('code', article.value);
     const token = localStorage.getItem('token') || '';
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
     await useFetch(`${base_url}/product`, {
         method: 'POST',
         body: formData,
-        headers,
+        headers: {
+            "Authorization": "Bearer " + token,
+        },
     });
 };
 
@@ -100,4 +100,3 @@ const createProduct = async () => {
 
     </section>
 </template>
-
