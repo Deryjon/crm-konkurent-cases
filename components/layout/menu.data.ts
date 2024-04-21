@@ -30,7 +30,7 @@ export const MENU_DATA: IMenuItem[] = [
     url: "/clients",
     items: [
         { title: "Все клиенты", url: "/clients/all" },
-        { title: "Долги клиентов", url: "/clients/debts" },
+        // { title: "Долги клиентов", url: "/clients/debts" },
       ],
   },
   {
@@ -52,15 +52,15 @@ export const MENU_DATA: IMenuItem[] = [
         { title: "Админ", url: "/management/admin" },
       ],
   },
-  {
-    name: "Настройки",
-    icon: "radix-icons:gear",
-    url: "/settings",
-    items: [
-        { title: "Сотрудники", url: "/settings/employees" },
-        { title: "Админ", url: "/settings/admin" },
-      ],
-  },
+  // {
+  //   name: "Настройки",
+  //   icon: "radix-icons:gear",
+  //   url: "/settings",
+  //   items: [
+  //       { title: "Сотрудники", url: "/settings/employees" },
+  //       { title: "Админ", url: "/settings/admin" },
+  //     ],
+  // },
 
 ];
 

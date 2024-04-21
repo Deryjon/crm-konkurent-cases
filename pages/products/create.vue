@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import PriceCreate from './components/priceCreate.vue';
 import CreateBtn from './components/CreateBtn.vue';
-import { ref } from 'vue';
 import ExitButton from '../../components/layout/ExitButton.vue';
+import { base_url } from '~/api';
 
 const imageUrls = ref<string[]>([]);
-
+const name = ref<string>('');
+const article = ref<string>('');
 const removeImage = (index: number) => {
     imageUrls.value.splice(index, 1);
 };
@@ -31,28 +32,45 @@ const openFilePicker = () => {
     input.click();
 };
 
+const createProduct = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < imageUrls.value.length; i++) {
+        formData.append('photos', imageUrls.value[i]);
+    }
+    formData.append('name', name.value);
+    formData.append('code', article.value);
+    const token = localStorage.getItem('token') || '';
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    await useFetch(`${base_url}/product`, {
+        method: 'POST',
+        body: formData,
+        headers,
+    });
+};
+
+
 
 </script>
-
 <template>
-    <section class="create h-[100vh]  py-[20px] px-[15px] md:p-[40px]">
+    <section class="basic">
         <div class="flex items-center justify-between mt-6">
             <router-link to="/products/catalog">
 
-                <ExitButton/>
+                <ExitButton />
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Новый продукт</h2>
-            <CreateBtn class="ml-auto" />
+            <CreateBtn class="ml-auto" @click="createProduct" />
         </div>
         <div class="basic">
             <div class="flex justify-between mt-10">
                 <div class="name w-1/3">
                     <label for="">Наименование</label>
-                    <UiInput placeholder="Введите наименование" />
+                    <UiInput placeholder="Введите наименование" v-model="name" />
                 </div>
                 <div class="articul w-1/3">
                     <label for="">Артикул</label>
-                    <UiInput placeholder="Введите артикул" />
+                    <UiInput placeholder="Введите артикул" v-model="article" />
                 </div>
                 <!-- <div class="barcode w-1/3 ">
                     <label for="">Кол-во</label>
@@ -82,3 +100,4 @@ const openFilePicker = () => {
 
     </section>
 </template>
+
