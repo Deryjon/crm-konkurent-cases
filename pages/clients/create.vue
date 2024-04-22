@@ -19,7 +19,7 @@ const createWorker = async () => {
         password: password.value,
     };
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/user`, {
+    await useFetch(`${base_url}/client`, {
         method: 'POST',
         headers:{
     "Authorization": "Bearer " + token,
@@ -40,7 +40,7 @@ const createWorker = async () => {
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Новый сотрудник</h2>
+            <h2 class="text-4xl font-semibold ml-5">Новый Клиент</h2>
             <CreateBtn class="ml-auto" @click="createWorker" />
         </div>
         <div class="basic">

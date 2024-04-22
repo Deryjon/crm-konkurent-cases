@@ -14,13 +14,13 @@ const toggleOpen = () => {
 <template>
     <section class="catalog">
         <div class="top flex items-center justify-between">
-            <h2 class="text-2xl lg:text-4xl font-semibold ">Сотрудники</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ">Клиенты</h2>
         </div>
         <div class="input flex justify-between mt-[50px] ">
 
             <InputSearch class="" />
 
-            <router-link to="/management/create">
+            <router-link to="/clients/create">
 
                 <!-- <CreateBtn /> -->
             </router-link>

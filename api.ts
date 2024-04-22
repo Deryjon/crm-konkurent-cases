@@ -1,1 +1,1 @@
-export const base_url = 'https://lignis-srv.webhook.uz';
+export const base_url = 'https://lignis-srv.webhook.uz/api/v1/login';
