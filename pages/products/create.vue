@@ -34,9 +34,9 @@ const openFilePicker = () => {
 
 const createProduct = async () => {
     const formData = new FormData();
-    for (let i = 0; i < imageUrls.value.length; i++) {
-        formData.append('photo', imageUrls.value[i]);
-    }
+    imageUrls.value.forEach(imageUrl => {
+        formData.append('photo', new Blob([atob(imageUrl.split(',')[1])], { type: 'image/png' }), 'image.png');
+    });
     formData.append('name', name.value);
     formData.append('code', article.value);
     const token = localStorage.getItem('token') || '';
