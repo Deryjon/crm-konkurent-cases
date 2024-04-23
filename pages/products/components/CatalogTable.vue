@@ -1,45 +1,71 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useSearchStore } from '../../../store/searchCatalog.store.ts';
-import { ref, computed } from 'vue';
+import { useProductService } from './productService';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
+import { base_url } from '~/api';
+import { useFetch } from '@vueuse/core';
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 const store = useSearchStore();
 
-const headers = [
-    { text: "Фото", value: "photo" },
-    { text: "Наименование", value: "name" },
-    { text: "Артикуль", value: "code" },
-    { text: "Колличество", value: "quantity" },
-    { text: "Цена прихода", value: "pricecome" },
-    { text: "Цена продажи", value: "price" },
-];
-const items = [
-    { name: "Кардиган", photo: "", code: "19992881", pricecome: 30000, price: 65000, quantity: 65, },
-    { name: "Брюки", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/1410201910_6S9zLaUNscE-380x575.jpg", code: "DDD", pricecome: 150, price: 199, quantity: 6, },
-    { name: "Белье", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/2003202403_photo_2024-03-07_16-42-18-crop-380x575.jpg", code: "DXX", pricecome: 90, price: 2000, quantity: 15, },
-    { name: "Рубашка", photo: "https://laluna.com.ua/image/cache/catalog/easyphoto/0410202207_photo_jjf%D1%962022-10-03_20-26-11-crop-380x575.jpg", code: "SNB", pricecome: 1000, price: 5000, quantity: 35, },
-];
-
-const searchField = store.searchField;
+const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
 
 const router = useRouter();
+const { items, fetchProducts } = useProductService();
 
-function routeEdit() {
-    router.push('/products/update/id');
+
+const headers = [
+    { text: "Наименование", value: "name" },
+    { text: "Артикул", value: "code" },
+    { text: "Количество", value: "quantity" },
+    { text: "Цена продажи", value: "price" },
+];
+
+// let items = ref<{ id: string, name: string, code: string, quantity: number, price: number }[]>([]);
+// const fetchProducts = async () => {
+//         const token = localStorage.getItem('token') || '';
+//         const response = await useFetch(`${base_url}/product?pattern=o`, {
+//             method: 'GET',
+//             headers: {
+//                 "Authorization": "Bearer " + token,
+//             },
+//         });
+//         if (response.data) {
+//             items.value = response.data.value;
+//             console.log(items.value);
+//         }
+// }
+
+let selectedItem = ref(null); 
+
+function routeEdit(id: string) {
+    router.push(`/products/update/${id}`);
 }
+
+function openSlideover(item: { id: string }) {
+    selectedItem.value = item;
+    isOpen.value = true;
+}
+
+onMounted(() => {
+    fetchProducts();
+    console.log(items);
+    
+});
 </script>
+
 
 <template>
     <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
         theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
         :search-field="searchField" :search-value="searchValue">
-        <template #item-name="{ name }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
+        <template #item-name="{ name, id }">
+            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
         </template>
         <template #item-photo="{ photo }">
             <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
@@ -52,42 +78,37 @@ function routeEdit() {
             <template #header>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <div class="icon">
-                        <img v-if="!photo" src="../../../assets/icons/placeholder_img.svg" alt="Photo"
-                            class="photo-cell mx-auto">
-
+                        <!-- <img v-if="!selectedItem.photo" src="../../../assets/icons/placeholder_img.svg" alt="Photo"
+                            class="photo-cell mx-auto"> -->
                     </div>
                     <div class="name">
-                        <p>Tanga</p>
+                        <p>{{ selectedItem && selectedItem.name }}</p>
                     </div>
                 </div>
             </template>
 
-            <div class="product">
+            <div class="product" v-if="selectedItem">
                 <h3 class="text-2xl font-semibold">Данные о продукте</h3>
                 <div class="flex flex-col gap-10 mt-10">
-
-                    <p>Наименование: Кардиган</p>
-                    <p>Артикул: 9199191828</p>
-                    <p>Цена: 25.000sum</p>
-                    <p>Колличество: 25</p>
+                    <p>Наименование: {{ selectedItem.name }}</p>
+                    <p>Артикул: {{ selectedItem.code }}</p>
+                    <p>Цена: {{ selectedItem.price }} sum</p>
+                    <p>Количество: {{ selectedItem.quantity }}</p>
                 </div>
             </div>
+
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit" />
-                    <UModal v-model="deleteOpen" >
-                
+                    <EditBtn @click="routeEdit(selectedItem.id)"/>
+                    <UModal v-model="deleteOpen">
                         <Placeholder>
-
                             <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                            
-                           <div class=" flex gap-10 items-center justify-center my-10">
-   
-   
-                               <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                               <button @click="" class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                           </div>
+                            <div class=" flex gap-10 items-center justify-center my-10">
+                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                <button @click="deleteItem(selectedItem.id)"
+                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                            </div>
                         </Placeholder>
                     </UModal>
                 </div>
@@ -131,16 +152,13 @@ function routeEdit() {
     --easy-table-rows-per-page-selector-width: 70px;
     --easy-table-rows-per-page-selector-option-padding: 10px;
     --easy-table-rows-per-page-selector-z-index: 1;
-
-
     --easy-table-scrollbar-track-color: #2d3a4f;
     --easy-table-scrollbar-color: #2d3a4f;
     --easy-table-scrollbar-thumb-color: #4c5d7a;
-    ;
+    
     --easy-table-scrollbar-corner-color: #2d3a4f;
+
 
     --easy-table-loading-mask-background-color: #2d3a4f;
 }
-
-
 </style>

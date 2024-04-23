@@ -5,6 +5,7 @@ import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 const open = ref(false);
+const catalogProductRef = ref('')
 const toggleOpen = () => {
     open.value = !open.value;
 };
@@ -31,7 +32,7 @@ const toggleOpen = () => {
         <Stat v-if="open" class="mt-[30px]" />
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class="" />
+            <InputSearch class="" v-model="catalogProductRef" />
 
             <router-link to="/products/create">
 

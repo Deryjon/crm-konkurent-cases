@@ -3,10 +3,13 @@ import PriceCreate from './components/priceCreate.vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import ExitButton from '../../components/layout/ExitButton.vue';
 import { base_url } from '~/api';
+import {useRouter } from 'vue-router';
 
 const imageUrls = ref<string[]>([]);
 const name = ref<string>('');
 const article = ref<string>('');
+
+const router = useRouter()
 const removeImage = (index: number) => {
     imageUrls.value.splice(index, 1);
 };
@@ -40,13 +43,17 @@ const createProduct = async () => {
     formData.append('name', name.value);
     formData.append('code', article.value);
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/product`, {
+    const { status } = await useFetch(`${base_url}/product`, {
         method: 'POST',
         body: formData,
         headers: {
             "Authorization": "Bearer " + token,
         },
     });
+    if (status.value === "success") {
+       router.push('/products/catalog')
+      }
+
 };
 
 
