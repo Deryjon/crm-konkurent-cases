@@ -6,29 +6,34 @@ interface IAuthStore {
 }
 
 export const useAuthStore = defineStore('auth', {
-  state: (): IAuthStore => ({
+  state: (): IAuthStore & { errorText: string } => ({
     login: '',
     password: '',
     status: false,
+    errorText: '',
   }),
   getters: {
     isAuth: (state) => !!state.status,
   },
   actions: {
     async loginUser() {
-      const { data } = await useFetch<{ token: string }, unknown>(
+      const { data, status } = await useFetch<{ token: string }, unknown>(
         base_url + '/login',
         {
           method: 'POST',
           body: JSON.stringify({ login: this.login, password: this.password }),
         }
       );
-      const token = data.value.token;
-      if (token) {
-        
-          localStorage.setItem('token', data.value.token);
+console.log(status.value);
+
+      if (status.value === "success") {
+        localStorage.setItem('token', data.value.token);
         this.status = true;
+      } else {
+            this.errorText = 'Неверный логин или пароль';
+        }
+        console.log(this.errorText);
       }
-    },
+
   },
 });
