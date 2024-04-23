@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CreateBtn from './components/CreateBtn.vue';
+import CreateBtn from '../../components/layout/CreateBtn.vue'
 import ExitButton from '../../components/layout/ExitButton.vue';
 import { useRouter } from 'vue-router';
 import { base_url } from '~/api';
@@ -26,9 +26,7 @@ const createWorker = async () => {
 },
         body: JSON.stringify(body),
     }).then(res => {
-        if (res.status === 201) {
-            router.push({ name: 'ManagementList' })
-        }
+        console.log(res);
     })
 };
 
@@ -36,12 +34,12 @@ const createWorker = async () => {
 <template>
     <section class="basic">
         <div class="flex items-center justify-between mt-6">
-            <router-link to="/management/list">
+            <router-link to="/management/employees">
 
                 <ExitButton />
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Новый сотрудник</h2>
-            <CreateBtn class="ml-auto" @click="createWorker" />
+            <CreateBtn class="ml-auto" @click="createWorker" >Новый сотрудин</CreateBtn>
         </div>
         <div class="basic">
             <div class="flex flex-wrap gap-[30px] justify-between mt-10">

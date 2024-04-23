@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-// import CreateBtn from './components/CreateBtn.vue';
+import CreateBtn from '../../components/layout/CreateBtn.vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
 import ClientsTable from './components/ClientsTable.vue';
 const open = ref(false);
@@ -22,7 +22,7 @@ const toggleOpen = () => {
 
             <router-link to="/clients/create">
 
-                <!-- <CreateBtn /> -->
+             <CreateBtn>Новый клиент</CreateBtn>
             </router-link>
         </div>
 
@@ -30,9 +30,4 @@ const toggleOpen = () => {
     </section>
 </template>
 <style scoped>
-.photo-cell {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-}
 </style>

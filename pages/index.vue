@@ -1,8 +1,25 @@
-<script setup lang="ts">
-
+<script lang="ts" setup>
 </script>
 <template>
-  <div class="h-[100vh]">
-    ПРувет
-  </div>
+  <section class="new-order flex mt-[15px]">
+    <div class="flex justify-between">
+      <h2 class="text-2xl lg:text-4xl font-semibold ">Главная</h2>
+    </div>
+
+
+
+  </section>
 </template>
+<style scoped>
+.cart {
+  border: 1px #ffffff dashed;
+}
+
+input {
+  outline: none;
+}
+
+.bor {
+  border: 1px #ffffff dashed;
+}
+</style>

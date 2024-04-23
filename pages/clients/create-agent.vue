@@ -6,26 +6,28 @@ import { base_url } from '~/api';
 import { ref } from 'vue'
 
 const name = ref<string>('');
-const address = ref<string>('');
+const instagram_username = ref<string>('');
 const phone = ref<string>('');
+const bonus_percent = ref<string>('');
 const router = useRouter();
 
 const createClient = async () => {
     const body = {
         fio: name.value,
         phone: phone.value,
-        address: address.value,
+        bonus_percent: bonus_percent.value,
+        instagram_username: instagram_username.value,
     };
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/customer`, {
+    await useFetch(`${base_url}/agent`, {
         method: 'POST',
         headers:{
     "Authorization": "Bearer " + token,
 },
         body: JSON.stringify(body),
     }).then(res => {
-        console.log(res);
-
+        if (res.status === 201) {
+        }
     })
 };
 
@@ -33,26 +35,30 @@ const createClient = async () => {
 <template>
     <section class="basic">
         <div class="flex items-center justify-between mt-6">
-            <router-link to="/clients/all">
+            <router-link to="/clients/agents">
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Новый Клиент</h2>
-            <CreateBtn class="ml-auto" @click="createClient">Новый Клиент</CreateBtn>
+            <h2 class="text-4xl font-semibold ml-5">Новый Агент</h2>
+            <CreateBtn class="ml-auto" @click="createClient">Новый Агент</CreateBtn>
         </div>
         <div class="basic">
             <div class="flex flex-wrap gap-[30px] justify-between mt-10">
                 <div class="name w-1/3">
                     <label for="">Имя</label>
-                    <UiInput placeholder="Имя клиента" v-model="name" />
+                    <UiInput placeholder="Имя агента" v-model="name" />
                 </div>
                 <div class="phone w-1/3">
                     <label for="">Телефон</label>
-                    <UiInput placeholder="Телефон клиента" v-model="phone" />
+                    <UiInput placeholder="Телефон агента" v-model="phone" />
                 </div>
-                <div class="address w-1/3">
-                    <label for="">Адрес</label>
-                    <UiInput placeholder="Адрес клиента" v-model="address" />
+                <div class="instagram_username w-1/3">
+                    <label for="">Инстаграм-юзер</label>
+                    <UiInput placeholder="Instagram-юзер" v-model="instagram_username" />
+                </div>
+                <div class="bonus_percent w-1/3">
+                    <label for="">Бонусный процент</label>
+                    <UiInput placeholder="Бонус" v-model="bonus_percent" />
                 </div>
 
             </div>

@@ -25,11 +25,12 @@ export const MENU_DATA: IMenuItem[] = [
     ],
   },
   {
-    name: "Клиенты",
+    name: "Клиенты и Агенты",
     icon: "heroicons:user-group",
     url: "/clients",
     items: [
         { title: "Все клиенты", url: "/clients/all" },
+        { title: "Все агенты", url: "/clients/agents" },
         // { title: "Долги клиентов", url: "/clients/debts" },
       ],
   },

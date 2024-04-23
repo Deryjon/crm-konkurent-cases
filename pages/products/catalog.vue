@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
-import CreateBtn from './components/CreateBtn.vue';
+import CreateBtn from '../../components/layout/CreateBtn.vue'
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;
@@ -35,7 +35,7 @@ const toggleOpen = () => {
 
             <router-link to="/products/create">
 
-                <CreateBtn />
+                <CreateBtn >Новый продукт</CreateBtn>
             </router-link>
         </div>
         <CatalogTable />

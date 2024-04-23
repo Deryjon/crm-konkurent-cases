@@ -10,13 +10,14 @@ const deleteOpen = ref(false);
 const headers = [
     { text: "Имя", value: "name" },
     { text: "Телефон", value: "phone" },
-    { text: "Адрес", value: "adress" },
+    { text: "Инстаграм", value: "insta" },
+    { text: "Бонусный процент", value: "percent" },
    
 ];
 const items = [
-    { name: "Илья", phone: "88001001010", adress: "ул. Ленина 48", },
-    { name: "Баходир", phone: "89002002020", adress: "пр-т Победы 20", },
-    { name: "Аброр", phone: "87003003030", adress: "ул. Первомайская 12", },
+    { name: "Илья", phone: "88001001010", insta: "@ilya_slom", percent: "20%", },
+    { name: "Баходир", phone: "89002002020", insta: "@boxo777", percent: "15%", },
+    { name: "Аброр", phone: "87003003030", insta: "@abrik", percent: "10%", },
 ];
 
 

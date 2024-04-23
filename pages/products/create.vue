@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PriceCreate from './components/priceCreate.vue';
-import CreateBtn from './components/CreateBtn.vue';
+import CreateBtn from '../../components/layout/CreateBtn.vue'
 import ExitButton from '../../components/layout/ExitButton.vue';
 import { base_url } from '~/api';
 
@@ -60,7 +60,7 @@ const createProduct = async () => {
                 <ExitButton />
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Новый продукт</h2>
-            <CreateBtn class="ml-auto" @click="createProduct" />
+            <CreateBtn class="ml-auto" @click="createProduct" >Создать</CreateBtn>
         </div>
         <div class="basic">
             <div class="flex justify-between mt-10">

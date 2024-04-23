@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
-import SellersTable from './components/SellersTable.vue';
+import AgentsTable from './components/AgentsTable.vue';
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;
@@ -14,25 +14,20 @@ const toggleOpen = () => {
 <template>
     <section class="catalog">
         <div class="top flex items-center justify-between">
-            <h2 class="text-2xl lg:text-4xl font-semibold ">Сотрудники</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ">Агенты</h2>
         </div>
         <div class="input flex justify-between mt-[50px] ">
 
             <InputSearch class="" />
 
-            <router-link to="/management/create">
+            <router-link to="/clients/create-agent">
 
-                <CreateBtn>Новый сотрудник</CreateBtn>
+             <CreateBtn >Новый агент</CreateBtn>
             </router-link>
         </div>
 
-        <SellersTable />
+        <AgentsTable />
     </section>
 </template>
 <style scoped>
-.photo-cell {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-}
 </style>
