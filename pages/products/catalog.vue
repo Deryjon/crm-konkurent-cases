@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
+import { useProductService } from './components/productService';
 const open = ref(false);
-const catalogProductRef = ref('')
+// const catalogProductRef = ref('');
+const productService = useProductService();
+
+// watch(catalogProductRef, (newVal) => {
+//     productService.searchValue.value = newVal;
+// });
+const fetchProducts = () => {
+  productService.fetchProducts();
+};
+
 const toggleOpen = () => {
     open.value = !open.value;
 };
-
 
 </script>
 
@@ -32,7 +41,7 @@ const toggleOpen = () => {
         <Stat v-if="open" class="mt-[30px]" />
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class="" v-model="catalogProductRef" />
+            <InputSearch class=""  @input="fetchProducts"  />
 
             <router-link to="/products/create">
 

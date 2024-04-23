@@ -5,8 +5,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
-import { base_url } from '~/api';
-import { useFetch } from '@vueuse/core';
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
@@ -25,21 +23,6 @@ const headers = [
     { text: "Количество", value: "quantity" },
     { text: "Цена продажи", value: "price" },
 ];
-
-// let items = ref<{ id: string, name: string, code: string, quantity: number, price: number }[]>([]);
-// const fetchProducts = async () => {
-//         const token = localStorage.getItem('token') || '';
-//         const response = await useFetch(`${base_url}/product?pattern=o`, {
-//             method: 'GET',
-//             headers: {
-//                 "Authorization": "Bearer " + token,
-//             },
-//         });
-//         if (response.data) {
-//             items.value = response.data.value;
-//             console.log(items.value);
-//         }
-// }
 
 let selectedItem = ref(null); 
 
