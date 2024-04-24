@@ -4,13 +4,18 @@ import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import { useAgentsService } from './agentService';
 import { ref, computed, onMounted } from 'vue';
+import { useSearchAgentStore } from '../../../store/searchAgentStore.store';
+
+
+const store = useSearchAgentStore();
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 
 const { items, fetchAgents } = useAgentsService();
 
-
+const searchField = computed(() => store.searchField);
+const searchValue = computed(() => store.searchValue);
 const headers = [
     { text: "Имя", value: "fio" },
     { text: "Телефон", value: "phone" },
@@ -36,7 +41,8 @@ onMounted(() => {
 
 <template>
     <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
-        theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
+    theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
+    :search-field="searchField" :search-value="searchValue"
         >
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>

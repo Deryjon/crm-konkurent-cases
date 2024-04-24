@@ -3,6 +3,10 @@ import { ref } from 'vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
 import AgentsTable from './components/AgentsTable.vue';
+import { useSearchAgentStore } from '../../store/searchAgentStore.store';
+
+
+const store = useSearchAgentStore();
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;
@@ -18,7 +22,7 @@ const toggleOpen = () => {
         </div>
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class="" />
+            <InputSearch class="" v-model="store.searchValue"/>
 
             <router-link to="/clients/create-agent">
 

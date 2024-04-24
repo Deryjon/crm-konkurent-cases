@@ -3,7 +3,8 @@ import PriceCreate from './components/priceCreate.vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import ExitButton from '../../components/layout/ExitButton.vue';
 import { base_url } from '~/api';
-import {useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useToast } from "vue-toastification";
 
 const imageUrls = ref<string[]>([]);
 const name = ref<string>('');
@@ -13,15 +14,19 @@ const router = useRouter()
 const removeImage = (index: number) => {
     imageUrls.value.splice(index, 1);
 };
+const toast = useToast();
 
+
+let file: File | undefined;
 const openFilePicker = () => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    input.multiple = true;
+    input.multiple = false;
     input.onchange = (event: Event) => {
         const target = event.target as HTMLInputElement;
         if (target.files) {
+            file = target.files[0];
             const files = Array.from(target.files);
             files.forEach(file => {
                 const reader = new FileReader();
@@ -31,15 +36,19 @@ const openFilePicker = () => {
                 reader.readAsDataURL(file);
             });
         }
+
     };
     input.click();
 };
 
 const createProduct = async () => {
+    if (!file) {
+        alert("Не выбран файл")
+        return
+    }
     const formData = new FormData();
-    imageUrls.value.forEach(imageUrl => {
-        formData.append('photo', new Blob([atob(imageUrl.split(',')[1])], { type: 'image/png' }), 'image.png');
-    });
+
+    formData.append('photo', file);
     formData.append('name', name.value);
     formData.append('code', article.value);
     const token = localStorage.getItem('token') || '';
@@ -51,10 +60,12 @@ const createProduct = async () => {
         },
     });
     if (status.value === "success") {
-       router.push('/products/catalog')
-      }
+        // toast.success("Продукт создан")
+        router.push('/products/catalog')
+    }
 
 };
+
 
 
 
@@ -67,7 +78,7 @@ const createProduct = async () => {
                 <ExitButton />
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Новый продукт</h2>
-            <CreateBtn class="ml-auto" @click="createProduct" >Создать</CreateBtn>
+            <CreateBtn class="ml-auto" @click="createProduct">Создать</CreateBtn>
         </div>
         <div class="basic">
             <div class="flex justify-between mt-10">
@@ -79,10 +90,6 @@ const createProduct = async () => {
                     <label for="">Артикул</label>
                     <UiInput placeholder="Введите артикул" v-model="article" />
                 </div>
-                <!-- <div class="barcode w-1/3 ">
-                    <label for="">Кол-во</label>
-                    <UiInput placeholder="0" type="number" />
-                </div> -->
             </div>
         </div>
         <div class="photo mt-10">
@@ -103,7 +110,5 @@ const createProduct = async () => {
                 </div>
             </div>
         </div>
-        <!-- <PriceCreate /> -->
-
     </section>
 </template>

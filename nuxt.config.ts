@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@morev/vue-transitions/nuxt",
     "shadcn-nuxt",
     "@pinia/nuxt",
+    // "vue-toastification/nuxt",
   ],
   // tailwindcss: {exposeConfig: true},  
   headlessui: { prefix: "H" },
