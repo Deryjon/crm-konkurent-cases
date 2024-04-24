@@ -8,7 +8,7 @@ import { ref } from 'vue'
 const name = ref<string>('');
 const instagram_username = ref<string>('');
 const phone = ref<string>('');
-const bonus_percent = ref<string>('');
+const bonus_percent = ref<number>(0);
 const router = useRouter();
 
 const createClient = async () => {
@@ -19,16 +19,16 @@ const createClient = async () => {
         instagram_username: instagram_username.value,
     };
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/agent`, {
+   const { status } = await useFetch(`${base_url}/agent`, {
         method: 'POST',
         headers:{
     "Authorization": "Bearer " + token,
 },
         body: JSON.stringify(body),
-    }).then(res => {
-        if (res.status === 201) {
-        }
     })
+    if (status.value === "success") {
+       router.push('/clients/agents')
+      }
 };
 
 </script>
@@ -58,7 +58,7 @@ const createClient = async () => {
                 </div>
                 <div class="bonus_percent w-1/3">
                     <label for="">Бонусный процент</label>
-                    <UiInput placeholder="Бонус" v-model="bonus_percent" />
+                    <UiInput placeholder="Бонус" v-model="bonus_percent" type="number" />
                 </div>
 
             </div>

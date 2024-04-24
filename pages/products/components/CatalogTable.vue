@@ -5,6 +5,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
+import { base_url } from '~/api';
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
@@ -15,9 +16,10 @@ const searchValue = computed(() => store.searchValue);
 
 const router = useRouter();
 const { items, fetchProducts } = useProductService();
-
+const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
+    { text: "Фото", value: "photo" },
     { text: "Наименование", value: "name" },
     { text: "Артикул", value: "code" },
     { text: "Количество", value: "quantity" },
@@ -50,8 +52,8 @@ onMounted(() => {
         <template #item-name="{ name, id }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
         </template>
-        <template #item-photo="{ photo }">
-            <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
+        <template #item-photo="{ id }">
+            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
             <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
     </EasyDataTable>

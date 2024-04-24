@@ -1,24 +1,25 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
+import { useAgentsService } from './agentService';
+import { ref, computed, onMounted } from 'vue';
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 
+const { items, fetchAgents } = useAgentsService();
+
+
 const headers = [
-    { text: "Имя", value: "name" },
+    { text: "Имя", value: "fio" },
     { text: "Телефон", value: "phone" },
-    { text: "Инстаграм", value: "insta" },
-    { text: "Бонусный процент", value: "percent" },
+    { text: "Инстаграм", value: "instagram_username" },
+    { text: "Бонусный процент", value: "bonus_percent" },
    
 ];
-const items = [
-    { name: "Илья", phone: "88001001010", insta: "@ilya_slom", percent: "20%", },
-    { name: "Баходир", phone: "89002002020", insta: "@boxo777", percent: "15%", },
-    { name: "Аброр", phone: "87003003030", insta: "@abrik", percent: "10%", },
-];
+
+let selectedItem = ref(null); 
 
 
 const router = useRouter();
@@ -26,6 +27,11 @@ const router = useRouter();
 function routeEdit() {
     router.push('/products/update/id');
 }
+onMounted(() => {
+    fetchAgents();
+    console.log(items);
+    
+});
 </script>
 
 <template>
@@ -34,10 +40,6 @@ function routeEdit() {
         >
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
-        </template>
-        <template #item-photo="{ photo }">
-            <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">
