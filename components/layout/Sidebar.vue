@@ -8,6 +8,7 @@ function logOut(){
   authStore.$reset();
   localStorage.removeItem('token');
   router.push('/login')
+  window.location.reload();
 }
 </script>
 <template>

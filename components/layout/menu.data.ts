@@ -41,7 +41,7 @@ export const MENU_DATA: IMenuItem[] = [
       { title: "Все агенты", url: "/clients/agents" } : null,
     ].filter(Boolean),
   },
-  userRole !== "manager" && userRole !== "salesman" ? 
+   userRole !== "salesman" ? 
   {
     name: "Отчеты",
     icon: "heroicons:chart-pie",
