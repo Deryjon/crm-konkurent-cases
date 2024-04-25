@@ -26,7 +26,7 @@ export const MENU_DATA: IMenuItem[] = [
     name: "Продажи",
     icon: "heroicons:shopping-cart",
     url: "/order",
-    items: [ userRole !== "admin" ?
+    items: [ userRole !== "admin, director" ?
       { title: "Новая продажа", url: "/order/new-order" } : null,
       { title: "Все продажи", url: "/order/all" },
     ].filter(Boolean),
@@ -60,7 +60,7 @@ export const MENU_DATA: IMenuItem[] = [
     url: "",
     items:  [
         { title: "Сотрудники", url: "/management/employees" },
-        { title: "Админ", url: "/management/admin" },
+          { title: "Админ", url: "/management/admin" },
       ],
   } 
   : null, // Вставляем null для того, чтобы убрать этот элемент, если роль "manager" или "salesman"
