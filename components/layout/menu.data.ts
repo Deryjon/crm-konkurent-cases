@@ -36,11 +36,11 @@ export const MENU_DATA: IMenuItem[] = [
     icon: "heroicons:user-group",
     url: "/clients",
     items: [
-      userRole !== "salesman" ? { title: "Все клиенты", url: "/clients/all" } : null,
-      { title: "Все агенты", url: "/clients/agents" },
+       { title: "Все клиенты", url: "/clients/all" } ,
+       userRole !== "salesman" ?
+      { title: "Все агенты", url: "/clients/agents" } : null,
     ].filter(Boolean),
   },
-  // Проверяем, что роль пользователя не является ни "manager", ни "salesman"
   userRole !== "manager" && userRole !== "salesman" ? 
   {
     name: "Отчеты",
