@@ -25,7 +25,11 @@ export const useAuthStore = defineStore("auth", {
         }
       );
       if (status.value === "success") {
+        const decodedToken = JSON.parse(atob(data.value.token.split(".")[1]));
+        console.log(decodedToken);
         localStorage.setItem("token", data.value.token);
+        localStorage.setItem("role", decodedToken.role);
+        localStorage.setItem("user_id", decodedToken.user_id);
         this.status = true;
       } else {
         this.errorText = "Неверный логин или пароль";
@@ -33,3 +37,4 @@ export const useAuthStore = defineStore("auth", {
     },
   },
 });
+

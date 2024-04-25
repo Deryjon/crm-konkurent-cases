@@ -5,35 +5,43 @@ export interface IMenuItem {
   items?: { title: string; url: string }[];
 }
 
+// Получение роли пользователя из localStorage, если доступно
+let userRole: string | null = null;
+if (typeof localStorage !== "undefined") {
+  userRole = localStorage.getItem("role");
+}
+
 export const MENU_DATA: IMenuItem[] = [
-  {
+  userRole !== "manager" && userRole !== "salesman" ? {
     name: "Товары",
     icon: "heroicons:cube",
     url: "/products",
     items: [
       { title: "Каталог", url: "/products/catalog" },
-      { title: "Импорт", url: "/products/import" },
-    ],
-  },
+       userRole !== "admin" ?
+      { title: "Импорт", url: "/products/import" } : null,
+    ].filter(Boolean),
+  } : null,
   {
     name: "Продажи",
     icon: "heroicons:shopping-cart",
     url: "/order",
-    items: [
-      { title: "Новая продажа", url: "/order/new-order" },
+    items: [ userRole !== "admin" ?
+      { title: "Новая продажа", url: "/order/new-order" } : null,
       { title: "Все продажи", url: "/order/all" },
-    ],
+    ].filter(Boolean),
   },
   {
     name: "Клиенты и Агенты",
     icon: "heroicons:user-group",
     url: "/clients",
     items: [
-        { title: "Все клиенты", url: "/clients/all" },
-        { title: "Все агенты", url: "/clients/agents" },
-        // { title: "Долги клиентов", url: "/clients/debts" },
-      ],
+      userRole !== "salesman" ? { title: "Все клиенты", url: "/clients/all" } : null,
+      { title: "Все агенты", url: "/clients/agents" },
+    ].filter(Boolean),
   },
+  // Проверяем, что роль пользователя не является ни "manager", ни "salesman"
+  userRole !== "manager" && userRole !== "salesman" ? 
   {
     name: "Отчеты",
     icon: "heroicons:chart-pie",
@@ -43,26 +51,17 @@ export const MENU_DATA: IMenuItem[] = [
         { title: "Товары", url: "/reports/products" },
         { title: "Продавцы", url: "/reports/sellers" },
       ],
-  },
+  } : null,
+  // Проверяем, что роль пользователя не является ни "manager", ни "salesman"
+  userRole !== "manager" && userRole !== "salesman" ? 
   {
     name: "Управление",
     icon: "uil:bag",
-    url: "/management",
-    items: [
+    url: "",
+    items:  [
         { title: "Сотрудники", url: "/management/employees" },
         { title: "Админ", url: "/management/admin" },
       ],
-  },
-  // {
-  //   name: "Настройки",
-  //   icon: "radix-icons:gear",
-  //   url: "/settings",
-  //   items: [
-  //       { title: "Сотрудники", url: "/settings/employees" },
-  //       { title: "Админ", url: "/settings/admin" },
-  //     ],
-  // },
-
-];
-
-
+  } 
+  : null, // Вставляем null для того, чтобы убрать этот элемент, если роль "manager" или "salesman"
+].filter(Boolean); // Фильтр, чтобы удалить все null значения из массива

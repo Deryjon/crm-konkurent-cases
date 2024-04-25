@@ -60,8 +60,8 @@ const createProduct = async () => {
             "Authorization": "Bearer " + token,
         },
     });
-    toast.success("Продукт создан")
     if (status.value === "success") {
+        toast.success("Продукт создан")
         router.push('/products/catalog')
     }
 

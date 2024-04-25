@@ -4,12 +4,14 @@ import ExitButton from '../../components/layout/ExitButton.vue';
 import { useRouter } from 'vue-router';
 import { base_url } from '~/api';
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification';
 
 const name = ref<string>('');
 const login = ref<string>('');
 const role = ref<string>('');
 const password = ref<string>('');
 const router = useRouter();
+const toast = useToast();
 
 const createWorker = async () => {
     const body = {
@@ -19,15 +21,17 @@ const createWorker = async () => {
         password: password.value,
     };
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/user`, {
+   const { status } = await useFetch(`${base_url}/user`, {
         method: 'POST',
         headers:{
     "Authorization": "Bearer " + token,
 },
         body: JSON.stringify(body),
-    }).then(res => {
-        console.log(res);
     })
+        if (status.value === "success") {
+        toast.success("Сотрудник создан")
+        router.push('/management/employees')
+     }
 };
 
 </script>
