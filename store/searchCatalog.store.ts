@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useSearchStore = defineStore('pinia', {
   state: () => ({
-    searchField: 'name',
+    searchField: '',
     searchValue: ''
   }),
 

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import PriceCreate from './components/priceCreate.vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import ExitButton from '../../components/layout/ExitButton.vue';
 import { base_url } from '~/api';
 import { useRouter } from 'vue-router';
-import { useToast } from "vue-toastification";
+import { useToast } from 'vue-toastification'
+
+    
 
 const imageUrls = ref<string[]>([]);
 const name = ref<string>('');
@@ -59,15 +60,12 @@ const createProduct = async () => {
             "Authorization": "Bearer " + token,
         },
     });
+    toast.success("Продукт создан")
     if (status.value === "success") {
-        // toast.success("Продукт создан")
         router.push('/products/catalog')
     }
 
 };
-
-
-
 
 </script>
 <template>

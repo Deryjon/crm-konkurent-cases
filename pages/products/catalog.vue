@@ -5,13 +5,12 @@ import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import { useProductService } from './components/productService';
+
 const open = ref(false);
 // const catalogProductRef = ref('');
 const productService = useProductService();
 
-// watch(catalogProductRef, (newVal) => {
-//     productService.searchValue.value = newVal;
-// });
+
 const fetchProducts = () => {
   productService.fetchProducts();
 };
@@ -43,7 +42,7 @@ const toggleOpen = () => {
 
             <InputSearch class=""  @input="fetchProducts"  />
 
-            <router-link to="/products/create">
+            <router-link @click="showToast" to="/products/create">
 
                 <CreateBtn >Новый продукт</CreateBtn>
             </router-link>
