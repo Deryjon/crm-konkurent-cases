@@ -22,7 +22,7 @@ const toggleOpen = () => {
         </div>
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class="" v-model="store.searchValue"/>
+            <InputSearch class="" />
 
             <router-link to="/clients/create-agent">
 

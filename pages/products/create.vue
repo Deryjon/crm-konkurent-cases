@@ -43,10 +43,11 @@ const openFilePicker = () => {
 };
 
 const createProduct = async () => {
-    if (!file) {
-        alert("Не выбран файл")
+    if (!file || !name.value || !article.value) {
+        toast.error("Не выбран файл")
+        toast.error('Заполните все обязательные поля')
         return
-    }
+    } 
     const formData = new FormData();
 
     formData.append('photo', file);

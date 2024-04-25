@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useSearchAgentStore = defineStore('pinia', {
   state: () => ({
-    searchField: '',
+    searchField: 'fio',
     searchValue: ''
   }),
 

@@ -12,7 +12,7 @@ if (typeof localStorage !== "undefined") {
 }
 
 export const MENU_DATA: IMenuItem[] = [
-  userRole !== "manager" && userRole !== "salesman" ? {
+   userRole !== "salesman" ? {
     name: "Товары",
     icon: "heroicons:cube",
     url: "/products",
@@ -37,7 +37,7 @@ export const MENU_DATA: IMenuItem[] = [
     url: "/clients",
     items: [
        { title: "Все клиенты", url: "/clients/all" } ,
-       userRole !== "salesman" ?
+       userRole !== "manager" && userRole !== "salesman"  ?
       { title: "Все агенты", url: "/clients/agents" } : null,
     ].filter(Boolean),
   },

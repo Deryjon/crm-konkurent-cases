@@ -4,13 +4,14 @@ import ExitButton from '../../components/layout/ExitButton.vue';
 import { useRouter } from 'vue-router';
 import { base_url } from '~/api';
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification';
 
 const name = ref<string>('');
 const instagram_username = ref<string>('');
 const phone = ref<string>('');
 const bonus_percent = ref<number>(0);
 const router = useRouter();
-
+const toast = useToast();
 const createClient = async () => {
     const body = {
         fio: name.value,
@@ -27,7 +28,9 @@ const createClient = async () => {
         body: JSON.stringify(body),
     })
     if (status.value === "success") {
+        toast.success("Агент создан")
        router.push('/clients/agents')
+
       }
 };
 

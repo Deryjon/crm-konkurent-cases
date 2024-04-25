@@ -6,7 +6,7 @@ export const useAgentsService = () => {
   let items = ref<{ id: string, fio: string, phone: string, instagram_username: string, bonus_percent: number }[]>([]);
   const fetchAgents = async () => {
     const token = localStorage.getItem('token') || '';
-    const { data } = await useFetch(`${base_url}/agent?pattern`, {
+    const { data } = await useFetch(`${base_url}/customer?pattern`, {
       method: 'GET',
       headers: {
         "Authorization": "Bearer " + token,

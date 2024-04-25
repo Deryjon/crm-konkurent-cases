@@ -4,11 +4,13 @@ import ExitButton from '../../components/layout/ExitButton.vue';
 import { useRouter } from 'vue-router';
 import { base_url } from '~/api';
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification';
 
 const name = ref<string>('');
 const address = ref<string>('');
 const phone = ref<string>('');
 const router = useRouter();
+const toast = useToast();
 
 const createClient = async () => {
     const body = {
@@ -17,16 +19,17 @@ const createClient = async () => {
         address: address.value,
     };
     const token = localStorage.getItem('token') || '';
-    await useFetch(`${base_url}/customer`, {
+    const {status} = await useFetch(`${base_url}/customer`, {
         method: 'POST',
         headers:{
     "Authorization": "Bearer " + token,
 },
         body: JSON.stringify(body),
-    }).then(res => {
-        console.log(res);
-
     })
+    if (status.value === "success") {
+        toast.success("Клиент создан")
+        router.push('/clients/all')
+    }
 };
 
 </script>
