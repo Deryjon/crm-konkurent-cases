@@ -6,6 +6,10 @@ import { base_url } from '~/api';
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification';
 
+useHead({
+  title: "Создать Агента"
+})
+
 const name = ref<string>('');
 const instagram_username = ref<string>('');
 const phone = ref<string>('');

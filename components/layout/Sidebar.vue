@@ -7,8 +7,8 @@ const router = useRouter();
 function logOut(){
   authStore.$reset();
   localStorage.removeItem('token');
-  router.push('/login')
   window.location.reload();
+  router.push('/login')
 }
 </script>
 <template>
@@ -18,7 +18,7 @@ function logOut(){
       <LayoutMenu class="mt-4" />
       <div class="mt-auto">
         <LayoutLogout @click="logOut" />
-        <LayoutHelp />
+        <!-- <LayoutHelp /> -->
       </div>
     </div>
   </aside>

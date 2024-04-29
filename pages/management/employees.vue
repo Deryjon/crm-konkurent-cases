@@ -3,6 +3,12 @@ import { ref } from 'vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
 import SellersTable from './components/SellersTable.vue';
+
+
+useHead({
+  title: "Добавить сотрудника"
+})
+
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;

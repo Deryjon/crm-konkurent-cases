@@ -5,6 +5,9 @@ import { base_url } from '~/api';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification'
 
+useHead({
+  title: "Создать продукт"
+})
     
 
 const imageUrls = ref<string[]>([]);

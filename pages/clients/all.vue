@@ -3,6 +3,11 @@ import { ref } from 'vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
 import ClientsTable from './components/ClientsTable.vue';
+
+useHead({
+  title: "Клиенты"
+})
+
 const open = ref(false);
 const toggleOpen = () => {
     open.value = !open.value;

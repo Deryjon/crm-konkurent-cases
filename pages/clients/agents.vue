@@ -6,6 +6,10 @@ import AgentsTable from './components/AgentsTable.vue';
 import { useSearchAgentStore } from '../../store/searchAgentStore.store';
 
 
+useHead({
+  title: "Агенты"
+})
+
 const store = useSearchAgentStore();
 const open = ref(false);
 const toggleOpen = () => {

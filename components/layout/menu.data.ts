@@ -5,7 +5,6 @@ export interface IMenuItem {
   items?: { title: string; url: string }[];
 }
 
-// Получение роли пользователя из localStorage, если доступно
 let userRole: string | null = null;
 if (typeof localStorage !== "undefined") {
   userRole = localStorage.getItem("role");
@@ -63,5 +62,5 @@ export const MENU_DATA: IMenuItem[] = [
           { title: "Админ", url: "/management/admin" },
       ],
   } 
-  : null, // Вставляем null для того, чтобы убрать этот элемент, если роль "manager" или "salesman"
-].filter(Boolean); // Фильтр, чтобы удалить все null значения из массива
+  : null, 
+].filter(Boolean); 

@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+useHead({
+  title: "Главная"
+})
 </script>
 <template>
   <section class="new-order flex mt-[15px]">

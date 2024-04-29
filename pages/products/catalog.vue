@@ -6,6 +6,10 @@ import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 import { useProductService } from './components/productService';
 
+useHead({
+  title: "Каталог продуктов"
+})
+
 const open = ref(false);
 // const catalogProductRef = ref('');
 const productService = useProductService();

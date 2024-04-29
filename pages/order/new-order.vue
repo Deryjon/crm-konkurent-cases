@@ -2,6 +2,11 @@
 import { ref } from 'vue'
 import InputSearch from '../../components/layout/InputSearch.vue'
 import Agents from './components/Agents.vue'
+
+useHead({
+  title: "Новая продажа"
+})
+
 const numberProduct = ref(1)
 const selectedButton = ref('UZS');
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-
+useHead({
+  title: "Импорт"
+})
 </script>
 <template >
     <section class="h-[100vh]">

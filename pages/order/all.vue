@@ -4,6 +4,10 @@ import InputSearchSales from '../../components/layout/InputSearchSales.vue'
 import InputData from './components/InputData.vue'
 import { SALES_DATA } from './components/sales.data'
 
+useHead({
+  title: "Все продажи"
+})
+
 const numberProduct = ref(1)
 const selectedButton = ref('UZS');
 

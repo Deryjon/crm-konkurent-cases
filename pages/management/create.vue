@@ -6,6 +6,10 @@ import { base_url } from '~/api';
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification';
 
+useHead({
+  title: "Создать нового сотрудника"
+})
+
 const name = ref<string>('');
 const login = ref<string>('');
 const role = ref<string>('');
