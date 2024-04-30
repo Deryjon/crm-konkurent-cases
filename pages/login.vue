@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 
 useHead({
-  title: "Войти в систему"
+  title: "Вход в систему"
 })
 
 export default defineComponent({

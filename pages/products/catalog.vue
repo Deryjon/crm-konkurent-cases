@@ -1,30 +1,25 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from '../../components/layout/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
-import { useProductService } from './components/productService';
 
 useHead({
   title: "Каталог продуктов"
 })
 
+
 const open = ref(false);
-// const catalogProductRef = ref('');
-const productService = useProductService();
+const searchValue = ref('');
 
 
-const fetchProducts = () => {
-  productService.fetchProducts();
-};
 
 const toggleOpen = () => {
-    open.value = !open.value;
+  open.value = !open.value;
 };
 
 </script>
-
 <template>
     <section class="catalog">
         <div class="top flex items-center justify-between">
@@ -44,7 +39,7 @@ const toggleOpen = () => {
         <Stat v-if="open" class="mt-[30px]" />
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class=""  @input="fetchProducts"  />
+            <InputSearch class=""/>
 
             <router-link @click="showToast" to="/products/create">
 
@@ -54,7 +49,7 @@ const toggleOpen = () => {
         <CatalogTable />
         <KanbanSlideover/>
     </section>
-</template>
+</template>                                                                     
 <style scoped>
 .customize-table {
     --easy-table-border: 1px solid #262626;
