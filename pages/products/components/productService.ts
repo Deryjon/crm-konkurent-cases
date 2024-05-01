@@ -34,7 +34,6 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
   const setSearchValue = (value: string) => {
     store.searchValue = value;
   };
-  
   return {
     items,
     searchValue: store.searchValue,
