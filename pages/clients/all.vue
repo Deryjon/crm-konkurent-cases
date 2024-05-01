@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CreateBtn from '../../components/layout/CreateBtn.vue'
-import InputSearch from '../../components/layout/InputSearch.vue'
+// import InputSearch from '../../components/layout/InputSearch.vue'
 import ClientsTable from './components/ClientsTable.vue';
 
 useHead({
@@ -23,7 +23,7 @@ const toggleOpen = () => {
         </div>
         <div class="input flex justify-between mt-[50px] ">
 
-            <InputSearch class="" />
+            <!-- <InputSearch class="" /> -->
 
             <router-link to="/clients/create">
 
