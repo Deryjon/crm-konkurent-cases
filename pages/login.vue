@@ -1,22 +1,21 @@
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useAuthStore } from '@/store/auth-store';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
 
-useHead({
-  title: "Вход в систему"
-})
 
 export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
     const toast = useToast();
-
+    
     const loginRef = ref(authStore.login);
     const passwordRef = ref(authStore.password);
-
+    
+    useHead({
+      title: "Вход в систему"
+    })
     watch([loginRef, passwordRef], ([login, password]) => {
       isDisabled.value = login.length < 5 || password.length < 8;
     })

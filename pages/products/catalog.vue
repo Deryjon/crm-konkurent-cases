@@ -11,7 +11,6 @@ useHead({
 
 
 const open = ref(false);
-const searchValue = ref('');
 
 
 
