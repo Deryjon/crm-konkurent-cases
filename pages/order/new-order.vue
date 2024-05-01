@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import InputSearch from '../../components/layout/InputSearch.vue'
+// import InputSearch from '../../components/layout/InputSearch.vue'
 import Agents from './components/Agents.vue'
 
 useHead({
@@ -22,7 +22,7 @@ const selectButton = (button: string) => {
             <div class="search mt-10">
                 <div class="top flex justify-between">
 
-                    <InputSearch class="" />
+                    <!-- <InputSearch class="" /> -->
                     <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
                         <Icon name="fontisto:arrow-return-right" />
                         <p>Возврат</p>
