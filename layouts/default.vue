@@ -23,12 +23,12 @@ onBeforeMount(() => {
 
 
 <template>
-    <LayoutHeader class="md:hidden" v-if="store.isAuth" />
+    <LayoutHeader class="md:hidden" v-if="store.status" />
     <LayoutTheLoader v-if="!isLoading" />
     <section class="flex" v-else>
-        <div :class="{ grid: store.isAuth }">
+        <div :class="{ grid: store.status }">
             <LayoutSidebar class="sticky top-[20px] hidden h-[calc(100vh-65px)] py-5 lg:col-span-3 lg:block"
-                v-if="store.isAuth" />
+                v-if="store.status" />
         </div>
         <div class="bg-[#262626] w-full min-h-[100vh] py-[20px] px-[15px] md:p-[40px]">
             <slot />

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
-import InputSearch from '../../components/layout/InputSearch.vue'
+import InputSearch from './components/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
 
 useHead({

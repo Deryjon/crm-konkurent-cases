@@ -2,7 +2,7 @@
     <div>
         <HTransitionRoot appear :show="isOpen" as="div">
             <!-- Parent dialog  -->
-            <HDialog as="div" @close="isOpen = false" class="fixed inset-0 z-50 flex justify-start">
+            <HDialog v-show="isOpen" as="div" @close="isOpen = false" class="fixed inset-0 z-50 flex justify-start">
                 <!-- Transition for overlay/backdrop -->
                 <HTransitionChild as="div" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
                     leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
@@ -29,5 +29,5 @@
 </template>
 
 <script setup lang="ts">
-const isOpen = defineModel();
+const isOpen = ref(false)
 </script>

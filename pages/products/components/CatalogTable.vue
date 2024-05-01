@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useSearchStore } from '../../../store/searchCatalog.store.ts';
 import { useProductService } from './productService';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import { base_url } from '~/api';
+
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
@@ -15,7 +16,14 @@ const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
 
 const router = useRouter();
-const { items, fetchProducts } = useProductService();
+const currentPage = ref(1); 
+const itemsPerPage = ref(5); 
+const serverOptions = ref<ServerOptions>({
+    page: currentPage.value,
+    rowsPerPage: itemsPerPage.value,
+});
+
+const { items, total: serverItemsLength, fetchProducts } = useProductService(serverOptions);
 const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
@@ -26,7 +34,10 @@ const headers = [
     { text: "Цена продажи", value: "price" },
 ];
 
-let selectedItem = ref(null); 
+let selectedItem = ref(null);
+
+
+const loading = ref(false);
 
 function routeEdit(id: string) {
     router.push(`/products/update/${id}`);
@@ -37,18 +48,31 @@ function openSlideover(item: { id: string }) {
     isOpen.value = true;
 }
 
-onMounted(() => {
-    fetchProducts();
-    console.log(items);
-    
-});
+const loadFromServer = async () => {
+    try {
+        loading.value = true;
+        await fetchProducts();
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        // Обработка ошибок, если необходимо
+    } finally {
+        loading.value = false;
+    }
+};
+
+
+// initial load
+loadFromServer();
+
+watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
+
 </script>
-
-
 <template>
-    <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
-        theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
-        :search-field="searchField" :search-value="searchValue">
+    <EasyDataTable     :loading="loading"
+ v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers"
+        buttons-pagination :items="items" table-class-name="customize-table" theme-color="#1d90ff"
+        header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
+        :search-value="searchValue">
         <template #item-name="{ name, id }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
         </template>
@@ -85,7 +109,7 @@ onMounted(() => {
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(selectedItem.id)"/>
+                    <EditBtn @click="routeEdit(selectedItem.id)" />
                     <UModal v-model="deleteOpen">
                         <Placeholder>
                             <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
@@ -139,11 +163,10 @@ onMounted(() => {
     --easy-table-rows-per-page-selector-z-index: 1;
     --easy-table-scrollbar-track-color: #2d3a4f;
     --easy-table-scrollbar-color: #2d3a4f;
-    --easy-table-scrollbar-thumb-color: #4c5d7a;
-    
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
     --easy-table-scrollbar-corner-color: #2d3a4f;
 
-
-    --easy-table-loading-mask-background-color: #2d3a4f;
+    --easy-table-loading-mask-background-color: #262626;
 }
 </style>
