@@ -39,7 +39,7 @@ const toggleOpen = () => {
 
             <InputSearch class=""/>
 
-            <router-link @click="showToast" to="/products/create">
+            <router-link to="/products/create">
 
                 <CreateBtn >Новый продукт</CreateBtn>
             </router-link>
