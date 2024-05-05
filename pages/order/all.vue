@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import InputSearchSales from '../../components/layout/InputSearchSales.vue'
 import InputData from './components/InputData.vue'
 import { SALES_DATA } from './components/sales.data'
+import VueDatePicker from '@vuepic/vue-datepicker';
 
 useHead({
   title: "Все продажи"
@@ -10,6 +11,7 @@ useHead({
 
 const numberProduct = ref(1)
 const selectedButton = ref('UZS');
+const date = ref<Date[]>([]);
 
 const selectButton = (button: string) => {
     selectedButton.value = button;
@@ -20,7 +22,10 @@ const selectButton = (button: string) => {
         <div class="left w-[850px] border-r pr-4 mt-[10px]">
             <div class="flex justify-between">
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Все продажи</h2>
-                <InputData />
+                <div>
+
+                    <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class=" p-3 rounded-2xl bg-[#1F78FF]" />
+                </div>
             </div>
             <div class="search mt-10">
                 <div class="top flex justify-between">
@@ -113,4 +118,31 @@ input {
 .bor {
     border: 1px #ffffff dashed;
 }
+.dp__theme_light {
+      --dp-background-color: #1F78FF;
+      --dp-text-color: #ffffff;
+      --dp-hover-text-color: #ffffff;
+      --dp-hover-icon-color: #959595;
+      --dp-primary-color: #1976d2;
+      --dp-primary-disabled-color: #6bacea;
+      --dp-primary-text-color: #f8f5f5;
+      --dp-secondary-color: #c0c4cc;
+      --dp-menu-border-color: #1F78FF;
+      --dp-border-color: #1F78FF;
+      --dp-border-color-hover: #1F78FF;
+      --dp-disabled-color: #f6f6f6;
+      --dp-scroll-bar-background: #1F78FF;
+      --dp-scroll-bar-color: #1F78FF;
+      --dp-success-color: #76d275;
+      --dp-success-color-disabled: #a3d9b1;
+      --dp-icon-color: #ffffff;
+      --dp-danger-color: #ff6f60;
+      --dp-marker-color: #ff6f60;
+      --dp-tooltip-color: #fafafa;
+      --dp-disabled-color-text: #8e8e8e;
+      --dp-highlight-color: rgb(25 118 210 / 10%);
+      --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+      --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+      --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+  }
 </style>

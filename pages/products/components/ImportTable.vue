@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSearchStore } from '../../../store/searchCatalog.store.ts';
-import { useProductService } from './productService';
+import { useImportService } from './importService';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
@@ -23,7 +23,7 @@ const serverOptions = ref<ServerOptions>({
     rowsPerPage: itemsPerPage.value,
 });
 
-const { items, total: serverItemsLength, fetchProducts } = useProductService(serverOptions);
+const { items, total: serverItemsLength, fetchImports } = useImportService(serverOptions);
 const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
@@ -40,7 +40,7 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 function routeEdit(id: string) {
-    router.push(`/products/update/${id}`);
+    router.push(`/Imports/update/${id}`);
 }
 
 function openSlideover(item: { id: string }) {
@@ -51,7 +51,7 @@ function openSlideover(item: { id: string }) {
 const loadFromServer = async () => {
     try {
         loading.value = true;
-        await fetchProducts();
+        await fetchImports();
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
         // Обработка ошибок, если необходимо
@@ -95,7 +95,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
             </template>
 
-            <div class="product" v-if="selectedItem">
+            <div class="Import" v-if="selectedItem">
                 <h3 class="text-2xl font-semibold">Данные о продукте</h3>
                 <div class="flex flex-col gap-10 mt-10">
                     <p>Наименование: {{ selectedItem.name }}</p>

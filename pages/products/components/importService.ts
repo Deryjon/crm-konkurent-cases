@@ -1,20 +1,25 @@
-import { ref, watch } from "vue";
+import { Ref, ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { base_url } from "~/api";
 import { useSearchStore } from "~/store/searchCatalog.store";
 
-export const useProductService = (serverOptions: Ref<ServerOptions>) => {
-  let items = ref<{ id: string, quantity: number, cost_price: number, sale_price: number,}[]>([]);
+interface ServerOptions {
+  page: number;
+  rowsPerPage: number;
+}
+
+export const useImportService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate: Ref<string>, serverOptions: Ref<ServerOptions>) => {
+  let items = ref<{ id: string, quantity: number, cost_price: number, sale_price: number }[]>([]);
   let total = ref(0);
 
   const store = useSearchStore();
-  const from = ref(""); // от
-  const to = ref(""); // до
 
-  const fetchProducts = async () => {
-    const token = localStorage.getItem("token") || "";
+  const fetchImports = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return; // Check if token exists
+
     const { data } = await useFetch(
-      `${base_url}/acceptance?=from${from.value}&to=${to.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
+      `${base_url}/acceptance?from=${fromDate.value}&to=${toDate.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
         method: "GET",
         headers: {
@@ -22,16 +27,10 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
         },
       }
     ).json();
-    if (data) {
-      items.value = data.value.products;
-      total.value = data.value.total;
-    }
+    console.log(data);
   };
-
-
-  // Вызываем fetchProducts при каждом изменении searchValue
-  watch(() => store.searchValue, () => {
-    fetchProducts();
+  watch([() => store.searchValue, serverOptions, fromDate, toDate], () => {
+    fetchImports();
   });
 
   const setSearchValue = (value: string) => {
@@ -40,7 +39,7 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
   return {
     items,
     searchValue: store.searchValue,
-    fetchProducts,
+    fetchImports,
     setSearchValue,
     total,
   };

@@ -18,6 +18,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@pinia/nuxt": "^0.5.1",
     "@tanstack/vue-query": "^5.29.0",
+    "@vuepic/vue-datepicker": "^8.5.1",
     "@vuestic/nuxt": "^1.0.19",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.8",
@@ -31,6 +32,7 @@
     "use-http": "^1.0.28",
     "vue": "^3.4.21",
     "vue-chartjs": "^5.3.1",
+    "vue-datepicker-next": "^1.0.3",
     "vue-router": "^4.3.0",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-easy-data-table": "^1.5.47"
