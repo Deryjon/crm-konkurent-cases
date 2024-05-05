@@ -6,17 +6,15 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification'
 import { ref, watch } from 'vue'
 
-const products = ref<{id: string, quantity: number, cost_price: number, sale_price: number}[]>([])
-const items = ref<{ id: string, name: string, code: string, quantity: number, price: number }[]>([]);
-
-const addProduct = () => {
-  products.value.push({id: '', quantity: 0, cost_price: 0, sale_price: 0});
-};
+const products = ref<{ id: string, quantity: number, cost_price: number, sale_price: number, code: string, dropdownOpen: boolean }[]>([
+  { id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: true }
+]);
+const items = ref<{ id: string, name: string, code: string }[]>([]);
 
 const router = useRouter();
 const toast = useToast();
 
-const fetchProducts = async (value) => {
+const fetchProducts = async (value: string) => {
   const token = localStorage.getItem("token") || "";
   const { data } = await useFetch(
     `${base_url}/product?pattern=${value}&limit=3`,
@@ -29,36 +27,49 @@ const fetchProducts = async (value) => {
   );
   if (data && data.value && data.value.products) {
     const products = data.value.products;
-    items.value = products.map(product => ({
+    items.value = products.map((product: { id: any; name: any; code: any; }) => ({
       id: product.id,
-      name: product.name
+      name: product.name,
+      code: product.code
     }));
   }
 
 };
+const addProduct = (count = 1) => {
+  for (let i = 0; i < count; i++) {
+    products.value.push({ id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false });
+  }
+};
 
 const createImport = async () => {
   const body = {
-      products: products.value.map(p => ({
-        id: p.id,
-        quantity: p.quantity,
-        cost_price: p.cost_price,
-        sale_price: p.sale_price
-      }))
-    };
-    const token = localStorage.getItem('token') || '';
-    const { status } = await useFetch(`${base_url}/acceptance`, {
-        method: 'POST',
-        body,
-        headers: {
-            "Authorization": "Bearer " + token,
-        },
-    });
-    if (status.value === "success") {
-        toast.success("Импорт создан")
-        router.push('/products/import')
-    }
+    products: products.value.map(p => ({
+      id: p.id,
+      quantity: p.quantity,
+      cost_price: p.cost_price,
+      sale_price: p.sale_price
+    }))
+  };
+  const token = localStorage.getItem('token') || '';
+  const { status } = await useFetch(`${base_url}/acceptance`, {
+    method: 'POST',
+    body,
+    headers: {
+      "Authorization": "Bearer " + token,
+    },
+  });
+  if (status.value === "success") {
+    toast.success("Импорт создан")
+    router.push('/products/import')
+  }
 };
+
+const selectItem = (item, product) => {
+  product.id = item.id;
+  product.code = item.name; // Сохраняем name выбранного продукта
+  product.dropdownOpen = false;
+};
+
 
 watch(() => products.value.map(product => product.code), (newCodes, oldCodes) => {
   // Fetch products when product codes change
@@ -69,7 +80,11 @@ watch(() => products.value.map(product => product.code), (newCodes, oldCodes) =>
   }
 });
 
+const closeDropdown = (product: { dropdownOpen: boolean; }) => {
+  product.dropdownOpen = false;
+};
 </script>
+
 
 <template>
   <section class="basic">
@@ -79,35 +94,92 @@ watch(() => products.value.map(product => product.code), (newCodes, oldCodes) =>
       </router-link>
       <h2 class="text-4xl font-semibold ml-5">Новый импорт</h2>
       <CreateBtn class="ml-auto" @click="createImport">Создать</CreateBtn>
+
     </div>
-    <div class="basic">
-      <div v-for="(product, index) in products" :key="index" class="flex justify-between gap-2 mt-10">
-        <div class="code w-1/4">
+    <div class="basic mt-10">
+      <div class="labels flex gap-3">
+        <div class="art w-1/4">
           <label for="">Артикул</label>
-          <UiInput v-model="product.code" class="" :options="items" placeholder="Введите артикул" />
-          <label for="" class="mt-2">Выберите товар</label>
-          <select v-model="product.id" class="w-full bg-[#404040] text-[#f5f5f5] py-4 px-3 rounded-2xl mt- border">
-            <option v-for="item in items" :value="item.id" :key="item.id">{{ item.name }}</option>
-          </select>
         </div>
-        <div class="articul w-1/4">
+        <div class="art w-1/4">
+
           <label for="">Колл-во</label>
+        </div>
+        <div class="art w-1/4">
+
+          <label for="">Цена продажи</label>
+        </div>
+        <div class="art w-1/4">
+
+          <label for="">Цена поставки</label>
+        </div>
+      </div>
+      <div v-for="(product, index) in products" :key="index" class="flex justify-between gap-2 mt-5 ">
+        <div class="code w-1/4 relative">
+          <div class="search-select mt-4 rounded-2xl" >
+            <UiInput v-model="product.code" type="text" placeholder="Артикул" @focus="product.dropdownOpen = true"
+            />
+
+            <ul class="options-list mt-1 absolute" :class="{ 'open': product.dropdownOpen }">
+              <li v-for="item in items" :key="item.id" @click="selectItem(item, product)">
+                {{ item.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="articul w-1/4">
           <UiInput placeholder="Введите колл-во" type="number" v-model="product.quantity" />
         </div>
         <div class="articul w-1/4">
-          <label for="">Цена поставки</label>
           <UiInput placeholder="Цена поставки" type="number" v-model.number="product.cost_price" />
         </div>
         <div class="articul w-1/4">
-          <label for="">Цена продажи</label>
           <UiInput placeholder="Цена продажи" type="number" v-model.number="product.sale_price" />
         </div>
       </div>
       <div class="mt-10 flex justify-end">
-        <button @click="addProduct" class="border p-2 rounded-2xl ">Добавить товар</button>
+        <button @click="addProduct(1)" class="border p-2 rounded-2xl">Добавить товар</button>
       </div>
     </div>
   </section>
 </template>
 
 
+<style scoped>
+.search-select {
+  position: relative;
+  /* Изменено позиционирование */
+  background-color: #404040;
+}
+
+.options-list {
+  position: absolute;
+  /* Изменено позиционирование */
+  top: calc(100% + -3px);
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+  padding: 0;
+  list-style-type: none;
+  border-radius: 5px;
+  background-color: #404040;
+  display: none;
+}
+
+.options-list.open {
+  display: block;
+  z-index: 10;
+}
+
+.options-list li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.options-list li:hover {
+  background-color: #f0f0f0;
+}
+</style>

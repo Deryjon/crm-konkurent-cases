@@ -17,5 +17,3 @@ export const useMenuStore = defineStore('pinia', {
     }
   }
 });
-
-

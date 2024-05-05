@@ -1,8 +1,8 @@
 <template>
     <div>
-        <HTransitionRoot appear :show="isOpen" as="div">
+        <HTransitionRoot appear :show="isOpen" as="template">
             <!-- Parent dialog  -->
-            <HDialog v-show="isOpen" as="div" @close="isOpen = false" class="fixed inset-0 z-50 flex justify-start">
+            <HDialog   @close="closeMenu" class="fixed inset-0 z-50 flex justify-start">
                 <!-- Transition for overlay/backdrop -->
                 <HTransitionChild as="div" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
                     leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
@@ -14,7 +14,7 @@
                     leave="duration-200 ease-in" leave-to="opacity-0 -translate-x-full">
                     <HDialogPanel class="relative h-dvh w-[320px] p-3">
                         <div class="absolute -right-10 top-4 z-20">
-                            <button @click="isOpen = false" aria-label="Close menu"
+                            <button @click="closeMenu" aria-label="Close menu"
                                 class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border bg-background">
                                 <span class="sr-only">Button used to close menu</span>
                                 <Icon name="heroicons:x-mark" />
@@ -27,7 +27,17 @@
         </HTransitionRoot>
     </div>
 </template>
-
 <script setup lang="ts">
-const isOpen = ref(false)
+import { useMenuStore } from '~/store/menu.store';
+const store = useMenuStore();
+import { ref } from 'vue';
+
+const isOpen = ref(false);
+
+const closeMenu = () => {
+    store.isOpen = false;
+    isOpen.value = false;
+};
+
 </script>
+

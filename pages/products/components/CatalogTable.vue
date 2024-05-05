@@ -72,7 +72,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
  v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers"
         buttons-pagination :items="items" table-class-name="customize-table" theme-color="#1d90ff"
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
-        :search-value="searchValue">
+        :search-value="searchValue"
+        >
         <template #item-name="{ name, id }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
         </template>
