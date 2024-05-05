@@ -2,14 +2,18 @@ import { defineStore } from 'pinia'
 
 export const useSearchStore = defineStore('pinia', {
   state: () => ({
-    searchField: '',
+    searchField: ' ',
     searchValue: ''
   }),
 
   getters: {
     computedSearchValue(state) {
-      console.log(state.searchValue);
-      return state.searchValue;
+      if (state.searchValue === undefined) {
+        return ''
+      } else {
+        return state.searchValue
+      }
     }
   }
 });
+

@@ -3,7 +3,7 @@ import { useSearchStore } from '~/store/searchCatalog.store'
 import { ref, watch } from 'vue'
 
 const store = useSearchStore()
-const searchValue = ref(store.searchValue)
+const searchValue = ref(store.searchValue ?? '')
 
 watch(searchValue, (newValue) => {
   store.searchValue = newValue
@@ -19,7 +19,8 @@ watch(searchValue, (newValue) => {
       type="text" 
       class="bg-transparent font-semibold w-[540px]" 
       placeholder="Артикуль, наименование" 
-      v-model="searchValue" 
+      :value="searchValue" 
+      @input="searchValue = $event.target.value" 
     />
   </div>
 </template>
@@ -27,5 +28,6 @@ watch(searchValue, (newValue) => {
 <style scoped>
 input { outline: none; }
 </style>
+
 
 

@@ -8,11 +8,12 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
   let total = ref(0);
 
   const store = useSearchStore();
+  const searchValue = computed(() => store.searchValue ?? "");
 
   const fetchProducts = async () => {
     const token = localStorage.getItem("token") || "";
     const { data } = await useFetch(
-      `${base_url}/product?pattern=${encodeURIComponent(store.searchValue)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
+      `${base_url}/product?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
         method: "GET",
         headers: {
@@ -27,7 +28,7 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
   };
 
   // Вызываем fetchProducts при каждом изменении searchValue
-  watch(() => store.searchValue, () => {
+  watch(searchValue, () => {
     fetchProducts();
   });
 
@@ -36,9 +37,10 @@ export const useProductService = (serverOptions: Ref<ServerOptions>) => {
   };
   return {
     items,
-    searchValue: store.searchValue,
+    searchValue,
     fetchProducts,
     setSearchValue,
     total,
   };
 };
+

@@ -32,6 +32,7 @@ const headers = [
     { text: "Артикул", value: "code" },
     { text: "Количество", value: "quantity" },
     { text: "Цена продажи", value: "price" },
+    { text: "Действие", value: "operation" },
 ];
 
 let selectedItem = ref(null);
@@ -40,6 +41,7 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 function routeEdit(id: string) {
+    console.log(id)
     router.push(`/products/update/${id}`);
 }
 
@@ -60,9 +62,25 @@ const loadFromServer = async () => {
     }
 };
 
+const deleteItem = async (id: string) => {
+    // const token = localStorage.getItem("token") || "";
+    // const { data } = await useFetch(
+    //   `${base_url}/product?`,
+    //   {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: "Bearer " + token,
+    //     },
+    //   }
+    // ).json();
+    console.log(id)
 
-// initial load
-loadFromServer();
+};
+
+onMounted(() => {
+    
+    loadFromServer()
+})
 
 watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
@@ -81,6 +99,22 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
             <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
+        <template #item-operation="{ id }">
+      <div class="operation-wrapper flex gap-1 items-center justify-center">
+        <DeleteBtn @click="deleteOpen = true" />
+                    <EditBtn @click="routeEdit(id)" />
+                    <UModal v-model="deleteOpen">
+                        <Placeholder>
+                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                            <div class=" flex gap-10 items-center justify-center my-10">
+                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                <button @click="deleteItem(id)"
+                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                            </div>
+                        </Placeholder>
+                    </UModal>
+      </div>
+    </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">
         <UCard class="flex flex-col flex-1"
