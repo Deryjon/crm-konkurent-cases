@@ -12,10 +12,19 @@ const store = useSearchAgentStore();
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 
-const { items, fetchAgents } = useAgentsService();
+const loading = ref(false);
+
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
+
+const currentPage = ref(1); 
+const itemsPerPage = ref(5); 
+const serverOptions = ref<ServerOptions>({
+    page: currentPage.value,
+    rowsPerPage: itemsPerPage.value,
+});
+const {items, total: serverItemsLength, fetchAgents } = useAgentsService(serverOptions);
 const headers = [
     { text: "Имя", value: "fio" },
     { text: "Телефон", value: "phone" },
@@ -29,20 +38,36 @@ let selectedItem = ref(null);
 
 const router = useRouter();
 
+const loadFromServer = async () => {
+    try {
+        loading.value = true;
+        await fetchAgents();
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        // Обработка ошибок, если необходимо
+    } finally {
+        loading.value = false;
+    }
+};
 function routeEdit() {
     router.push('/products/update/id');
 }
 onMounted(() => {
-    fetchAgents();
-    console.log(items);
     
-});
+    loadFromServer()
+})
+
+watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
+
 </script>
 
 <template>
-    <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
+    <EasyDataTable   :loading="loading"
+ v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
     theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
-        >
+    :search-field="searchField"
+        :search-value="searchValue"   
+    >
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
         </template>
@@ -120,16 +145,12 @@ onMounted(() => {
     --easy-table-rows-per-page-selector-width: 70px;
     --easy-table-rows-per-page-selector-option-padding: 10px;
     --easy-table-rows-per-page-selector-z-index: 1;
-
-
     --easy-table-scrollbar-track-color: #2d3a4f;
     --easy-table-scrollbar-color: #2d3a4f;
-    --easy-table-scrollbar-thumb-color: #4c5d7a;
-    ;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
     --easy-table-scrollbar-corner-color: #2d3a4f;
 
-    --easy-table-loading-mask-background-color: #2d3a4f;
+    --easy-table-loading-mask-background-color: #262626;
 }
-
-
 </style>

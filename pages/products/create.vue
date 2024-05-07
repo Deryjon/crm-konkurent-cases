@@ -26,24 +26,21 @@ const openFilePicker = () => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    input.multiple = false;
     input.onchange = (event: Event) => {
         const target = event.target as HTMLInputElement;
-        if (target.files) {
+        if (target.files && target.files.length > 0) {
             file = target.files[0];
-            const files = Array.from(target.files);
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = (e: ProgressEvent<FileReader>) => {
-                    imageUrls.value.push(e.target!.result as string);
-                };
-                reader.readAsDataURL(file);
-            });
+            const reader = new FileReader();
+            reader.onload = (e: ProgressEvent<FileReader>) => {
+                imageUrls.value = []; // Очищаем список изображений перед добавлением нового
+                imageUrls.value.push(e.target!.result as string);
+            };
+            reader.readAsDataURL(file);
         }
-
     };
     input.click();
 };
+
 
 const createProduct = async () => {
     if (!file || !name.value || !article.value) {

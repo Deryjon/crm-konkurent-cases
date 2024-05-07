@@ -180,6 +180,6 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
 }
 
 .options-list li:hover {
-  background-color: #f0f0f0;
+  background-color: #878787;
 }
 </style>

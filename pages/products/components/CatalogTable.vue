@@ -14,7 +14,7 @@ const store = useSearchStore();
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
-
+    
 const router = useRouter();
 const currentPage = ref(1); 
 const itemsPerPage = ref(5); 

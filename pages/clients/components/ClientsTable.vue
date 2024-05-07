@@ -1,42 +1,76 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
+import { useClientsService } from './clientService';
+import { ref, computed, onMounted } from 'vue';
+import { useSearchClientStore } from '../../../store/searchClient';
+
+
+const store = useSearchClientStore();
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 
+const loading = ref(false);
+
+
+const searchField = computed(() => store.searchField);
+const searchValue = computed(() => store.searchValue);
+
+const currentPage = ref(1); 
+const itemsPerPage = ref(5); 
+const serverOptions = ref<ServerOptions>({
+    page: currentPage.value,
+    rowsPerPage: itemsPerPage.value,
+});
+const {items, total: serverItemsLength, fetchClients } = useClientsService(serverOptions);
+
+
 const headers = [
-    { text: "Имя", value: "name" },
+    { text: "Имя", value: "fio" },
     { text: "Телефон", value: "phone" },
-    { text: "Адрес", value: "adress" },
+    { text: "Адресс", value: "address" },
    
 ];
-const items = [
-    { name: "Илья", phone: "88001001010", adress: "ул. Ленина 48", },
-    { name: "Баходир", phone: "89002002020", adress: "пр-т Победы 20", },
-    { name: "Аброр", phone: "87003003030", adress: "ул. Первомайская 12", },
-];
+
+let selectedItem = ref(null); 
 
 
 const router = useRouter();
 
+const loadFromServer = async () => {
+    try {
+        loading.value = true;
+        await fetchClients();
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        // Обработка ошибок, если необходимо
+    } finally {
+        loading.value = false;
+    }
+};
 function routeEdit() {
     router.push('/products/update/id');
 }
+onMounted(() => {
+    
+    loadFromServer()
+})
+
+watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
+
 </script>
 
 <template>
-    <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
-        theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
-        >
+    <EasyDataTable   :loading="loading"
+ v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
+    theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
+    :search-field="searchField"
+        :search-value="searchValue"   
+    >
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
-        </template>
-        <template #item-photo="{ photo }">
-            <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">
@@ -112,16 +146,12 @@ function routeEdit() {
     --easy-table-rows-per-page-selector-width: 70px;
     --easy-table-rows-per-page-selector-option-padding: 10px;
     --easy-table-rows-per-page-selector-z-index: 1;
-
-
     --easy-table-scrollbar-track-color: #2d3a4f;
     --easy-table-scrollbar-color: #2d3a4f;
-    --easy-table-scrollbar-thumb-color: #4c5d7a;
-    ;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
     --easy-table-scrollbar-corner-color: #2d3a4f;
 
-    --easy-table-loading-mask-background-color: #2d3a4f;
+    --easy-table-loading-mask-background-color: #262626;
 }
-
-
 </style>
