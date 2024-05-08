@@ -4,6 +4,7 @@ import CreateBtn from '../../components/layout/CreateBtn.vue';
 import ImportTable from './components/ImportTable.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import { useImportService } from './components/importService';
+import { useImport } from "~/store/searchImport";
 
 useHead({
   title: 'Импорт'
@@ -12,26 +13,27 @@ useHead({
 const date = ref<Date[]>([]);
 const fromDate = ref<string>('');
 const toDate = ref<string>(''); 
+const store = useImport()
 function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-const serverOptions = ref<ServerOptions>({ page: 1, rowsPerPage: 10 }); // Add this line
 
-const { fetchImports } = useImportService(date, fromDate, toDate, serverOptions); // Add serverOptions here
 
 onMounted(() => {
   const startDate = new Date();
   const endDate = new Date();
   date.value = [startDate, endDate];
-  fetchImports(); 
 });
 
 watch(date, (newValue) => {
   fromDate.value = formatDate(date.value[0]); 
   toDate.value = formatDate(date.value[1]); 
-  fetchImports(); 
+  store.setFromDate(fromDate.value);
+  store.setToDate(toDate.value);
 });
+
+
 
 </script>
 

@@ -4,18 +4,35 @@ import InputSearchSales from '../../components/layout/InputSearchSales.vue'
 import InputData from './components/InputData.vue'
 import { SALES_DATA } from './components/sales.data'
 import VueDatePicker from '@vuepic/vue-datepicker';
-
+import {useSaleService} from './components/salesService'
 useHead({
   title: "Все продажи"
 })
 
-const numberProduct = ref(1)
-const selectedButton = ref('UZS');
 const date = ref<Date[]>([]);
+const fromDate = ref<string>('');
+const toDate = ref<string>(''); 
+function formatDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
 
-const selectButton = (button: string) => {
-    selectedButton.value = button;
-};
+const serverOptions = ref<ServerOptions>({ page: 1, rowsPerPage: 10 }); 
+
+const { fetchSales } = useSaleService(date, fromDate, toDate, serverOptions); 
+
+onMounted(() => {
+  const startDate = new Date();
+  const endDate = new Date();
+  date.value = [startDate, endDate];
+  fetchSales(); 
+});
+
+watch(date, (newValue) => {
+  fromDate.value = formatDate(date.value[0]); 
+  toDate.value = formatDate(date.value[1]); 
+  fetchSales(); 
+});
+
 </script>
 <template>
     <section class="new-order flex mt-[15px]">

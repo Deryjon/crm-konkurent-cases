@@ -1,23 +1,34 @@
-import { Ref, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { base_url } from "~/api";
-import { useSearchStore } from "~/store/searchCatalog.store";
+import { useImport } from "~/store/searchImport";
 
 interface ServerOptions {
   page: number;
   rowsPerPage: number;
 }
 
-export const useImportService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate: Ref<string>, serverOptions: Ref<ServerOptions>) => {
-  let items = ref<{ id: string, quantity: number, cost_price: number, sale_price: number }[]>([]);
+export const useImportService = (serverOptions = ref<ServerOptions>({page: 1, rowsPerPage: 10})) => {
+  let items = ref<{ id: string, date: string, products: { id: string, quantity: number, cost_price: number, sale_price: number }[] }[]>([]);
   let total = ref(0);
 
-  const store = useSearchStore();
+  const store = useImport();
+
+  // Создаем переменные ref для хранения значений fromDate и toDate
+  const fromDate = ref(store.fromDate);
+  const toDate = ref(store.toDate);
+
+  // Отслеживаем изменения значений fromDate и toDate в хранилище
+  watch([() => store.fromDate, () => store.toDate], ([newFromDate, newToDate]) => {
+    fromDate.value = newFromDate;
+    toDate.value = newToDate;
+    fetchImports();
+  }, );
+
 
   const fetchImports = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return; // Check if token exists
-
+    if (!token) return; 
     const { data } = await useFetch(
       `${base_url}/acceptance?from=${fromDate.value}&to=${toDate.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
@@ -27,20 +38,13 @@ export const useImportService = (date: Ref<Date[]>, fromDate: Ref<string>, toDat
         },
       }
     ).json();
-    console.log(data);
-  };
-  watch([() => store.searchValue, serverOptions, fromDate, toDate], () => {
-    fetchImports();
-  });
+      items.value = data.value.acceptances;
+      total.value = data.value.total;
+    }  
 
-  const setSearchValue = (value: string) => {
-    store.searchValue = value;
-  };
   return {
     items,
-    searchValue: store.searchValue,
     fetchImports,
-    setSearchValue,
     total,
   };
 };

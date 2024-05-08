@@ -5,7 +5,6 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
-import { base_url } from '~/api';
 
 
 const isOpen = ref(false);
@@ -24,14 +23,10 @@ const serverOptions = ref<ServerOptions>({
 });
 
 const { items, total: serverItemsLength, fetchImports } = useImportService(serverOptions);
-const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
-    { text: "Фото", value: "photo" },
-    { text: "Наименование", value: "name" },
-    { text: "Артикул", value: "code" },
-    { text: "Количество", value: "quantity" },
-    { text: "Цена продажи", value: "price" },
+    { text: "Дата", value: "date" },
+    { text: "Код импорта", value: "id" },
 ];
 
 let selectedItem = ref(null);
@@ -54,15 +49,10 @@ const loadFromServer = async () => {
         await fetchImports();
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
-        // Обработка ошибок, если необходимо
     } finally {
         loading.value = false;
     }
 };
-
-
-// initial load
-loadFromServer();
 
 watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
@@ -73,13 +63,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         buttons-pagination :items="items" table-class-name="customize-table" theme-color="#1d90ff"
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
         :search-value="searchValue">
-        <template #item-name="{ name, id }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
-        </template>
-        <template #item-photo="{ id }">
-            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
-        </template>
+
     </EasyDataTable>
     <!-- <USlideover v-model="isOpen">
         <UCard class="flex flex-col flex-1"

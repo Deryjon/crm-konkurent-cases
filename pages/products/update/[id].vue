@@ -8,6 +8,8 @@ import { base_url } from "~/api";
 const imageUrls = ref<string[]>([]);
 let item = ref<{ id: string, name: string, code: string, quantity: number, price: number }>({ id: '', name: '', code: '', quantity: 0, price: 0 });
 
+const id = useRoute().params.id;
+
 const removeImage = (index: number) => {
     imageUrls.value.splice(index, 1);
 };
@@ -35,7 +37,6 @@ const openFilePicker = () => {
 const fetchProduct = async () => {
     try {
         const token = localStorage.getItem("token") || "";
-        const id = useRoute().params.id;
         const response = await fetch(`${base_url}/product?pattern=${id}&page=1&limit=1`, {
             method: "GET",
             headers: {
@@ -45,13 +46,31 @@ const fetchProduct = async () => {
         const data = await response.json();
         if (data && data.products && data.products.length > 0) {
             item.value = data.products[0];
-            console.log(item.value);
         }
     } catch (error) {
         console.error("Error fetching product:", error);
     }
 }
 
+const editProduct = async () => {
+        const formData = new FormData();
+
+        formData.append('photo', file);
+    formData.append('name', item.value.name);
+    formData.append('code', item.value.code);
+    formData.append('price', item.value.price);
+        const token = localStorage.getItem("token") || "";
+        const response = await fetch(`${base_url}/product/${id}`, {
+            method: "PATCH",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+            body: formData,
+        });
+        const data = await response.json();
+        console.log(id);
+  
+};
 onMounted(async () => {
     await fetchProduct();
 });
@@ -67,7 +86,7 @@ onMounted(async () => {
                 <ExitButton />
             </router-link>
             <h2 class="text-4xl font-semibold ml-5">Редактирование продукта</h2>
-            <EditBtn class="ml-auto flex gap-2">Изменить</EditBtn>
+            <EditBtn class="ml-auto flex gap-2" @click="editProduct">Изменить</EditBtn>
         </div>
         <div class="basic">
             <div class="flex flex-wrap gap-[30px] justify-between mt-10">
