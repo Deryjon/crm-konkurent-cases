@@ -103,12 +103,12 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
         </div>
         <div class="art w-1/4">
 
-          <label for="">Колл-во</label>
+          <label for="">Количество</label>
         </div>
         <div class="art w-1/4">
 
           <label for="">Цена поставки
-            
+
           </label>
         </div>
         <div class="art w-1/4">
