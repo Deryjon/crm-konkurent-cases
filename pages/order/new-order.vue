@@ -39,7 +39,7 @@ const fetchProducts = async (value: string) => {
 };
 
 const numberProduct = ref(1);
-const selectedButton = ref('UZS');
+const selectedButton = ref('USD');
 const discountValue = ref(0); // Значение скидки
 
 const selectButton = (button: string) => {
@@ -71,8 +71,8 @@ const subtotal = computed(() => {
 });
 
 const discountAmount = computed(() => {
-    if (selectedButton.value === 'UZS') {
-        // Если выбраны UZS, то скидка применяется напрямую
+    if (selectedButton.value === 'USD') {
+        // Если выбраны USD, то скидка применяется напрямую
         return discountValue.value;
     } else if (selectedButton.value === '%') {
         // Если выбраны проценты, то скидка вычисляется как процент от общей суммы
@@ -89,7 +89,7 @@ const createOrder = async () => {
             quantity: product.quantity,
             price: product.price
         })),
-        total_uzs: subtotal.value - discountAmount.value,
+        total_USD: subtotal.value - discountAmount.value,
         total_usd: 0,
         currency_code: "USD"
     };
@@ -256,7 +256,7 @@ const createAgent = () => {
                             </div>
                             <div class="right flex items-center gap-6">
                                 <div class="price-product flex items-center gap-2 text-[#1F78FF] cursor-pointer">
-                                    <p class="text-xl font-semibold">{{ product.price }} UZS</p>
+                                    <p class="text-xl font-semibold">{{ product.price }} USD</p>
                                     <Icon name="ic:baseline-edit" size="20" />
                                 </div>
                                 <button class="delete hover:text-red-500 p-2"
@@ -333,9 +333,9 @@ const createAgent = () => {
                     <UiInput type="number" placeholder="Введите скидку" class="w-[120px]" v-model="discountValue" />
 
                     <div class="flex items-center bg-[#404040] rounded-2xl w-[120px] h-[60px] mt-4">
-                        <button class=" py-4 w-1/2 rounded-2xl" :class="{ 'border': selectedButton === 'UZS' }"
-                            @click="selectButton('UZS')">
-                            UZS
+                        <button class=" py-4 w-1/2 rounded-2xl" :class="{ 'border': selectedButton === 'USD' }"
+                            @click="selectButton('USD')">
+                            USD
                         </button>
                         <button class=" py-4 w-1/2 rounded-2xl" :class="{ 'border': selectedButton === '%' }"
                             @click="selectButton('%')">
@@ -347,11 +347,11 @@ const createAgent = () => {
             <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-24">
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ subtotal }} UZS</p>
+                    <p>{{ subtotal }} USD</p>
                 </div>
                 <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>
-                    <p>{{ (subtotal - discountAmount) }} UZS</p>
+                    <p>{{ (subtotal - discountAmount) }} USD</p>
                 </div>
 
 
