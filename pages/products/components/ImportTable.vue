@@ -27,6 +27,7 @@ const { items, total: serverItemsLength, fetchImports } = useImportService(serve
 const headers = [
     { text: "Дата", value: "date" },
     { text: "Код импорта", value: "id" },
+    { text: "Действие", value: "operation" },
 ];
 
 let selectedItem = ref(null);
@@ -35,13 +36,28 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 function routeEdit(id: string) {
-    router.push(`/Imports/update/${id}`);
+    router.push(`/products/imports/${id}`);
 }
 
 function openSlideover(item: { id: string }) {
     selectedItem.value = item;
     isOpen.value = true;
 }
+
+const deleteItem = async (id: string) => {
+    // const token = localStorage.getItem("token") || "";
+    // const { data } = await useFetch(
+    //   `${base_url}/product?`,
+    //   {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: "Bearer " + token,
+    //     },
+    //   }
+    // ).json();
+    console.log(id)
+
+};
 
 const loadFromServer = async () => {
     try {
@@ -53,6 +69,10 @@ const loadFromServer = async () => {
         loading.value = false;
     }
 };
+onMounted(() => {
+    
+    loadFromServer()
+})
 
 watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
@@ -63,7 +83,24 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         buttons-pagination :items="items" table-class-name="customize-table" theme-color="#1d90ff"
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
         :search-value="searchValue">
-
+        <template #item-operation="{ id }">
+      <div class="operation-wrapper flex gap-1 items-center justify-center">
+        <DeleteBtn @click="deleteOpen = true" />
+                    <button @click="routeEdit(id)" class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
+                    <Icon name="mdi:eye" />
+                    </button> 
+                    <UModal v-model="deleteOpen">
+                        <Placeholder>
+                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                            <div class=" flex gap-10 items-center justify-center my-10">
+                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                <button @click="deleteItem(id)"
+                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                            </div>
+                        </Placeholder>
+                    </UModal>
+      </div>
+    </template>
     </EasyDataTable>
     <!-- <USlideover v-model="isOpen">
         <UCard class="flex flex-col flex-1"

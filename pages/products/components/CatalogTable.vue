@@ -41,11 +41,11 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 function routeEdit(id: string) {
-    console.log(id)
     router.push(`/products/update/${id}`);
 }
 
-function openSlideover(item: { id: string }) {
+function openSlideover(item: { id: string, name: string, code: string, quantity: number, price: number }) {
+console.log(item)
     selectedItem.value = item;
     isOpen.value = true;
 }
@@ -92,8 +92,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
         :search-value="searchValue"
         >
-        <template #item-name="{ name, id }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id })">{{ name }}</p>
+        <template #item-name="{ name, id, price, code, quantity }">
+            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id, name, price, code, quantity })">{{ name }}</p>
         </template>
         <template #item-photo="{ id }">
             <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
@@ -120,11 +120,11 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         <UCard class="flex flex-col flex-1"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             <template #header>
+                <div class="icon">
+                    <img v-if="!selectedItem.photo" :src="`${base_url}/image/${selectedItem.id}`" alt="Photo"
+                        class="w-[200px] mx-auto">
+                </div>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <div class="icon">
-                        <!-- <img v-if="!selectedItem.photo" src="../../../assets/icons/placeholder_img.svg" alt="Photo"
-                            class="photo-cell mx-auto"> -->
-                    </div>
                     <div class="name">
                         <p>{{ selectedItem && selectedItem.name }}</p>
                     </div>
@@ -136,12 +136,12 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 <div class="flex flex-col gap-10 mt-10">
                     <p>Наименование: {{ selectedItem.name }}</p>
                     <p>Артикул: {{ selectedItem.code }}</p>
-                    <p>Цена: {{ selectedItem.price }} sum</p>
+                    <p>Цена: {{ selectedItem.price }} USD</p>
                     <p>Количество: {{ selectedItem.quantity }}</p>
                 </div>
             </div>
 
-            <template #footer>
+            <!-- <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <DeleteBtn @click="deleteOpen = true" />
                     <EditBtn @click="routeEdit(selectedItem.id)" />
@@ -156,7 +156,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                         </Placeholder>
                     </UModal>
                 </div>
-            </template>
+            </template> -->
         </UCard>
     </USlideover>
 </template>
