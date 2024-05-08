@@ -107,11 +107,13 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
         </div>
         <div class="art w-1/4">
 
-          <label for="">Цена продажи</label>
+          <label for="">Цена поставки
+            
+          </label>
         </div>
         <div class="art w-1/4">
 
-          <label for="">Цена поставки</label>
+          <label for="">Цена продажи</label>
         </div>
       </div>
       <div v-for="(product, index) in products" :key="index" class="flex justify-between gap-2 mt-5 ">
