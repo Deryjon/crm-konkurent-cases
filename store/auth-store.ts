@@ -30,6 +30,7 @@ export const useAuthStore = defineStore("auth", {
         localStorage.setItem("token", data.value.token);
         localStorage.setItem("role", decodedToken.role);
         localStorage.setItem("user_id", decodedToken.user_id);
+        localStorage.setItem("epoch", decodedToken.exp);
         this.status = true;
       } else {
         this.errorText = "Неверный логин или пароль";

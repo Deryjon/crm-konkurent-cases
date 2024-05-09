@@ -15,12 +15,9 @@ export const useImport = defineStore('pinia', {
   },
 
   actions: {
-    // Метод мутации для установки fromDate
     setFromDate(newFromDate) {
       this.fromDate = newFromDate;
     },
-    
-    // Метод мутации для установки toDate
     setToDate(newToDate) {
       this.toDate = newToDate;
     }

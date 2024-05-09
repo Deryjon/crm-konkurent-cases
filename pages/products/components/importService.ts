@@ -29,6 +29,8 @@ export const useImportService = (serverOptions = ref<ServerOptions>({page: 1, ro
   const fetchImports = async () => {
     const token = localStorage.getItem("token");
     if (!token) return; 
+        if (!fromDate.value || !toDate.value) return;
+  
     const { data } = await useFetch(
       `${base_url}/acceptance?from=${fromDate.value}&to=${toDate.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
@@ -38,9 +40,11 @@ export const useImportService = (serverOptions = ref<ServerOptions>({page: 1, ro
         },
       }
     ).json();
-      items.value = data.value.acceptances;
-      total.value = data.value.total;
-    }  
+    
+    items.value = data.value.acceptances;
+    total.value = data.value.total;
+  };
+  
 
   return {
     items,

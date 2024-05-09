@@ -13,12 +13,10 @@ useHead({
 const date = ref<Date[]>([]);
 const fromDate = ref<string>('');
 const toDate = ref<string>(''); 
-const store = useImport()
+const store = useImport();
 function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
-
-
 
 onMounted(() => {
   const startDate = new Date();
@@ -29,13 +27,13 @@ onMounted(() => {
 watch(date, (newValue) => {
   fromDate.value = formatDate(date.value[0]); 
   toDate.value = formatDate(date.value[1]); 
-  store.setFromDate(fromDate.value);
-  store.setToDate(toDate.value);
+  store.fromDate = fromDate.value;
+  store.toDate = toDate.value;
 });
 
-
-
 </script>
+
+
 
 
 <template>
