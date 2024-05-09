@@ -60,6 +60,10 @@ const fetchProduct = async () => {
 }
 
 const editProduct = async () => {
+    if (item.value.price === 0) {
+        toast.error("Цена не может быть равна 0");
+        return;
+   }
     const formData = new FormData();
 
     formData.append('photo', file);

@@ -41,7 +41,10 @@ watch(date, (newValue) => {
     <h2 class="text-2xl lg:text-4xl font-semibold">Импорт</h2>
     <div class="input flex justify-between mt-[50px]">
       <div class="picker-date">
-        <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class="p-3 rounded-2xl bg-[#1F78FF]" />
+        <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class="p-3 rounded-2xl bg-[#1F78FF]" >
+          <template #clear-icon="{ clear }">
+        </template>
+        </VueDatePicker>
       </div>
       <router-link to="/products/create-import">
         <CreateBtn>Новый импорт</CreateBtn>
