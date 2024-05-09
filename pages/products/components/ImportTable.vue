@@ -3,13 +3,17 @@ import { useSearchStore } from '../../../store/searchCatalog.store.ts';
 import { useImportService } from './importService';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import {base_url} from '~/api'
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
-import EditBtn from '../../../components/layout/EditBtn.vue';
+import { useToast } from 'vue-toastification'
+
 
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 const store = useSearchStore();
+
+const toast = useToast();
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
@@ -42,20 +46,6 @@ function openSlideover(acceptance) {
     isOpen.value = true;
 }
 
-const deleteItem = async (id: string) => {
-    // const token = localStorage.getItem("token") || "";
-    // const { data } = await useFetch(
-    //   `${base_url}/product?`,
-    //   {
-    //     method: "DELETE",
-    //     headers: {
-    //       Authorization: "Bearer " + token,
-    //     },
-    //   }
-    // ).json();
-    console.log(id)
-
-};
 
 const loadFromServer = async () => {
     try {
@@ -66,6 +56,22 @@ const loadFromServer = async () => {
     } finally {
         loading.value = false;
     }
+};
+const deleteItem = async (id: string) => {
+    const token = localStorage.getItem("token") || "";
+    const { status } = await useFetch(
+      `${base_url}/acceptance?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (status.value === "success") {
+        toast.success("Импорт удален")
+    }
+
 };
 onMounted(() => {
 
@@ -130,23 +136,6 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
             </div>
             
-
-            <template #footer>
-                <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(selectedItem.id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
-                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                            <div class=" flex gap-10 items-center justify-center my-10">
-                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(selectedItem.id)"
-                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                            </div>
-                        </Placeholder>
-                    </UModal>
-                </div>
-            </template>
         </UCard>
     </USlideover>
 </template>
