@@ -26,18 +26,11 @@ onMounted(() => {
 const date1 = new Date()
 const date2 = process.client ? new Date(parseInt(localStorage.getItem('exp') || '0')) : new Date()
 
-if (date1 > date2) {
-    console.log("Date 1 is later than Date 2.");
-} else if (date1 < date2) {
-    if (process.client) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('exp')
-        localStorage.removeItem('role')
+ if (date1 < date2) {
+        localStorage.clear()
         location.reload()
-    }
-} else {
-    console.log("Both dates are equal.");
-}
+    
+} 
 </script>
 
 
