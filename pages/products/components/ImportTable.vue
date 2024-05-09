@@ -120,10 +120,11 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                     <p>Код импорта: {{ selectedItem.id }}</p>
                     <p>Колличество товаров: {{ selectedItem.products.length }}</p>
                 </div>
-                <div class="cards wrapper flex items-center justify-center gap-6">
-                    <div class="card flex" v-for="item in selectedItem.products">
-                        <p>{{item.name}}</p>
-                        <p>{{item.quantity}}</p>
+                <div class="cards wrapper flex flex-col  justify-center gap-3 mt-4">
+                    <p class="text-2xl font-semibold">Добавленные товары</p>
+                    <div class="card flex gap-2" v-for="item in selectedItem.products">
+                        <p>{{item.name}}</p> |
+                        <p>{{item.quantity}}</p> |
                         <p>{{item.cost_price}}</p>
                     </div>
                 </div>
