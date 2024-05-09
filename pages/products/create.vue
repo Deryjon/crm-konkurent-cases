@@ -62,7 +62,7 @@ const createProduct = async () => {
         },
     });
     if (status.value === "success") {
-        toast.success("Продукт создан")
+        toast.success("Продукт успешно создан")
         router.push('/products/catalog')
     }
 

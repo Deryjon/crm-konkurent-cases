@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import ExitButton from '../../../components/layout/ExitButton.vue';
 import { base_url } from "~/api";
+import { useToast } from 'vue-toastification'
+
 
 const imageUrls = ref<string[]>([]);
 let item = ref<{ id: string, name: string, code: string, quantity: number, price: number }>({ id: '', name: '', code: '', quantity: 0, price: 0 });
 
+const router = useRouter();
 const id = useRoute().params.id;
+
+const toast = useToast();
 
 const removeImage = (index: number) => {
     imageUrls.value.splice(index, 1);
 };
 
+let file: File | undefined;
 const openFilePicker = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -32,6 +38,7 @@ const openFilePicker = () => {
     };
     input.click();
 };
+
 
 
 const fetchProduct = async () => {
@@ -53,23 +60,25 @@ const fetchProduct = async () => {
 }
 
 const editProduct = async () => {
-        const formData = new FormData();
+    const formData = new FormData();
 
-        formData.append('photo', file);
+    formData.append('photo', file);
     formData.append('name', item.value.name);
     formData.append('code', item.value.code);
     formData.append('price', item.value.price);
-        const token = localStorage.getItem("token") || "";
-        const response = await fetch(`${base_url}/product/${id}`, {
-            method: "PATCH",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-            body: formData,
-        });
-        const data = await response.json();
-        console.log(id);
-  
+    const token = localStorage.getItem("token") || "";
+    const {status} = await useFetch(`${base_url}/product?id=${id}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+        body: formData,
+    });
+    if (status.value === "success") {
+        toast.success("Продукт успешно изменен")
+        router.push('/products/catalog')
+    }
+
 };
 onMounted(async () => {
     await fetchProduct();
@@ -94,41 +103,50 @@ onMounted(async () => {
                     <label for="">Наименование</label>
                     <UiInput placeholder="Введите наименование" v-model="item.name" />
                 </div>
-                <div class="barcode w-1/3 ">
-                    <label for="">Кол-во</label>
-                    <UiInput placeholder="0" type="number" v-model="item.quantity" />
-                </div>
                 <div class="articul w-1/3 ">
                     <label for="">Артикул</label>
-                    <UiInput placeholder="Введите артикул"
-                    v-model="item.code"
-                    />
+                    <UiInput placeholder="Введите артикул" v-model="item.code" />
                 </div>
                 <div class="articul w-1/3 ">
                     <label for="">Цена</label>
-                    <UiInput placeholder="Введите цену"
-                    v-model="item.price"
-                    />
+                    <UiInput placeholder="Введите цену" v-model="item.price" />
                 </div>
             </div>
         </div>
-        <div class="photo mt-10">
-            <label for="">Фото</label>
-            <div>
-                <div class="flex flex-wrap gap-10">
-                    <img v-if="item.id" :src="`${base_url}/image/${item.id}`" alt="Photo" class="rounded-2xl w-[100px] h-[100px] mt-4">                        <img v-if="imageUrl" :src="imageUrl" class="w-full h-full" alt="Выбранное изображение">
-                    <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[200px] h-[200px] mt-10">
-                        <button class="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
-                            @click="removeImage(index)">
-                            X
-                        </button>
+        <div class="flex gap-20">
+
+            <div class="photo mt-10">
+                <label for="">Новое Фото</label>
+                <div>
+                    <div class="flex flex-wrap gap-10">
+                        
+                        <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[200px] h-[200px] mt-10">
+                            <img v-if="imageUrl" :src="imageUrl"
+                               class="w-full h-full rounded-2xl" alt="Выбранное изображение">
+                               <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="w-full h-full rounded-2xl">
+                            <button class="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
+                                @click="removeImage(index)">
+                                X
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div @click="openFilePicker" class="mt-6 rounded-2xl"
-                    style="cursor: pointer; border: 2px dashed #ccc; padding: 20px; text-align: center;">
-                    <p>Нажмите сюда, чтобы выбрать фото</p>
+                  
                 </div>
             </div>
+            <div class="photo mt-10">
+                <label for="">В настоящее время</label>
+                <div>
+                    <div class="flex flex-wrap gap-10">
+                        <img v-if="item.id" :src="`${base_url}/image/${item.id}`" alt="Photo"
+                            class="w-[200px] h-[200px] mt-10 rounded-2xl"> 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div @click="openFilePicker" class="mt-6 rounded-2xl"
+            style="cursor: pointer; border: 2px dashed #ccc; padding: 20px; text-align: center;">
+            <p>Нажмите сюда, чтобы изменить фото</p>
         </div>
     </section>
 </template>
