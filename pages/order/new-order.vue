@@ -89,8 +89,8 @@ const createOrder = async () => {
             quantity: product.quantity,
             price: product.price
         })),
-        total_USD: subtotal.value - discountAmount.value,
-        total_usd: 0,
+        total_uzs: subtotal * valyutUsd,
+        total_usd: subtotal.value - discountAmount.value ,
         currency_code: "USD"
     };
 
