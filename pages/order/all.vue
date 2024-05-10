@@ -24,7 +24,7 @@ onMounted(() => {
   const startDate = new Date();
   const endDate = new Date();
   date.value = [startDate, endDate];
-  fetchSales(); 
+//   fetchSales(); 
 });
 
 watch(date, (newValue) => {

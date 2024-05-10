@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { base_url } from '~/api';
 import { useToast } from 'vue-toastification'
 
@@ -196,6 +196,16 @@ const selectAgent = (item) => {
 const createAgent = () => {
     toast.warning("Обратитесь к директору")
 }
+ const valyutUsd = ref(0)
+const fetchValyuta = async () => {
+    const { data } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
+        method: 'GET'
+    });
+    if (data) {
+        valyutUsd.value = data.value[0].Rate;
+    }
+}
+onMounted(fetchValyuta)
 </script>
 
 <template>
@@ -348,6 +358,10 @@ const createAgent = () => {
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
                     <p>{{ subtotal }} USD</p>
+                </div>
+                <div class="obs flex items center justify-between text-md p-2">
+                    <p>Подитог</p>
+                    <p>{{ subtotal * valyutUsd }} UZS</p>
                 </div>
                 <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>
