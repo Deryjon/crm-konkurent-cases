@@ -27,6 +27,8 @@ export const useSaleService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate:
         },
       }
     ).json();
+    items.value = data.value.sales;
+
   };
   watch([() => store.searchValue, serverOptions, fromDate, toDate], () => {
     fetchSales();

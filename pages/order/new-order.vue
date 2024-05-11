@@ -81,18 +81,23 @@ const discountAmount = computed(() => {
 });
 
 const createOrder = async () => {
+    if (!selectedClient.value[0]?.id || !selectedAgent.value[0]?.id) {
+        toast.warning("Выберите клиента и агента");
+        return;
+    }
     const order = {
-        customer_id: selectedClient.value[0].id,
-        agent_id: selectedAgent.value[0].id,
+        customer_id: selectedClient.value[0]?.id,
+        agent_id: selectedAgent.value[0]?.id,
         products: selectedProducts.value.map(product => ({
             id: product.id,
             quantity: product.quantity,
             price: product.price
         })),
-        total_uzs: subtotal * valyutUsd,
+        total_uzs: subtotal.value * valyutUsd.value,
         total_usd: subtotal.value - discountAmount.value ,
         currency_code: "USD"
     };
+
 
     const token = localStorage.getItem('token') || '';
     const body = JSON.stringify(order);
@@ -197,15 +202,17 @@ const createAgent = () => {
     toast.warning("Обратитесь к директору")
 }
  const valyutUsd = ref(0)
-const fetchValyuta = async () => {
-    const { data } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
+ const fetchValyuta = async () => {
+    const { data, status } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
         method: 'GET'
     });
-    if (data) {
-        valyutUsd.value = data.value[0].Rate;
-    }
+    if (status.value === "success") {
+        console.log(data.value);
+        valyutUsd.value = data.value[0].Rate
+    } 
 }
-onMounted(fetchValyuta)
+fetchValyuta()
+// onMounted(fetchValyuta)
 </script>
 
 <template>
@@ -285,7 +292,7 @@ onMounted(fetchValyuta)
                 <div class="top flex justify-between font-semibold text-lg ">
 
                     <p class="">Клиент</p>
-                    <router-link to="/products/import">
+                    <router-link to="/clients/create">
                         <button class="create text-[#1F78FF]">
                             Создать
                         </button>
@@ -357,11 +364,11 @@ onMounted(fetchValyuta)
             <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-24">
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ subtotal }} USD</p>
+                    <p>{{ (subtotal - discountAmount) }} USD</p>
                 </div>
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ subtotal * valyutUsd }} UZS</p>
+                    <p>{{ subtotal * valyutUsd - (discountAmount * valyutUsd) }} UZS</p>
                 </div>
                 <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>
@@ -370,8 +377,10 @@ onMounted(fetchValyuta)
 
 
 
-                <button class="btn bg-[#1F78FF] rounded-2xl p-5 text-center w-full"
-                    @click="createOrder">Оплатить</button>
+                <button class="btn bg-[#1F78FF] flex items-center justify-between rounded-2xl p-5 text-center w-full"
+                    @click="createOrder">                    <p>Оплатить</p>
+                             <p>{{ (subtotal - discountAmount) }} USD</p>
+</button>
             </div>
         </div>
     </section>

@@ -69,6 +69,7 @@ const deleteItem = async (id: string) => {
       }
     );
     if (status.value === "success") {
+        deleteOpen.value = false
         toast.success("Импорт удален")
     }
 
