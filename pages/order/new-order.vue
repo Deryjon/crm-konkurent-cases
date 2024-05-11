@@ -81,8 +81,8 @@ const discountAmount = computed(() => {
 });
 
 const createOrder = async () => {
-    if (!selectedClient.value[0]?.id || !selectedAgent.value[0]?.id) {
-        toast.warning("Выберите клиента и агента");
+    if (!selectedClient.value[0]?.id ) {
+        toast.warning("Выберите клиента");
         return;
     }
     const order = {
@@ -93,7 +93,7 @@ const createOrder = async () => {
             quantity: product.quantity,
             price: product.price
         })),
-        total_uzs: subtotal.value * valyutUsd.value,
+        total_uzs: (subtotal.value - discountAmount.value) * valyutUsd.value,
         total_usd: subtotal.value - discountAmount.value ,
         currency_code: "USD"
     };
