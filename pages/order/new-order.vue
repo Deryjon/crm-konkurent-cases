@@ -207,7 +207,6 @@ const createAgent = () => {
         method: 'GET'
     });
     if (status.value === "success") {
-        console.log(data.value);
         valyutUsd.value = data.value[0].Rate
     } 
 }

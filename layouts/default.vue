@@ -17,20 +17,21 @@ onMounted(async () => {
             router.push('/login')
         }
     }
-})
-
-onMounted(() => {
     isLoading.value = true;
+
 })
 
-const date1 = new Date()
-const date2 = process.client ? new Date(parseInt(localStorage.getItem('exp') || '0')) : new Date()
 
- if (date1 < date2) {
-        localStorage.clear()
-        location.reload()
-    
-} 
+const date1 = new Date();
+const date2 = process.client ? new Date(parseInt(localStorage.getItem('exp') || '0')) : new Date();
+
+const isExpired = date1 > date2;
+
+if (isExpired) {
+    localStorage.clear();
+    location.reload();
+}
+
 </script>
 
 

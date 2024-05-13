@@ -3,6 +3,8 @@ import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from './components/InputSearch.vue'
 import CreateBtn from '../../components/layout/CreateBtn.vue'
+import  { fetchStats} from './components/stats.data'
+
 
 useHead({
   title: "Каталог продуктов"
@@ -15,6 +17,7 @@ const open = ref(false);
 
 const toggleOpen = () => {
   open.value = !open.value;
+  fetchStats()
 };
 
 </script>
