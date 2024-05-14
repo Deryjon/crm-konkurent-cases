@@ -14,13 +14,22 @@ useHead({
 const open = ref(false);
 
 const date1 = new Date();
-const date2 = process.client ? new Date(parseInt(localStorage.getItem('exp') || '0')) : new Date();
+const epoch = localStorage.getItem('epoch');
+const date2 = new Date(epoch * 1000);
+
+
+console.log('Текущая дата (date1):', date1);
+console.log('Дата из локального хранилища (date2):', date2);
 
 const isExpired = date1 > date2;
+console.log('Истек ли срок:', isExpired);
 
 if (isExpired) {
+    console.log('Срок действия истек. Очищаем локальное хранилище и перезагружаем страницу.');
     localStorage.clear();
-    location.reload();
+    // location.reload();
+} else {
+    console.log('Срок действия не истек. Продолжаем выполнение.');
 }
 
 
