@@ -6,8 +6,8 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification'
 import { ref, watch } from 'vue'
 
-const products = ref<{ id: string, quantity: number, cost_price: number, sale_price: number, code: string, dropdownOpen: boolean }[]>([
-  { id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: true }
+const products = ref<{ id: string, quantity: number, cost_price: number, sell_price: number, code: string, dropdownOpen: boolean }[]>([
+  { id: '', quantity: 0, cost_price: 0, sell_price: 0, code: '', dropdownOpen: true }
 ]);
 const items = ref<{ id: string, name: string, code: string }[]>([]);
 
@@ -37,7 +37,7 @@ const fetchProducts = async (value: string) => {
 };
 const addProduct = (count = 1) => {
   for (let i = 0; i < count; i++) {
-    products.value.push({ id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false });
+    products.value.push({ id: '', quantity: 0, cost_price: 0, sell_price: 0, code: '', dropdownOpen: false });
   }
 };
 
@@ -47,7 +47,7 @@ const createImport = async () => {
       id: p.id,
       quantity: p.quantity,
       cost_price: p.cost_price,
-      sale_price: p.sale_price
+      sell_price: p.sell_price
     }))
   };
   const token = localStorage.getItem('token') || '';
@@ -137,7 +137,7 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
           <UiInput placeholder="Цена поставки" type="number" v-model.number="product.cost_price" />
         </div>
         <div class="articul w-1/4">
-          <UiInput placeholder="Цена продажи" type="number" v-model.number="product.sale_price" />
+          <UiInput placeholder="Цена продажи" type="number" v-model.number="product.sell_price" />
         </div>
       </div>
       <div class="mt-10 flex justify-end">

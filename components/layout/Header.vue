@@ -25,8 +25,6 @@
   const store = useMenuStore();
   function openMenu(){
     store.isOpen = !store.isOpen
-    console.log(store.isOpen) 
-
   }
   </script>
 

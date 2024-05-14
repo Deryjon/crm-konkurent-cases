@@ -1,6 +1,6 @@
 <template>
     <div>
-        <HTransitionRoot appear :show="isOpen" as="template">
+        <HTransitionRoot appear :show="isOpen" >
             <!-- Parent dialog  -->
             <HDialog   @close="closeMenu" class="fixed inset-0 z-50 flex justify-start">
                 <!-- Transition for overlay/backdrop -->
@@ -29,15 +29,20 @@
 </template>
 <script setup lang="ts">
 import { useMenuStore } from '~/store/menu.store';
-const store = useMenuStore();
-import { ref } from 'vue';
+import { watch, ref } from 'vue';
 
-const isOpen = ref(false);
+const store = useMenuStore();
+const isOpen = ref(store.isOpen);
 
 const closeMenu = () => {
     store.isOpen = false;
     isOpen.value = false;
 };
 
+// Следим за изменениями store.isOpen и обновляем isOpen
+watch(() => store.isOpen, (newValue) => {
+    isOpen.value = newValue;
+});
 </script>
+
 
