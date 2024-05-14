@@ -3,21 +3,21 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
+import {useSellerService} from './sellerService'
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
 
+const {fetchSellers, items} = useSellerService()
+
 const headers = [
-    { text: "Имя", value: "name" },
-    { text: "Логин", value: "login" },
+    { text: "Имя", value: "fio" },
+    { text: "Айди", value: "id" },
     { text: "Роль", value: "role" },
    
 ];
-const items = [
-    { name: "Илья", login: "ilya22", role: "Админ" },
-    { name: "Баходир", login: "boxo777", role: "Менеджер" },
-    { name: "Аброр", login: "abrik", role: "Продавец" },
-];
+
+
 
 
 const router = useRouter();
@@ -25,6 +25,10 @@ const router = useRouter();
 function routeEdit() {
     router.push('/products/update/id');
 }
+
+onMounted(() => {
+    fetchSellers()
+})
 </script>
 
 <template>

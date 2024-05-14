@@ -59,7 +59,6 @@ export const MENU_DATA: IMenuItem[] = [
     url: "",
     items:  [
         { title: "Сотрудники", url: "/management/employees" },
-          { title: "Админ", url: "/management/admin" },
       ],
   } 
   : null, 

@@ -110,6 +110,8 @@ const deleteItem = async (id: string) => {
     );
     if (status.value === "success") {
         deleteOpen.value = false
+        isOpen.value = false
+        fetchSales();
         toast.success("Продажа удалена")
     }
 
