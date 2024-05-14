@@ -22,15 +22,6 @@ onMounted(async () => {
 })
 
 
-const date1 = new Date();
-const date2 = process.client ? new Date(parseInt(localStorage.getItem('exp') || '0')) : new Date();
-
-const isExpired = date1 > date2;
-
-if (isExpired) {
-    localStorage.clear();
-    location.reload();
-}
 
 </script>
 
