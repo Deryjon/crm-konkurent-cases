@@ -43,6 +43,7 @@ const deleteSeller = async (id: string) => {
     );
     if (status.value === "success") {
         deleteOpen.value = false
+        fetchSellers()
         toast.success("Сотрудник удален")
     }
 
