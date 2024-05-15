@@ -24,14 +24,14 @@ const toggleOpen = () => {
 <template>
   <section class="catalog">
     <div class="top flex items-center justify-between">
-      <h2 class="text-2xl lg:text-4xl font-semibold ">Бракованные товары</h2>
+      <h2 class="text-2xl lg:text-4xl font-semibold ">Архив товары</h2>
     </div>
     <Stat v-if="open" class="mt-[30px]" />
     <div class="input flex justify-between mt-[50px] ">
 
       <InputSearch class="" />
 
-      <router-link to="/products/create-defective">
+      <router-link to="/products/catalog">
 
         <CreateBtn>Добавить продукт</CreateBtn>
       </router-link>

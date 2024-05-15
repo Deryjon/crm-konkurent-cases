@@ -17,6 +17,7 @@ export const MENU_DATA: IMenuItem[] = [
     url: "/products",
     items: [
       { title: "Каталог", url: "/products/catalog" },
+      { title: "Архив товары", url: "/products/arxiv" },
       { title: "Брак товары", url: "/products/defective" },
        userRole !== "admin" ?
       { title: "Импорт", url: "/products/import" } : null,
