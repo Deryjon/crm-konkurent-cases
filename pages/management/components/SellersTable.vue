@@ -4,9 +4,13 @@ import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import {useSellerService} from './sellerService'
+import { base_url } from "~/api";
+import { useToast } from 'vue-toastification'
+
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
+const toast = useToast();
 
 const {fetchSellers, items} = useSellerService()
 
@@ -14,7 +18,8 @@ const headers = [
     { text: "Имя", value: "fio" },
     { text: "Айди", value: "id" },
     { text: "Роль", value: "role" },
-   
+    { text: "Действие", value: "operation" },
+
 ];
 
 
@@ -25,6 +30,23 @@ const router = useRouter();
 function routeEdit() {
     router.push('/products/update/id');
 }
+const deleteSeller = async (id: string) => {
+    const token = localStorage.getItem("token") || "";
+    const { status } = await useFetch(
+      `${base_url}/user?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (status.value === "success") {
+        deleteOpen.value = false
+        toast.success("Сотрудник удален")
+    }
+
+};
 
 onMounted(() => {
     fetchSellers()
@@ -35,12 +57,24 @@ onMounted(() => {
     <EasyDataTable :headers="headers" buttons-pagination :items="items" table-class-name="customize-table"
         theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
         >
-        <template #item-name="{ name }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
-        </template>
-        <template #item-photo="{ photo }">
-            <img v-if="photo" :src="photo" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
+        
+        <template #item-operation="{ id, date, products }">
+            <div class="operation-wrapper flex gap-1 items-center justify-center">
+                <DeleteBtn @click="deleteOpen = true" />
+                <button @click=""
+                    class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
+                    <Icon name="mdi:eye" />
+                </button>
+                <UModal v-model="deleteOpen">
+                    <Placeholder>
+                        <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                        <div class=" flex gap-10 items-center justify-center my-10">
+                            <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                            <button @click="deleteSeller(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                        </div>
+                    </Placeholder>
+                </UModal>
+            </div>
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">

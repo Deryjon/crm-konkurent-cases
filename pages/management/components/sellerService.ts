@@ -18,7 +18,7 @@ export const useSellerService = (serverOptions = ref<ServerOptions>({page: 1, ro
     const token = localStorage.getItem("token");
     if (!token) return;   
     const { data } = await useFetch(
-      `${base_url}/user?&limit=3`,
+      `${base_url}/user?&limit=5`,
       {
         method: "GET",
         headers: {

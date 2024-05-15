@@ -28,7 +28,7 @@ onMounted(async () => {
 
 
 <template>
-    <LayoutHeader class="md:hidden" v-if="store.status" />
+    <LayoutHeader class="lg:hidden" v-if="store.status" />
     <LayoutTheLoader v-if="!isLoading" />
     <section class="flex" v-else>
         <div :class="{ grid: store.status }">

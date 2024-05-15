@@ -5,6 +5,8 @@ import EditBtn from '../../../components/layout/EditBtn.vue';
 import { useAgentsService } from './agentService';
 import { ref, computed, onMounted } from 'vue';
 import { useSearchAgentStore } from '../../../store/searchAgentStore.store';
+import { useToast } from 'vue-toastification'
+import {base_url} from '~/api'
 
 
 const store = useSearchAgentStore();
@@ -13,6 +15,7 @@ const isOpen = ref(false);
 const deleteOpen = ref(false);
 
 const loading = ref(false);
+const toast = useToast();
 
 
 const searchField = computed(() => store.searchField);
@@ -30,11 +33,31 @@ const headers = [
     { text: "Телефон", value: "phone" },
     { text: "Инстаграм", value: "instagram_username" },
     { text: "Бонусный процент", value: "bonus_percent" },
-   
+    { text: "Действие", value: "operation" },
+
 ];
 
 let selectedItem = ref(null); 
 
+const deleteItem = async (id: string) => {
+    const token = localStorage.getItem("token") || "";
+    const { status } = await useFetch(
+      `${base_url}/agent?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (status.value === "success") {
+        deleteOpen.value = false
+        isOpen.value = false
+        loadFromServer()
+        toast.success("Импорт удален")
+    }
+
+};
 
 const router = useRouter();
 
@@ -56,6 +79,12 @@ onMounted(() => {
     
     loadFromServer()
 })
+function openSlideover(agent) {
+    console.log(agent)
+    // console.log(acceptance.products)
+    selectedItem.value = agent;
+    isOpen.value = true;
+}
 
 watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
@@ -70,6 +99,14 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
     >
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
+        </template>
+        <template #item-operation="{ id, date, products }">
+            <div class="operation-wrapper flex gap-1 items-center justify-center">
+                <button @click="openSlideover({ id, date, products })"
+                    class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
+                    <Icon name="mdi:eye" />
+                </button>
+            </div>
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen">
@@ -88,8 +125,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             </div>
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit" />
+                    <button @click="deleteOpen = true" class="bg-red-400 w-[100px] rounded-lg">Удалить 
+                    <Icon name="mdi:delete" />
+                    </button>
                     <UModal v-model="deleteOpen" >
                 
                         <Placeholder>
@@ -100,7 +138,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
    
    
                                <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                               <button @click="" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                               <button @click="deleteItem(selectedItem.id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                            </div>
                         </Placeholder>
                     </UModal>
