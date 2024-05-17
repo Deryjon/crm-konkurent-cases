@@ -46,29 +46,29 @@ const createWorker = async () => {
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Новый сотрудник</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Новый сотрудник</h2>
             <CreateBtn class="ml-auto" @click="createWorker" >Новый сотрудин</CreateBtn>
         </div>
         <div class="basic">
-            <div class="flex flex-wrap gap-[30px] justify-between mt-10">
-                <div class="name w-1/3">
+            <div class="flex flex-col lg:flex-row flex-wrap gap-[10px] lg:gap-[30px] justify-between mt-10">
+                <div class="name lg:w-1/3">
                     <label for="">Имя</label>
                     <UiInput placeholder="Имя сотрудника" v-model="name" />
                 </div>
-                <div class="name w-1/3">
+                <div class="name lg:w-1/3">
                     <label for="">Логин</label>
                     <UiInput placeholder="Логин сотрудника" v-model="login" />
                 </div>
-                <div class="role w-1/3 ">
+                <div class="role lg:w-1/3 ">
                     <label for="">Роль</label>
                     <select placeholder="Роль сотрудника" v-model="role"
-                        class="w-full text-[#f5f5f5] py-4 px-3 rounded-2xl mt-5 border">
+                        class="w-full text-[#f5f5f5] py-4 px-3 rounded-2xl mt-5 border bg-[#404040]">
                         <option value="salesman">Продавец</option>
                         <option value="manager">Менеджер</option>
-                        <option value="director">Директор</option>
+                        <option value="admin">Админ</option>
                     </select>
                 </div>
-                <div class="role w-1/3">
+                <div class="role lg:w-1/3">
                     <label for="">Пароль</label>
                     <UiInput placeholder="Пароль сотрудника" v-model="password" />
                 </div>

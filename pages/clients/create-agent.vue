@@ -46,24 +46,24 @@ const createClient = async () => {
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Новый Агент</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Новый Агент</h2>
             <CreateBtn class="ml-auto" @click="createClient">Новый Агент</CreateBtn>
         </div>
         <div class="basic">
-            <div class="flex flex-wrap gap-[30px] justify-between mt-10">
-                <div class="name w-1/3">
+            <div class="flex flex-col lg:flex-row flex-wrap gap-[10px] lg:gap-[30px] justify-between mt-10">
+                <div class="name lg:w-1/3">
                     <label for="">Имя</label>
                     <UiInput placeholder="Имя агента" v-model="name" />
                 </div>
-                <div class="phone w-1/3">
+                <div class="phone lg:w-1/3">
                     <label for="">Телефон</label>
                     <UiInput placeholder="Телефон агента" v-model="phone" />
                 </div>
-                <div class="instagram_username w-1/3">
+                <div class="instagram_username lg:w-1/3">
                     <label for="">Инстаграм-юзер</label>
                     <UiInput placeholder="Instagram-юзер" v-model="instagram_username" />
                 </div>
-                <div class="bonus_percent w-1/3">
+                <div class="bonus_percent lg:w-1/3">
                     <label for="">Бонусный процент</label>
                     <UiInput placeholder="Бонус" v-model="bonus_percent" type="number" />
                 </div>

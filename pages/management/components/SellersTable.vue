@@ -16,12 +16,19 @@ const {fetchSellers, items} = useSellerService()
 
 const headers = [
     { text: "Имя", value: "fio" },
-    { text: "Айди", value: "id" },
+    { text: "ID", value: "id" },
     { text: "Роль", value: "role" },
     { text: "Действие", value: "operation" },
 
 ];
 
+
+let selectedItem = ref(null); 
+
+function openSlideover(seller) {
+    selectedItem.value = seller;
+    isOpen.value = true;
+}
 
 
 
@@ -43,7 +50,8 @@ const deleteSeller = async (id: string) => {
     );
     if (status.value === "success") {
         deleteOpen.value = false
-        fetchSellers()
+        isOpen.value = false
+                fetchSellers()
         toast.success("Сотрудник удален")
     }
 
@@ -59,14 +67,14 @@ onMounted(() => {
         theme-color="#1d90ff" header-text-direction="center" body-text-direction="center" class="mt-10"
         >
         
-        <template #item-operation="{ id, date, products }">
+        <template #item-operation="{ id, fio, role }">
             <div class="operation-wrapper flex gap-1 items-center justify-center">
-                <DeleteBtn @click="deleteOpen = true" />
-                <button @click=""
+                <!-- <DeleteBtn @click="deleteOpen = true" /> -->
+                <button @click="openSlideover({ id, fio, role })"
                     class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
                     <Icon name="mdi:eye" />
                 </button>
-                <UModal v-model="deleteOpen">
+                <!-- <UModal v-model="deleteOpen">
                     <Placeholder>
                         <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
                         <div class=" flex gap-10 items-center justify-center my-10">
@@ -74,7 +82,7 @@ onMounted(() => {
                             <button @click="deleteSeller(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                         </div>
                     </Placeholder>
-                </UModal>
+                </UModal> -->
             </div>
         </template>
     </EasyDataTable>
@@ -87,15 +95,16 @@ onMounted(() => {
                 <h3 class="text-2xl font-semibold">Данные о сотруднике</h3>
                 <div class="flex flex-col gap-10 mt-10">
 
-                    <p>Имя: Илья</p>
-                    <p>Login: ilya22</p>
-                    <p>Роль: Админ</p>
+                    <p>Имя и фамилия: {{selectedItem?.fio}}</p>
+                    <p>Роль: {{selectedItem?.role}}</p>
+                    <p>ID: {{selectedItem?.id}}</p>
                 </div>
             </div>
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit" />
+                    <button @click="deleteOpen = true" class="bg-red-400 w-[100px] rounded-lg">Удалить 
+                    <Icon name="mdi:delete" />
+                    </button>
                     <UModal v-model="deleteOpen" >
                 
                         <Placeholder>
@@ -106,7 +115,7 @@ onMounted(() => {
    
    
                                <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                               <button @click="" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                               <button @click="deleteSeller(selectedItem?.id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                            </div>
                         </Placeholder>
                     </UModal>

@@ -81,7 +81,6 @@ onMounted(() => {
 })
 function openSlideover(agent) {
     console.log(agent)
-    // console.log(acceptance.products)
     selectedItem.value = agent;
     isOpen.value = true;
 }
@@ -100,9 +99,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         <template #item-name="{ name }">
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="isOpen = true">{{ name }}</p>
         </template>
-        <template #item-operation="{ id, date, products }">
+        <template #item-operation="{ id, fio, phone, instagram_username, bonus_percent }">
             <div class="operation-wrapper flex gap-1 items-center justify-center">
-                <button @click="openSlideover({ id, date, products })"
+                <button @click="openSlideover({ id,  phone, instagram_username, bonus_percent, fio })"
                     class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
                     <Icon name="mdi:eye" />
                 </button>
@@ -115,12 +114,13 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             
 
             <div class="product">
-                <h3 class="text-2xl font-semibold">Данные о сотруднике</h3>
+                <h3 class="text-2xl font-semibold">Данные о Агенте</h3>
                 <div class="flex flex-col gap-10 mt-10">
 
-                    <p>Имя: Илья</p>
-                    <p>Login: ilya22</p>
-                    <p>Роль: Админ</p>
+                    <p>Имя и фамилия: {{ selectedItem?.fio }}</p>
+                    <p>Инстаграм-юзер: {{selectedItem?.instagram_username}}</p>
+                    <p>Телефон: {{selectedItem?.phone}}</p>
+                    <p>Бонусный процент: {{selectedItem?.bonus_percent}}</p>
                 </div>
             </div>
             <template #footer>
@@ -138,7 +138,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
    
    
                                <button  @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                               <button @click="deleteItem(selectedItem.id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                               <button @click="deleteItem(selectedItem?.id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                            </div>
                         </Placeholder>
                     </UModal>
