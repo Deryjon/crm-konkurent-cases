@@ -76,16 +76,16 @@ const createProduct = async () => {
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Новый продукт</h2>
+            <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Новый продукт</h2>
             <CreateBtn class="ml-auto" @click="createProduct">Создать</CreateBtn>
         </div>
         <div class="basic">
-            <div class="flex justify-between mt-10">
-                <div class="name w-1/3">
+            <div class="flex flex-col lg:flex-row flex-wrap gap-[10px] lg:gap-[30px] justify-between mt-10">
+                <div class="name lg:w-1/3">
                     <label for="">Наименование</label>
                     <UiInput placeholder="Введите наименование" v-model="name" />
                 </div>
-                <div class="articul w-1/3">
+                <div class="articul lg:w-1/3">
                     <label for="">Артикул</label>
                     <UiInput placeholder="Введите артикул" v-model="article" />
                 </div>

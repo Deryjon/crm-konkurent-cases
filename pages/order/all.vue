@@ -58,7 +58,7 @@ const calculateTotalQuantity = (products) => {
     }
     return products.reduce((acc, product) => acc + product.quantity, 0);
 }
-const selectSale = (event, sale) => {
+const selectSale = (sale) => {
     console.log(sale)
     isOpen.value = true;
     selectedItem.value = sale;
