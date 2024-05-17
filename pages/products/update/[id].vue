@@ -92,26 +92,26 @@ onMounted(async () => {
 
 
 <template>
-    <section class="create h-[100vh]  py-[20px] px-[15px] md:p-[0px]">
+    <section class="create h-[100vh]  py-[20px] lg:px-[10px] md:p-[0px]">
         <div class="flex items-center justify-between mt-6">
             <router-link to="/products/catalog">
 
                 <ExitButton />
             </router-link>
-            <h2 class="text-4xl font-semibold ml-5">Редактирование продукта</h2>
+            <h2 class="text-xl lg:text-4xl font-semibold ml-5">Редактирование продукта</h2>
             <EditBtn class="ml-auto flex gap-2" @click="editProduct">Изменить</EditBtn>
         </div>
         <div class="basic">
-            <div class="flex flex-wrap gap-[30px] justify-between mt-10">
-                <div class="name w-1/3">
+            <div class="flex flex-col lg:flex-row flex-wrap gap-[10px] lg:gap-[30px] justify-between mt-10">
+                <div class="name lg:w-1/3">
                     <label for="">Наименование</label>
                     <UiInput placeholder="Введите наименование" v-model="item.name" />
                 </div>
-                <div class="articul w-1/3 ">
+                <div class="articul lg:w-1/3 ">
                     <label for="">Артикул</label>
                     <UiInput placeholder="Введите артикул" v-model="item.code" />
                 </div>
-                <div class="articul w-1/3 ">
+                <div class="articul lg:w-1/3 ">
                     <label for="">Цена</label>
                     <UiInput placeholder="Введите цену" v-model="item.price" />
                 </div>
@@ -124,7 +124,7 @@ onMounted(async () => {
                 <div>
                     <div class="flex flex-wrap gap-10">
                         
-                        <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[200px] h-[200px] mt-10">
+                        <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] mt-10">
                             <img v-if="imageUrl" :src="imageUrl"
                                class="w-full h-full rounded-2xl" alt="Выбранное изображение">
                                <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="w-full h-full rounded-2xl">
@@ -142,7 +142,7 @@ onMounted(async () => {
                 <div>
                     <div class="flex flex-wrap gap-10">
                         <img v-if="item.id" :src="`${base_url}/image/${item.id}`" alt="Photo"
-                            class="w-[200px] h-[200px] mt-10 rounded-2xl"> 
+                            class="w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] mt-10 rounded-2xl"> 
                         
                     </div>
                 </div>

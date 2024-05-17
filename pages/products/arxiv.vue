@@ -7,7 +7,7 @@ import { fetchStats } from './components/stats.data'
 
 
 useHead({
-  title: "Бракованные товары"
+  title: "Архив товары"
 })
 
 
