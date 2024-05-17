@@ -215,13 +215,12 @@ fetchValyuta()
 </script>
 
 <template>
-    <section class="new-order flex ">
-        <div class="left w-[840px] border-r pr-4">
-
+    <section class="new-order lg:flex ">
+        <div class="left lg:w-[840px] lg:border-r lg:pr-4">
             <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
-            <div class="search mt-10">
+            <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
-                    <div class="code w-3/4 relative">
+                    <div class="code w-full lg:w-3/4 relative">
                         <div class="search-select mt-4 rounded-2xl">
                             <UiInput v-model="code" type="text" placeholder="Наименование, Артикул"
                                 @focus="toggleDropdown(0)" />
@@ -232,7 +231,7 @@ fetchValyuta()
                                     <div class="">
 
                                         {{ item.name }}
-                                        <p class="text-sm">{{ item.code }}</p>
+                                        <p class="text-xs lg:text-sm">{{ item.code }}</p>
                                     </div>
                                     <div class="">
                                         <p class="text-lg text-[#1F78FF]">{{ item.price }}</p>
@@ -242,10 +241,10 @@ fetchValyuta()
                         </div>
                     </div>
                     <!-- <InputSearch class="" /> -->
-                    <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
+                    <!-- <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
                         <Icon name="fontisto:arrow-return-right" />
                         <p>Возврат</p>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="body mt-5">
                     <div class="top flex items-center gap-6">
@@ -258,21 +257,21 @@ fetchValyuta()
                     </div>
                     <Agents />
                     <div class="cards flex flex-col gap-3 mt-5">
-                        <div class="card bg-[#404040] p-4 rounded-2xl flex items-center justify-between"
+                        <div class="card bg-[#404040] p-2 lg:p-4 rounded-2xl flex items-center justify-between"
                             v-for="(product, index) in selectedProducts" :key="index">
                             <div class="left flex items-center gap-6">
                                 <div class="etc flex items-center gap-2">
                                     <input v-model="product.quantity" type="number"
-                                        class="w-[50px] h-[30px] border rounded-lg px-[10px] bg-[#404040]"> шт
+                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-[#404040]"> шт
                                 </div>
                                 <div class="name-product">
                                     <p>{{ product.name }}</p>
                                     <p>{{ product.code }}</p>
                                 </div>
                             </div>
-                            <div class="right flex items-center gap-6">
-                                <div class="price-product flex items-center gap-2 text-[#1F78FF] cursor-pointer">
-                                    <p class="text-xl font-semibold">{{ product.price }} USD</p>
+                            <div class="right flex items-center lg:gap-6">
+                                <div class="price-product flex items-center  lg:gap-2 text-[#1F78FF] cursor-pointer">
+                                    <p class="text-sm lg:text-xl font-semibold">{{ product.price }} USD</p>
                                     <Icon name="ic:baseline-edit" size="20" />
                                 </div>
                                 <button class="delete hover:text-red-500 p-2"
@@ -286,7 +285,7 @@ fetchValyuta()
                 </div>
             </div>
         </div>
-        <div class="right w-[300px] pl-3 h-[630px]">
+        <div class="right lg:w-[280px] lg:pl-3 lg:h-[630px]">
             <div class="clients mt-3">
                 <div class="top flex justify-between font-semibold text-lg ">
 
@@ -315,7 +314,7 @@ fetchValyuta()
 
 
             </div>
-            <div class="clients mt-3">
+            <div class="clients mt-1 lg:mt-3">
                 <div class="top flex justify-between font-semibold text-lg ">
 
                     <p class="">Агент</p>
@@ -340,7 +339,7 @@ fetchValyuta()
                 </div>
 
             </div>
-            <div class="sales my-10">
+            <div class="sales mt-5 lg:my-10">
 
 
                 <p class="">Скидка</p>
@@ -360,7 +359,7 @@ fetchValyuta()
                     </div>
                 </div>
             </div>
-            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-24">
+            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-24">
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
                     <p>{{ (subtotal - discountAmount) }} USD</p>

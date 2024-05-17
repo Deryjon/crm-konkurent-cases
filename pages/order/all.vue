@@ -59,6 +59,7 @@ const calculateTotalQuantity = (products) => {
     return products.reduce((acc, product) => acc + product.quantity, 0);
 }
 const selectSale = (event, sale) => {
+    console.log(sale)
     isOpen.value = true;
     selectedItem.value = sale;
     fetchAgents();
@@ -120,28 +121,27 @@ const deleteItem = async (id: string) => {
 
 </script>
 <template>
-    <section class="new-order flex mt-[15px]">
-        <div class="left w-[850px] border-r pr-4 mt-[10px]">
+    <section class="new-order lg:flex mt-[15px]">
+        <div class="left lg:w-[850px] lg:border-r lg:pr-4 mt-[10px]">
             <div class="flex justify-between">
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Все продажи</h2>
-                <div>
+                <div class="w-[200px]">
 
                     <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
-                        class=" p-3 rounded-2xl bg-[#1F78FF]" />
+                        class=" p-3 rounded-2xl bg-[#1F78FF] " />
                 </div>
             </div>
-            <div class="search mt-10">
+            <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
 
-                    <InputSearchSales class="" />
-                    <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
+                    <!-- <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
                         <Icon name="fontisto:arrow-return-right" />
                         <p>Возврат</p>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="body mt-5">
                     <div class="cards flex flex-col gap-3 mt-5">
-                        <div class="card bg-[#404040] p-4 rounded-2xl flex items-center justify-between font-medium cursor-pointer"
+                        <div class="card bg-[#404040] p-2 lg:p-4 rounded-2xl lg:flex items-center justify-between font-medium cursor-pointer"
                             v-for="(sale) in items" :key="sale.id" @click="selectSale($event, sale)">
 
                             <div class="left flex items-center gap-6">
@@ -149,7 +149,7 @@ const deleteItem = async (id: string) => {
                                 <div class="etc flex items-center gap-2 border rounded-xl p-2">
                                     {{ calculateTotalQuantity(sale.products) }} шт
                                 </div>
-                                <div class="">
+                                <div class="text-xs lg:text-sm">
 
                                     <div class="name-product flex gap-2">
                                         <p>Продажа</p>
@@ -164,7 +164,7 @@ const deleteItem = async (id: string) => {
                             </div>
                             <div class="right flex items-center gap-6">
 
-                                <div class="price flex flex-col items-center gap-2 text-[#1F78FF] cursor-pointer">
+                                <div class="price flex lg:flex-col items-center gap-2 text-[#1F78FF] cursor-pointer">
                                     <p class="text-md font-semibold">{{ sale.total_usd }} USD</p>
                                     <p class="text-md font-semibold">{{ sale.total_uzs }} UZS</p>
 
@@ -178,7 +178,7 @@ const deleteItem = async (id: string) => {
 
             </div>
         </div>
-        <div class="right w-[300px] p-4 h-[630px]">
+        <div class="right w-full lg:w-[300px] lg:p-4 lg:h-[630px] mt-5 lg:mt-0">
             <div class="clients bg-[#404040] rounded-2xl ">
                 <div class="top p-3">
 
@@ -198,7 +198,7 @@ const deleteItem = async (id: string) => {
                 </div>
             </div>
 
-            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-20">
+            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-20">
                 <p>Сумма транзакций</p>
                 <div class="flex gap-1">
 
