@@ -23,6 +23,12 @@ const data = {
   <section class="new-order  mt-[15px]">
     <div class="flex justify-between">
       <h2 class="text-2xl lg:text-4xl font-semibold ">Статистика Товаров</h2>
+      <button class="flex items-center justify-center gap-4 bg-[#1F78FF] lg:w-[240px] rounded-2xl p-5">
+        <Icon name="fa:download" />
+        <p class="text-[16px] font-semibold hidden lg:block">
+            Скачать Excel
+        </p>
+    </button> 
     </div>
 
     <p class="text-2xl lg:text-3xl font-semibold mt-[30px]">Топ-20</p>
