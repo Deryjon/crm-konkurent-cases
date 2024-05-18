@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useSearchStore } from '~/store/searchCatalog.store'
+import { useSearchArxivStore } from '~/store/searchArxiv.store'
 import { ref, watch } from 'vue'
 
-const store = useSearchStore()
+const store = useSearchArxivStore()
 const searchValue = ref(store.searchValue ?? '')
 
 watch(searchValue, (newValue) => {

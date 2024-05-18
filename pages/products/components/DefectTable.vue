@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSearchStore } from '../../../store/searchCatalog.store.ts';
-import { useProductService } from './productService';
+import { useSearchDefectStore } from '../../../store/searchDefect';
+import { useDefectService } from './defectService';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
@@ -10,7 +10,7 @@ import { base_url } from '~/api';
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
-const store = useSearchStore();
+const store = useSearchDefectStore();
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
@@ -23,15 +23,13 @@ const serverOptions = ref<ServerOptions>({
     rowsPerPage: itemsPerPage.value,
 });
 
-const { items, total: serverItemsLength, fetchProducts } = useProductService(serverOptions);
+const { items, total: serverItemsLength, fetchDefect } = useDefectService(serverOptions);
 const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
-    { text: "Фото", value: "photo" },
     { text: "Наименование", value: "name" },
     { text: "Артикул", value: "code" },
     { text: "Количество", value: "quantity" },
-    { text: "Цена продажи", value: "price" },
     { text: "Действие", value: "operation" },
 ];
 
@@ -40,9 +38,6 @@ let selectedItem = ref(null);
 
 const loading = ref(false);
 
-function routeEdit(id: string) {
-    router.push(`/products/update/${id}`);
-}
 
 function openSlideover(item: { id: string, name: string, code: string, quantity: number, price: number }) {
 console.log(item)
@@ -53,7 +48,7 @@ console.log(item)
 const loadFromServer = async () => {
     try {
         loading.value = true;
-        await fetchProducts();
+        await fetchDefect();
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
         // Обработка ошибок, если необходимо
@@ -63,20 +58,17 @@ const loadFromServer = async () => {
 };
 
 const deleteItem = async (id: string) => {
-    const token = localStorage.getItem("token") || "";
-    const { status } = await useFetch(
-      `${base_url}/product?id=${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-    if (status.value === "success") {
-        deleteOpen.value = false
-        toast.success("Продукт архивирован")
-    }
+    // const token = localStorage.getItem("token") || "";
+    // const { data } = await useFetch(
+    //   `${base_url}/product?`,
+    //   {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: "Bearer " + token,
+    //     },
+    //   }
+    // ).json();
+    console.log(id)
 
 };
 

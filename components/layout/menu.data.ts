@@ -30,6 +30,7 @@ export const MENU_DATA: IMenuItem[] = [
     items: [ userRole !== "admin, director" ?
       { title: "Новая продажа", url: "/order/new-order" } : null,
       { title: "Все продажи", url: "/order/all" },
+      { title: "Архив продажи", url: "/order/archive-order" },
     ].filter(Boolean),
   },
   {
@@ -50,10 +51,8 @@ export const MENU_DATA: IMenuItem[] = [
     items: [
         { title: "Магазин", url: "/reports/shop" },
         { title: "Товары", url: "/reports/products" },
-        { title: "Продавцы", url: "/reports/sellers" },
       ],
   } : null,
-  // Проверяем, что роль пользователя не является ни "manager", ни "salesman"
   userRole !== "manager" && userRole !== "salesman" ? 
   {
     name: "Управление",

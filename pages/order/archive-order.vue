@@ -2,13 +2,13 @@
 import { onMounted, watch, ref, computed } from 'vue';
 import { SALES_DATA } from './components/sales.data'
 import VueDatePicker from '@vuepic/vue-datepicker';
-import { useSaleService } from './components/salesService'
+import { useSaleService } from './components/salesArchive'
 import { base_url } from '~/api';
 import { useToast } from 'vue-toastification'
 
 
 useHead({
-    title: "Все продажи"
+    title: "Архив продажи"
 })
 
 const date = ref<Date[]>([]);
@@ -25,7 +25,7 @@ function formatDate(date: Date): string {
 
 const serverOptions = ref<ServerOptions>({ page: 1, rowsPerPage: 10 });
 
-const { items, fetchSales } = useSaleService(date, fromDate, toDate, serverOptions);
+const { items, fetchArchiveSales } = useSaleService(date, fromDate, toDate, serverOptions);
 
 const isOpen = ref(false);
 const deleteOpen = ref(false);
@@ -34,13 +34,12 @@ onMounted(() => {
     const startDate = new Date();
     const endDate = new Date();
     date.value = [startDate, endDate];
-    //   fetchSales(); 
 });
 
 watch(date, (newValue) => {
     fromDate.value = formatDate(date.value[0]);
     toDate.value = formatDate(date.value[1]);
-    fetchSales();
+    fetchArchiveSales();
 });
 
 const totalUsd = computed(() => items.value.reduce((total, sale) => total + sale.total_usd, 0));
@@ -108,7 +107,7 @@ const deleteItem = async (id: string) => {
     if (status.value === "success") {
         deleteOpen.value = false
         isOpen.value = false
-        fetchSales();
+        fetchArchiveSales();
         toast.success("Продажа удалена")
     }
 
@@ -120,7 +119,7 @@ const deleteItem = async (id: string) => {
     <section class="new-order lg:flex mt-[15px]">
         <div class="left lg:w-[830px] lg:border-r lg:pr-4 mt-[10px]">
             <div class="flex justify-between">
-                <h2 class="text-2xl lg:text-4xl font-semibold ">Все продажи</h2>
+                <h2 class="text-2xl lg:text-4xl font-semibold ">Архив продаж</h2>
                 <div class="w-[200px]">
 
                     <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"

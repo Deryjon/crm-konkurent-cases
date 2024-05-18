@@ -1,24 +1,11 @@
 <script setup lang="ts">
-import Stat from './components/Stat.vue';
-import CatalogTable from './components/CatalogTable.vue';
+import ArxivTable from './components/ArxivTable.vue';
 import InputSearch from './components/InputSearch.vue'
-import CreateBtn from '../../components/layout/CreateBtn.vue'
-import { fetchStats } from './components/stats.data'
 
 
 useHead({
   title: "Архив товары"
 })
-
-
-const open = ref(false);
-
-
-
-const toggleOpen = () => {
-  open.value = !open.value;
-  fetchStats()
-};
 
 </script>
 <template>
@@ -26,17 +13,11 @@ const toggleOpen = () => {
     <div class="top flex items-center justify-between">
       <h2 class="text-2xl lg:text-4xl font-semibold ">Архив товары</h2>
     </div>
-    <Stat v-if="open" class="mt-[30px]" />
     <div class="input flex justify-between mt-[50px] ">
 
       <InputSearch class="" />
-
-      <router-link to="/products/catalog">
-
-        <CreateBtn>Добавить продукт</CreateBtn>
-      </router-link>
     </div>
-    <CatalogTable />
+    <ArxivTable />
     <KanbanSlideover />
   </section>
 </template>

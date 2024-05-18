@@ -6,8 +6,8 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification'
 import { ref, watch } from 'vue'
 
-const products = ref<{ id: string, quantity: number, cost_price: number, sell_price: number, code: string, dropdownOpen: boolean }[]>([
-  { id: '', quantity: 0, cost_price: 0, sell_price: 0, code: '', dropdownOpen: true }
+const products = ref<{ id: string, quantity: number, remark: string, code: string, dropdownOpen: boolean }[]>([
+  { id: '', quantity: 0, remark: '', code: '', dropdownOpen: true }
 ]);
 const items = ref<{ id: string, name: string, code: string }[]>([]);
 
@@ -30,28 +30,27 @@ const fetchProducts = async (value: string) => {
     items.value = products.map((product: { id: any; name: any; code: any; }) => ({
       id: product.id,
       name: product.name,
-      code: product.code
+      code: product.code,
     }));
   }
 
 };
 const addProduct = (count = 1) => {
   for (let i = 0; i < count; i++) {
-    products.value.push({ id: '', quantity: 0, cost_price: 0, sell_price: 0, code: '', dropdownOpen: false });
+    products.value.push({ id: '', quantity: 0, remark: '',  code: '', dropdownOpen: false });
   }
 };
 
 const createImport = async () => {
   const body = {
     products: products.value.map(p => ({
-      id: p.id,
+      product_id: p.id,
       quantity: p.quantity,
-      cost_price: p.cost_price,
-      sell_price: p.sell_price
+      remark: p.remark,
     }))
   };
   const token = localStorage.getItem('token') || '';
-  const { status } = await useFetch(`${base_url}/acceptance`, {
+  const { status } = await useFetch(`${base_url}/defect`, {
     method: 'POST',
     body,
     headers: {
@@ -59,14 +58,14 @@ const createImport = async () => {
     },
   });
   if (status.value === "success") {
-    toast.success("Импорт создан")
-    router.push('/products/import')
+    toast.success("Брак товар добавлен")
+    router.push('/products/defective')
   }
 };
 
 const selectItem = (item, product) => {
   product.id = item.id;
-  product.code = item.name; // Сохраняем name выбранного продукта
+  product.code = item.name; 
   product.dropdownOpen = false;
 };
 
@@ -105,13 +104,16 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
 
           <label for="">Количество</label>
         </div>
-        
+        <div class="art w-1/4">
+
+          <label for="">Комментарий</label>
+        </div>
+
       </div>
       <div v-for="(product, index) in products" :key="index" class="flex  gap-2 mt-5 ">
         <div class="code w-1/4 relative">
-          <div class="search-select mt-4 rounded-2xl" >
-            <UiInput v-model="product.code" type="text" placeholder="Артикул" @focus="product.dropdownOpen = true"
-            />
+          <div class="search-select mt-4 rounded-2xl">
+            <UiInput v-model="product.code" type="text" placeholder="Артикул" @focus="product.dropdownOpen = true" />
 
             <ul class="options-list mt-1 absolute" :class="{ 'open': product.dropdownOpen }">
               <li v-for="item in items" :key="item.id" @click="selectItem(item, product)">
@@ -123,6 +125,9 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
 
         <div class="articul w-1/4">
           <UiInput placeholder="Введите колл-во" type="number" v-model="product.quantity" />
+        </div>
+        <div class="articul w-1/4">
+          <UiInput placeholder="Введите комментарий" type="text" v-model="product.remark" />
         </div>
 
       </div>

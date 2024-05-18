@@ -217,7 +217,11 @@ fetchValyuta()
 <template>
     <section class="new-order lg:flex ">
         <div class="left lg:w-[840px] lg:border-r lg:pr-4">
-            <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
+            <div class="flex justify-between items-center">
+
+                <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
+             <p class="text-xl font-semibold">Курс - {{Math.floor(valyutUsd)}} UZS</p>
+        </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
                     <div class="code w-full lg:w-3/4 relative">
