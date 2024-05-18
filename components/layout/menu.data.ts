@@ -47,10 +47,10 @@ export const MENU_DATA: IMenuItem[] = [
   {
     name: "Отчеты",
     icon: "heroicons:chart-pie",
-    url: "/reports",
+    url: "/analytics",
     items: [
-        { title: "Магазин", url: "/reports/shop" },
-        { title: "Товары", url: "/reports/products" },
+        { title: "Магазин", url: "/analytics/shop" },
+        { title: "Товары", url: "/analytics/products" },
       ],
   } : null,
   userRole !== "manager" && userRole !== "salesman" ? 
