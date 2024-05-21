@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@morev/vue-transitions/nuxt",
     "shadcn-nuxt",
     "@pinia/nuxt",
+    '@nuxtjs/color-mode',
   ],
   build: {
     transpile: ['vue-toastification'],
@@ -19,5 +20,8 @@ export default defineNuxtConfig({
     prefix: "Ui",
     componentDir: "./components/ui",
   },
+  colorMode: {
+      classSuffix: "",
+  }
   
 });

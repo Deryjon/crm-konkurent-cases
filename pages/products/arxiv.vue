@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ArxivTable from './components/ArxivTable.vue';
-import InputSearch from './components/InputSearch.vue'
+import InputArxiv from './components/InputArxiv.vue'
 
 
 useHead({
@@ -15,7 +15,7 @@ useHead({
     </div>
     <div class="input flex justify-between mt-[50px] ">
 
-      <InputSearch class="" />
+      <InputArxiv class="" />
     </div>
     <ArxivTable />
     <KanbanSlideover />

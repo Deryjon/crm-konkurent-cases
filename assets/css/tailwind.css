@@ -38,6 +38,7 @@
     
     --radius: 0.5rem;
   }
+  
  
 }
  
@@ -54,6 +55,10 @@ input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.bg-input-search{
+  @apply  bg-white border-2 border-blue-500	 dark:bg-[#404040] dark:border-0 w-[280px] lg:w-[640px] flex items-center gap-4 py-4 px-3 rounded-2xl
 }
 .photo-cell {
   width: 50px;

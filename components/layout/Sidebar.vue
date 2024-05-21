@@ -12,8 +12,8 @@ function logOut(){
 }
 </script>
 <template>
-  <aside class="w-[290px] h-[700px]">
-    <div class="flex h-[650px] w-full flex-col gap-3 lg:gap-5 overflow-hidden rounded-md bg-card p-[10px]">
+  <aside class="w-[290px] h-[700px] bg-white dark:bg-[#404040]">
+    <div class="flex h-[650px] w-full flex-col gap-3 lg:gap-5 overflow-hidden rounded-md p-[10px]">
       <LayoutLogo @click="$router.push('/')" class="cursor-pointer" />
       <LayoutMenu class="" />
       <div class="mt-auto">

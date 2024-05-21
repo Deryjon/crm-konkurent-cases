@@ -17,7 +17,7 @@ const toast = useToast();
 const fetchProducts = async (value: string) => {
   const token = localStorage.getItem("token") || "";
   const { data } = await useFetch(
-    `${base_url}/product?pattern=${value}&limit=3`,
+    `${base_url}/product?pattern=${value}&limit=5`,
     {
       method: "GET",
       headers: {
@@ -122,8 +122,8 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
             <UiInput v-model="product.code" type="text" placeholder="Артикул" @focus="product.dropdownOpen = true"
             />
 
-            <ul class="options-list mt-1 absolute" :class="{ 'open': product.dropdownOpen }">
-              <li v-for="item in items" :key="item.id" @click="selectItem(item, product)">
+            <ul class="options-list mt-1 absolute bg-white dark:bg-[#404040]" :class="{ 'open': product.dropdownOpen }">
+              <li v-for="item in items" :key="item.id" @click="selectItem(item, product)"  class="cursor-pointer border">
                 {{ item.name }}
               </li>
             </ul>
@@ -155,19 +155,18 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
   background-color: #404040;
 }
 
+
 .options-list {
   position: absolute;
-  /* Изменено позиционирование */
   top: calc(100% + -3px);
   left: 0;
   width: 100%;
   max-height: 200px;
-  overflow-y: auto;
+  overflow-y: hidden;
   margin-top: 4px;
   padding: 0;
   list-style-type: none;
   border-radius: 5px;
-  background-color: #404040;
   display: none;
 }
 
