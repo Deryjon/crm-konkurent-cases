@@ -137,7 +137,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 <div class="flex flex-col gap-5 mt-10">
                     <p>Дата: {{ selectedItem.date }}</p>
                     <p>Код импорта: {{ selectedItem.id }}</p>
-                    <p>Колличество товаров: {{ selectedItem.products.length }}</p>
+                    <p>Количество товаров: {{ selectedItem.products.length }}</p>
                 </div>
                 <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>
