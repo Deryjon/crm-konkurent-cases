@@ -1,6 +1,6 @@
   <template>
-    <header class="px-[20px] top-0 z-20 border-b bg-background/80 backdrop-blur">
-      <div class="container flex h-16 items-center justify-between">
+    <header class="px-[20px] top-0 z-20 border-b bg-white dark:bg-background/80 backdrop-blur">
+      <div class="container flex h-16 items-center justify-between text-black dark:text-white">
         <!-- Logo and page title -->
         <button @click="openMenu" aria-label="Open menu" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border bg-background lg:hidden">
           <span class="sr-only">Button used to open menu</span>

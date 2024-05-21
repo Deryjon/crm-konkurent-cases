@@ -5,7 +5,7 @@ const store = useMenuStore();
 const closeMenu = () => { store.isOpen = false }
 </script>
 <template>
-    <div class="flex flex-col gap-[5px]">
+    <div class="flex flex-col gap-[5px] text-black  dark:text-white">
       <template v-for="(item, i) in MENU_DATA" :key="i">
         <NuxtLink v-if="!item.items" :to="item.url" class="inline-flex items-center gap-4 px-4 p-3 text-left text-[18px]" >
           <Icon v-if="item.icon" :name="item.icon" class="h-5 w-5 text-muted-foreground" />

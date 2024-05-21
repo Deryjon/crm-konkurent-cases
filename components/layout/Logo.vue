@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const selected = ref(true)
+const selected = ref(false) || localStorage.getItem('colorMode') === 'light'
 
 type Theme = 'light' | 'dark'
 
@@ -25,7 +25,7 @@ if(!selected.value) {
             <img src="../../assets/icons/logo.png" alt="" class="w-full h-full">
         </div>
     </div>
-    <div class="flex items-center mx-auto gap-[10px]">
+    <div class="flex items-center mx-auto gap-[10px] text-black dark:text-white">
         Light
         <UToggle color="blue" v-model="selected"
             @click="setColorTheme(selected ? 'light' : 'dark')" />

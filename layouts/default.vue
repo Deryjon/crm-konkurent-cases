@@ -12,6 +12,7 @@ onMounted(async () => {
         const token = localStorage.getItem('token')
         if (token) {
             store.status = true
+            localStorage.setItem('colorMode', 'light')
         } else {
             store.status = false
             router.push('/login')
