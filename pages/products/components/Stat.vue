@@ -33,7 +33,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <section class="stats flex  flex-wrap justify-between">
+    <section class="stats flex gap-3 flex-wrap justify-between">
 
         <div class="w-[150px] lg:w-[250px] bg-white border-2 dark:bg-[#353535] rounded-2xl p-1 lg:p-3">
             <Icon name="heroicons:cube" class="h-5 w-5 text-muted-foreground" />

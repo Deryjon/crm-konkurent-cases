@@ -116,6 +116,11 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         <UCard class="flex flex-col flex-1"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             <template #header>
+                <div class="flex justify-end">
+
+
+<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+</div>
                 <div class="icon">
                     <img v-if="!selectedItem.photo" :src="`${base_url}/image/${selectedItem.id}`" alt="Photo"
                         class="w-[200px] mx-auto">

@@ -122,6 +122,11 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         <UCard class="flex flex-col flex-1 w-[1000px]"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             <template #header>
+                <div class="flex justify-end">
+
+
+<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+</div>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <div class="icon">
 

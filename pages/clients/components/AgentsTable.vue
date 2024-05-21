@@ -110,11 +110,15 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         </template>
     </EasyDataTable>
     <USlideover v-model="isOpen" class="text-black dark:text-white">
+
         <UCard class="flex flex-col flex-1"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             
+            <div class="flex justify-end">
 
-            <div class="product">
+
+<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+</div>            <div class="product">
                 <h3 class="text-2xl font-semibold">Данные о Агенте</h3>
                 <div class="flex flex-col gap-10 mt-10">
 

@@ -92,7 +92,11 @@ onMounted(() => {
         <UCard class="flex flex-col flex-1"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             
+            <div class="flex justify-end">
 
+
+<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+</div>
             <div class="product">
                 <h3 class="text-2xl font-semibold">Данные о сотруднике</h3>
                 <div class="flex flex-col gap-10 mt-10">
