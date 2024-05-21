@@ -62,7 +62,7 @@ const createWorker = async () => {
                 <div class="role lg:w-1/3 ">
                     <label for="">Роль</label>
                     <select placeholder="Роль сотрудника" v-model="role"
-                        class="w-full text-[#f5f5f5] py-4 px-3 rounded-2xl mt-5 border bg-[#404040]">
+                        class="w-full text-black dark:text-[#f5f5f5] py-4 px-3 rounded-2xl mt-5 border bg-white border-2 dark:bg-[#404040]">
                         <option value="salesman">Продавец</option>
                         <option value="manager">Менеджер</option>
                         <option value="admin">Админ</option>
