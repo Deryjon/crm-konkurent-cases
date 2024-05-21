@@ -30,7 +30,6 @@ const { items, total: serverItemsLength, fetchImports } = useImportService(serve
 
 const headers = [
     { text: "Дата", value: "date" },
-    { text: "Код импорта", value: "id" },
     { text: "Действие", value: "operation" },
 ];
 
@@ -74,6 +73,19 @@ const deleteItem = async (id: string) => {
     }
 
 };
+const truncateName = (name: string, index: number): string => {
+      return name.length > 10 ? name.substring(0, 10) + '...' : name;
+    };
+    const fullName = ref('');
+
+    const toggleFullName = (id, products) => {
+            for (const item of products) {
+                if (item.id === id) {
+                    fullName.value = item.name; 
+                    break;
+                }
+            }
+        }
 onMounted(() => {
 
     loadFromServer()
@@ -106,8 +118,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             </div>
         </template>
     </EasyDataTable>
-    <USlideover v-model="isOpen" class="text-black dark:text-white">
-        <UCard class="flex flex-col flex-1"
+    <USlideover v-model="isOpen" class="text-black dark:text-white ">
+        <UCard class="flex flex-col flex-1 w-[1000px]"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
             <template #header>
                 <div class="wrapper flex items-center justify-center gap-6">
@@ -122,16 +134,21 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
             <div class="Import" v-if="selectedItem">
                 <h3 class="text-2xl font-semibold">Данные о импорте продуктов</h3>
-                <div class="flex flex-col gap-10 mt-10">
+                <div class="flex flex-col gap-5 mt-10">
                     <p>Дата: {{ selectedItem.date }}</p>
                     <p>Код импорта: {{ selectedItem.id }}</p>
                     <p>Колличество товаров: {{ selectedItem.products.length }}</p>
                 </div>
-                <div class="cards wrapper flex flex-col  justify-center gap-3 mt-4">
+                <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>
-                    <div class="card flex gap-2" v-for="item in selectedItem.products">
-                        <p>{{item.name}}</p> |
-                        <p>{{item.quantity}}</p> |
+                    <div class="card flex gap-2" >
+                        <p>Наименование</p> |
+                        <p>Колличество</p> |
+                        <p>Цена</p>
+                    </div>
+                    <div class="card flex items-center gap-2" v-for="item in selectedItem.products">
+                        <p @click="toggleFullName(item.id, selectedItem.products)" class="w-[112px]">{{ fullName || truncateName(item.name, item.id) }}</p> |
+                        <p class="w-[95px]">{{item.quantity}}</p> |
                         <p>{{item.cost_price}}</p>
                     </div>
                 </div>

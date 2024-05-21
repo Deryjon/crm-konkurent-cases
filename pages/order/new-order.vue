@@ -201,17 +201,17 @@ const selectAgent = (item) => {
 const createAgent = () => {
     toast.warning("Обратитесь к директору")
 }
- const valyutUsd = ref(0)
+ const valyutUsd = localStorage.getItem('valyutUsd') || 0
  const fetchValyuta = async () => {
     const { data, status } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
         method: 'GET'
     });
     if (status.value === "success") {
         valyutUsd.value = data.value[0].Rate
+        localStorage.setItem('valyutUsd', data.value[0].Rate)
     } 
 }
-fetchValyuta()
-// onMounted(fetchValyuta)
+onMounted(fetchValyuta)
 </script>
 
 <template>
