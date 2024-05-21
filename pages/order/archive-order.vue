@@ -136,7 +136,7 @@ const deleteItem = async (id: string) => {
                 </div>
                 <div class="body mt-5">
                     <div class="cards flex flex-col gap-3 mt-5">
-                        <div class="card bg-[#404040] p-2 lg:p-4 rounded-2xl lg:flex items-center justify-between font-medium cursor-pointer"
+                        <div class="card bg-white border-2 dark:bg-[#404040] p-2 lg:p-4 rounded-2xl lg:flex items-center justify-between font-medium cursor-pointer"
                             v-for="(sale) in items" :key="sale.id" @click="selectSale(sale)">
 
                             <div class="left flex items-center gap-6">
@@ -174,7 +174,7 @@ const deleteItem = async (id: string) => {
             </div>
         </div>
         <div class="right w-full lg:w-[300px] lg:p-4 lg:h-[630px] mt-5 lg:mt-0">
-            <div class="clients bg-[#404040] rounded-2xl ">
+            <div class="clients shadow-2xl bg-white border-2 dark:bg-[#404040] rounded-2xl ">
                 <div class="top p-3">
 
                     <p>Транзакции</p>
@@ -193,7 +193,7 @@ const deleteItem = async (id: string) => {
                 </div>
             </div>
 
-            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-20">
+            <div class="bg-white dark:bg-[#404040] border-2 rounded-2xl p-5 shadow-2xl mt-5 lg:mt-20">
                 <p>Сумма транзакций</p>
                 <div class="flex gap-1">
 
@@ -207,7 +207,7 @@ const deleteItem = async (id: string) => {
                 </div>
             </div>
         </div>
-        <USlideover v-model="isOpen">
+        <USlideover v-model="isOpen" class="text-black dark:text-white">
             <UCard class="flex flex-col flex-1"
                 :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
                 <template #header>

@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { base_url } from '~/api';
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification';
-
+import { computed } from 'vue';
 
 useHead({
   title: "Создать Клиента"
@@ -18,6 +18,15 @@ const router = useRouter();
 const toast = useToast();
 
 const createClient = async () => {
+    const phoneRegex = /^\+\d{3}\d{9}$/;
+    const isValidPhone = phoneRegex.test(phone.value);
+
+    if (!isValidPhone || !name.value || !address.value) {
+        toast.error('Заполните все обязательные поля');
+        toast.error("Неверный формат телефона");
+        return;
+    }
+
     const body = {
         fio: name.value,
         phone: phone.value,
@@ -37,6 +46,11 @@ const createClient = async () => {
     }
 };
 
+const phoneValid = computed(() => {
+    const phoneRegex = /^\+\d{3}\d{9}$/;
+    return phoneRegex.test(phone.value);
+});
+
 </script>
 <template>
     <section class="basic">
@@ -46,7 +60,7 @@ const createClient = async () => {
                 <ExitButton />
             </router-link>
             <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Новый Клиент</h2>
-            <CreateBtn class="ml-auto" @click="createClient">Новый Клиент</CreateBtn>
+            <CreateBtn class="ml-auto"  @click="createClient">Новый Клиент</CreateBtn>
         </div>
         <div class="basic">
             <div class="flex flex-col lg:flex-row flex-wrap gap-[10px] lg:gap-[30px] justify-between mt-10">
@@ -56,7 +70,7 @@ const createClient = async () => {
                 </div>
                 <div class="phone lg:w-1/3">
                     <label for="">Телефон</label>
-                    <UiInput placeholder="Телефон клиента" v-model="phone" />
+                    <UiInput placeholder="+998XXXXXXX" v-model="phone" :class="{'border-red-500': !phoneValid}" />
                 </div>
                 <div class="address lg:w-1/3">
                     <label for="">Адрес</label>
@@ -67,5 +81,4 @@ const createClient = async () => {
         </div>
     </section>
 </template>
-
 

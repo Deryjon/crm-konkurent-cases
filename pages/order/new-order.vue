@@ -225,13 +225,13 @@ onMounted(fetchValyuta)
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
                     <div class="code w-full lg:w-3/4 relative">
-                        <div class="search-select mt-4 rounded-2xl">
+                        <div class="relative mt-4 rounded-2xl">
                             <UiInput v-model="code" type="text" placeholder="Наименование, Артикул"
                                 @focus="toggleDropdown(0)" />
 
-                            <ul class="options-list  mt-1 absolute" :class="{ 'open': products[0].dropdownOpen }">
+                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute" :class="{ 'open': products[0].dropdownOpen }">
                                 <li v-for="(item, index) in items" :key="item.id" @click="selectItem(item)"
-                                    class="cursor-pointer flex justify-between items-center ">
+                                    class="cursor-pointer flex justify-between border items-center ">
                                     <div class="">
 
                                         {{ item.name }}
@@ -255,18 +255,18 @@ onMounted(fetchValyuta)
 
                         <h3 class="text-xl lg:text-3xl font-semibold
                         ">Корзина</h3>
-                        <div class="etc bg-[#404040] p-2 rounded-xl">
+                        <div class="etc bg-white border dark:bg-[#404040] p-2 rounded-xl">
                             {{ selectedProducts.length }}
                         </div>
                     </div>
                     <Agents />
                     <div class="cards flex flex-col gap-3 mt-5">
-                        <div class="card bg-[#404040] p-2 lg:p-4 rounded-2xl flex items-center justify-between"
+                        <div class="card bg-white border-2 dark:bg-[#404040] p-2 lg:p-4 rounded-2xl flex items-center justify-between"
                             v-for="(product, index) in selectedProducts" :key="index">
                             <div class="left flex items-center gap-6">
                                 <div class="etc flex items-center gap-2">
                                     <input v-model="product.quantity" type="number"
-                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-[#404040]"> шт
+                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-white border dark:bg-[#404040]"> шт
                                 </div>
                                 <div class="name-product">
                                     <p>{{ product.name }}</p>
@@ -300,13 +300,13 @@ onMounted(fetchValyuta)
                         </button>
                     </router-link>
                 </div>
-                <div class="bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 search-select">
+                <div class=" bg-white border-2 dark:bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 relative">
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
-                    <input type="text " placeholder="Имя и номер клиента" class="bg-[#404040]" v-model="clientName"
+                    <input type="text " placeholder="Имя и номер клиента" class="bg-white dark:bg-[#3b3b3b]" v-model="clientName"
                         @focus="toggleDropdownClient()" />
-                    <ul class="options-list mt-1 absolute" :class="{ 'open': dropdownСlientOpen }">
+                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownСlientOpen }">
                         <li v-for="(item, index) in customers" :key="item.id" @click="selectClient(item)"
-                            class="cursor-pointer flex justify-between items-center ">
+                            class="cursor-pointer border flex justify-between items-center ">
                             <div>{{ item.fio }}</div>
                             <div>
                                 <p class="text-sm text-[#1F78FF]">{{ item.phone }}</p>
@@ -326,13 +326,13 @@ onMounted(fetchValyuta)
                         Создать
                     </button>
                 </div>
-                <div class="bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 search-select">
+                <div class="bg-white border-2 dark:bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 relative">
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
-                    <input type="text " placeholder="Имя и номер агента" class="bg-[#404040]" v-model="agentName"
+                    <input type="text " placeholder="Имя и номер агента" class="bg-white dark:bg-[#404040]" v-model="agentName"
                         @focus="toggleDropdownAgent()" />
-                    <ul class="options-list mt-1 absolute" :class="{ 'open': dropdownAgentOpen }">
+                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownAgentOpen }">
                         <li v-for="(item, index) in agents" :key="item.id" @click="selectAgent(item)"
-                            class="cursor-pointer flex justify-between items-center ">
+                            class="cursor-pointer border flex justify-between items-center ">
                             <div>{{ item.fio }}</div>
                             <div>
                                 <p class="text-sm text-[#1F78FF]">{{ item.phone }}</p>
@@ -351,7 +351,7 @@ onMounted(fetchValyuta)
 
                     <UiInput type="number" placeholder="Введите скидку" class="w-[120px]" v-model="discountValue" />
 
-                    <div class="flex items-center bg-[#404040] rounded-2xl w-[120px] h-[60px] mt-4">
+                    <div class="flex items-center bg-white border    dark:bg-[#404040] rounded-2xl w-[120px] h-[60px] mt-4">
                         <button class=" py-4 w-1/2 rounded-2xl" :class="{ 'border': selectedButton === 'USD' }"
                             @click="selectButton('USD')">
                             USD
@@ -363,7 +363,7 @@ onMounted(fetchValyuta)
                     </div>
                 </div>
             </div>
-            <div class="bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-24">
+            <div class="bg-white border-2 dark:bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-24">
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
                     <p>{{ (subtotal - discountAmount) }} USD</p>
@@ -393,39 +393,37 @@ input {
     outline: none;
 }
 
-.search-select {
-    position: relative;
-    /* Изменено позиционирование */
-    background-color: #404040;
+.relative {
+  position: relative;
+  /* Изменено позиционирование */
 }
 
+
 .options-list {
-    position: absolute;
-    /* Изменено позиционирование */
-    top: calc(100% + -3px);
-    left: 0;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 4px;
-    padding: 0;
-    list-style-type: none;
-    border-radius: 5px;
-    background-color: #404040;
-    display: none;
+  position: absolute;
+  top: calc(100% + -3px);
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: hidden;
+  margin-top: 4px;
+  padding: 0;
+  list-style-type: none;
+  border-radius: 5px;
+  display: none;
 }
 
 .options-list.open {
-    display: block;
-    z-index: 10;
+  display: block;
+  z-index: 10;
 }
 
 .options-list li {
-    padding: 8px;
-    cursor: pointer;
+  padding: 8px;
+  cursor: pointer;
 }
 
 .options-list li:hover {
-    background-color: #878787;
+  background-color: #878787;
 }
 </style>
