@@ -26,9 +26,13 @@ if(!selected.value) {
         </div>
     </div>
     <div class="flex items-center mx-auto gap-[10px] text-black dark:text-white">
-        Light
-        <UToggle color="blue" v-model="selected"
-            @click="setColorTheme(selected ? 'light' : 'dark')" />
-        Dark
+        <div class="light cursor-pointer" >
+            <Icon name="heroicons:moon" size="25" v-if="$colorMode.preference === 'light'"  @click="setColorTheme('dark')"/>
+        
+            <Icon name="heroicons:sun" size="25" v-if="$colorMode.preference === 'dark'"  @click="setColorTheme('light')"/>
+        </div>
+        <!-- <UToggle color="blue" v-model="selected"
+            @click="setColorTheme(selected ? 'light' : 'dark')" /> -->
+        
     </div>
 </template>
