@@ -32,7 +32,7 @@ const headers = [
     { text: "Артикул", value: "code" },
     { text: "Количество", value: "quantity" },
     { text: "Цена продажи", value: "price" },
-    { text: "Действие", value: "operation" },
+    // { text: "Действие", value: "operation" },
 ];
 
 let selectedItem = ref(null);

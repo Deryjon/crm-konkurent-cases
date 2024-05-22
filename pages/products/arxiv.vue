@@ -4,7 +4,7 @@ import InputArxiv from './components/InputArxiv.vue'
 
 
 useHead({
-  title: "Архив товары"
+  title: "Удаленные товары"
 })
 
 </script>

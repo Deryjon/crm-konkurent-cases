@@ -6,6 +6,9 @@ import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import { base_url } from '~/api';
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 
 const isOpen = ref(false);
@@ -14,10 +17,10 @@ const store = useSearchStore();
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
-    
+
 const router = useRouter();
-const currentPage = ref(1); 
-const itemsPerPage = ref(5); 
+const currentPage = ref(1);
+const itemsPerPage = ref(5);
 const serverOptions = ref<ServerOptions>({
     page: currentPage.value,
     rowsPerPage: itemsPerPage.value,
@@ -45,7 +48,7 @@ function routeEdit(id: string) {
 }
 
 function openSlideover(item: { id: string, name: string, code: string, quantity: number, price: number }) {
-console.log(item)
+    console.log(item)
     selectedItem.value = item;
     isOpen.value = true;
 }
@@ -63,6 +66,7 @@ const loadFromServer = async () => {
 };
 
 const deleteItem = async (id: string) => {
+    // console.log(id)
     const token = localStorage.getItem("token") || "";
     const { status } = await useFetch(
       `${base_url}/product?id=${id}`,
@@ -75,13 +79,15 @@ const deleteItem = async (id: string) => {
     );
     if (status.value === "success") {
         deleteOpen.value = false
+        isOpen.value = false
+fetchProducts()
         toast.success("Продукт архивирован")
     }
 
 };
 
 onMounted(() => {
-    
+
     loadFromServer()
 })
 
@@ -89,36 +95,35 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
 </script>
 <template>
-    <EasyDataTable     :loading="loading"
- v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers"
-        buttons-pagination :items="items" header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
+    <EasyDataTable :loading="loading" v-model:server-options="serverOptions" :server-items-length="serverItemsLength"
+        :headers="headers" buttons-pagination :items="items" header-text-direction="center" body-text-direction="center"
+        class="mt-10" :search-field="searchField"
         :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']"
-
-        :search-value="searchValue"
-        >
+        :search-value="searchValue">
         <template #item-name="{ name, id, price, code, quantity }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id, name, price, code, quantity })">{{ name }}</p>
+            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer"
+                @click="openSlideover({ id, name, price, code, quantity })">{{ name }}</p>
         </template>
         <template #item-photo="{ id }">
-            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl border-black photo-cell mx-auto">
+            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo"
+                class="rounded-2xl border-black photo-cell mx-auto">
             <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
         </template>
-        <template #item-operation="{ id }">
-      <div class="operation-wrapper flex gap-1 items-center justify-center">
-        <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
-                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                            <div class=" flex gap-10 items-center justify-center my-10">
-                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(id)"
-                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                            </div>
-                        </Placeholder>
-                    </UModal>
-      </div>
-    </template>
+        <template #item-operation="{ id }" :key="id">
+            <div class="operation-wrapper flex gap-1 items-center justify-center ">
+                <!-- <DeleteBtn @click="deleteOpen = true" /> -->
+                <EditBtn @click="routeEdit(id)" />
+                <!-- <UModal v-model="deleteOpen" class="text-black dark:text-white" :key="id">
+                    <Placeholder>
+                        <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                        <div class=" flex gap-10 items-center justify-center my-10">
+                            <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                            <button @click="deleteItem(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                        </div>
+                    </Placeholder>
+                </UModal> -->
+            </div>
+        </template>
     </EasyDataTable>
     <USlideover v-model="isOpen" class="text-black dark:text-white">
         <UCard class="flex flex-col flex-1"
@@ -127,7 +132,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 <div class="flex justify-end">
 
 
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" @click="isOpen = false" />
                 </div>
 
                 <div class="icon">
@@ -151,12 +156,12 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
             </div>
 
-            <!-- <template #footer>
+            <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(selectedItem.id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
+                    <button @click="deleteOpen = true" class="bg-red-400 w-[100px] rounded-lg">Удалить 
+                    <Icon name="mdi:delete" />
+                    </button>                 <UModal v-model="deleteOpen">
+                        <Placeholder class="text-black dark:text-white">
                             <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
                             <div class=" flex gap-10 items-center justify-center my-10">
                                 <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
@@ -166,7 +171,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                         </Placeholder>
                     </UModal>
                 </div>
-            </template> -->
+            </template>
         </UCard>
     </USlideover>
 </template>

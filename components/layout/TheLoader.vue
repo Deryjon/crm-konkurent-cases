@@ -46,7 +46,7 @@
     left: 58px;
     height: 28px;
     width: 10px;
-    background-color: gray;
+    background-color: white;
   }
   .loader5 div:nth-child(1) {
     transform: rotate(0deg);
