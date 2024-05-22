@@ -93,7 +93,7 @@ const createOrder = async () => {
             quantity: product.quantity,
             price: product.price
         })),
-        total_uzs: (subtotal.value - discountAmount.value) * valyutUsd.value,
+        total_uzs: Math.floor((subtotal.value - discountAmount.value) * valyutUsd),
         total_usd: subtotal.value - discountAmount.value ,
         currency_code: "USD"
     };
@@ -373,7 +373,7 @@ onMounted(fetchValyuta)
                 </div>
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ subtotal * valyutUsd - (discountAmount * valyutUsd) }} UZS</p>
+                    <p>{{ Math.floor(subtotal * valyutUsd - (discountAmount * valyutUsd)) }} UZS</p>
                 </div>
                 <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>

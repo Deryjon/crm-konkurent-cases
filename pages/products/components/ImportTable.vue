@@ -71,6 +71,10 @@ const deleteItem = async (id: string) => {
         deleteOpen.value = false
         toast.success("Импорт удален")
     }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при удалении импорт")
+    }
 
 };
 const truncateName = (name: string, index: number): string => {
@@ -106,7 +110,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                     class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
                     <Icon name="mdi:eye" />
                 </button>
-                <UModal v-model="deleteOpen">
+                <UModal v-model="deleteOpen" class="text-black dark:text-white ">
                     <Placeholder>
                         <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
                         <div class=" flex gap-10 items-center justify-center my-10">
@@ -121,24 +125,13 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
     <USlideover v-model="isOpen" class="text-black dark:text-white ">
         <UCard class="flex flex-col flex-1 w-[1000px]"
             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-            <template #header>
-                <div class="flex justify-end">
+            <div class="Import" v-if="selectedItem">
+                <div class="flex ">
 
 
+                    <h3 class="text-2xl font-semibold">Данные о импорте продуктов</h3>
 <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
 </div>
-                <div class="wrapper flex items-center justify-center gap-6">
-                    <div class="icon">
-
-                    </div>
-                    <div class="name">
-                        <p>{{ selectedItem && selectedItem.name }}</p>
-                    </div>
-                </div>
-            </template>
-
-            <div class="Import" v-if="selectedItem">
-                <h3 class="text-2xl font-semibold">Данные о импорте продуктов</h3>
                 <div class="flex flex-col gap-5 mt-10">
                     <p>Дата: {{ selectedItem.date }}</p>
                     <p>Код импорта: {{ selectedItem.id }}</p>
@@ -148,7 +141,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                     <p class="text-2xl font-semibold">Добавленные товары</p>
                     <div class="card flex gap-2" >
                         <p>Наименование</p> |
-                        <p>Колличество</p> |
+                        <p>Количество</p> |
                         <p>Цена</p>
                     </div>
                     <div class="card flex items-center gap-2" v-for="item in selectedItem.products">

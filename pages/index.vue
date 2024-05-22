@@ -1,8 +1,13 @@
 <script lang="ts" setup>
   import { Line } from 'vue-chartjs'
+  import { base_url } from "~/api";
+import {useDashboardService} from './components/dashboardService'
 useHead({
   title: "Главная"
 })
+
+const {  items, fetchDashboard } = useDashboardService();
+
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
@@ -18,6 +23,10 @@ const data = {
   responsive: true,
   maintainAspectRatio: false
 }
+
+onMounted(() => {
+  fetchDashboard();
+})
 </script>
 <template>
   <section class="new-order  mt-[15px]">
@@ -31,7 +40,13 @@ const data = {
 
       <Line :data="data" :options="options" />
     </div>
+      <div v-for="product in items.topProducts" :key="product.label">
+        {{ product.label }} - {{ product.value }}
+      </div>
 
+
+{{items.last7daySales}}
+<!-- {{items}} -->
   </section>
 </template>
 <style scoped>
