@@ -20,7 +20,7 @@
                                 <Icon name="heroicons:x-mark" />
                             </button>
                         </div>
-                        <LayoutSidebar class="sticky top-0 h-full w-full max-w-sm" />
+                        <LayoutSidebarMobile class="sticky top-0 h-full w-full max-w-sm" />
                     </HDialogPanel>
                 </HTransitionChild>
             </HDialog>

@@ -207,8 +207,11 @@ const createAgent = () => {
         method: 'GET'
     });
     if (status.value === "success") {
-        valyutUsd.value = data.value[0].Rate
-        localStorage.setItem('valyutUsd', data.value[0].Rate)
+        console.log(data.value[0].Rate)
+        const usd = data.value[0]
+        // valyutUsd = usd.Rate
+        console.log(usd.Rate)
+        localStorage.setItem('valyutUsd', usd.Rate)
     } 
 }
 onMounted(fetchValyuta)

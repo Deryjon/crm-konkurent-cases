@@ -5,15 +5,19 @@ const selected = ref(false) || localStorage.getItem('colorMode') === 'light'
 
 type Theme = 'light' | 'dark'
 
+
 const setColorTheme = (newTheme: Theme) => {
+    localStorage.setItem('colorMode', newTheme)
     useColorMode().preference = newTheme
 }
 
-if(!selected.value) {
-    setColorTheme('light')
-} else {
-    setColorTheme('dark')
-}
+onMounted(() => {
+    if (!selected.value) {
+        setColorTheme('light')
+    } else {
+        setColorTheme('dark')
+    }
+})
 </script>
 
 <template>
@@ -24,7 +28,7 @@ if(!selected.value) {
         <div class="h-[60px]" v-if="$colorMode.preference === 'dark'">
             <img src="../../assets/icons/logo.png" alt="" class="w-full h-full">
         </div>
-        <div class="light cursor-pointer" >
+        <div class="text-black dark:text-white cursor-pointer">
             <Icon name="heroicons:moon" size="25" v-if="$colorMode.preference === 'light'"  @click="setColorTheme('dark')"/>
         
             <Icon name="heroicons:sun" size="25" v-if="$colorMode.preference === 'dark'"  @click="setColorTheme('light')"/>
