@@ -83,6 +83,10 @@ const deleteItem = async (id: string) => {
 fetchProducts()
         toast.success("Продукт архивирован")
     }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при удалении продукта")
+    }
 
 };
 

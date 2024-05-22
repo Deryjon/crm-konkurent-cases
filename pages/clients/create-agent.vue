@@ -49,6 +49,10 @@ const createAgent = async () => {
        router.push('/clients/agents')
 
       }
+      if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при создании агента")
+    }
 };
 
 </script>

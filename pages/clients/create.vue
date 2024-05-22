@@ -44,6 +44,10 @@ const createClient = async () => {
         toast.success("Клиент создан")
         router.push('/clients/all')
     }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при создании клиента")
+    }
 };
 
 const phoneValid = computed(() => {

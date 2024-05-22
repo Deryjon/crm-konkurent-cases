@@ -54,6 +54,10 @@ const deleteSeller = async (id: string) => {
                 fetchSellers()
         toast.success("Сотрудник удален")
     }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при удалении сотрудника")
+    }
 
 };
 

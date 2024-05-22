@@ -56,6 +56,10 @@ const deleteItem = async (id: string) => {
         loadFromServer()
         toast.success("Импорт удален")
     }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при удалении импорт")
+    }
 
 };
 

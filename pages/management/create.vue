@@ -36,6 +36,10 @@ const createWorker = async () => {
         toast.success("Сотрудник создан")
         router.push('/management/employees')
      }
+     if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при создании сотрудника")
+    }
 };
 
 </script>
