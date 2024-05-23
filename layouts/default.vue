@@ -36,7 +36,7 @@ onMounted(async () => {
             <LayoutSidebar class="sticky top-[20px] hidden h-[calc(100vh-65px)] py-5 lg:col-span-3 lg:block"
                 v-if="store.status" />
         </div>
-        <div class="bg-white dark:bg-[#262626] w-full  py-[20px] px-[15px] md:p-[40px]">
+        <div class="bg-white dark:bg-[#262626] w-full min-h-[100vh] py-[20px] px-[15px] md:p-[40px]">
             <slot />
         </div>
     </section>
