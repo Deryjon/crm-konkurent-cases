@@ -20,8 +20,7 @@ export const useDashboardService = () => {
           Authorization: "Bearer " + token,
         },
       }
-    );
-    console.log(data.value.lastYearSales)
+    ).json();
     items.value = data.value
     // total.value = data.value.topProducts.reduce((acc, {value}) => acc + value, 0);
     }
