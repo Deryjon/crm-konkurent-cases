@@ -31,8 +31,8 @@ onMounted(async () => {
 <template>
     <LayoutHeader class="lg:hidden" v-if="store.status" />
     <LayoutTheLoader v-if="!isLoading" />
-    <section class="flex bg-white dark:bg-[#404040] text-black dark:text-white" v-else>
-        <div :class="{ grid: store.status }" class="border-r border-black dark:border-0">
+    <section class="flex bg-white dark:bg-[#404040] text-black dark:text-white" :class="{ grid: store.status }" v-else>
+        <div  class="border-r border-black dark:border-0">
             <LayoutSidebar class="sticky top-[20px] hidden h-[calc(100vh-65px)] py-5 lg:col-span-3 lg:block"
                 v-if="store.status" />
         </div>

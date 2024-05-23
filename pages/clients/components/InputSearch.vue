@@ -18,7 +18,7 @@ watch(searchValue, (newValue) => {
     <input 
       type="text" 
       class="bg-transparent font-semibold w-[540px]" 
-      placeholder="Артикуль, наименование" 
+      placeholder="Имя, телефон" 
       :value="searchValue" 
       @input="searchValue = $event.target.value" 
     />
