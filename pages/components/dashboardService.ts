@@ -22,7 +22,6 @@ export const useDashboardService = () => {
     lastWeekData.value = data.value.last7daySales;
     lastYear.value = data.value.lastYearSales;
     labelsData.value = lastWeekData.value.map(item => item.label);
-    console.log(labelsData.value)
   };
 
   return {
