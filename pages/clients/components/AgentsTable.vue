@@ -54,7 +54,7 @@ const deleteItem = async (id: string) => {
         deleteOpen.value = false
         isOpen.value = false
         loadFromServer()
-        toast.success("Импорт удален")
+        toast.success("Агент удален")
     }
     if (status.value === "error") {
         deleteOpen.value = false
