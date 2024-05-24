@@ -25,7 +25,7 @@ const createAgent = async () => {
     const phoneRegex = /^\+\d{3}\d{9}$/;
     const isValidPhone = phoneRegex.test(phone.value);
 
-    if (!isValidPhone || !name.value || !address.value) {
+    if (!isValidPhone || !name.value ) {
         toast.error('Заполните все обязательные поля');
         toast.error("Неверный формат телефона");
         return;
