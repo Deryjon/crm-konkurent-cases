@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { base_url } from '~/api';
 import { useToast } from 'vue-toastification'
 import { useFetch } from "@vueuse/core";
@@ -11,7 +12,6 @@ useHead({
 const toast = useToast();
 
 
-const isLoading = ref(true);
 const valyutUsd = ref(0)
 
 const products = ref<{ id: string, quantity: number, cost_price: number, sale_price: number, code: string, dropdownOpen: boolean }[]>([
@@ -22,7 +22,7 @@ const items = ref<{ id: string, name: string, code: string, price: number }[]>([
 const selectedProducts = ref<{ name: string, code: string, price: number }[]>([]);
 const fetchProducts = async (value: string) => {
     const token = localStorage.getItem("token") || "";
-    const { data } = await useFetch(
+    const { data, status } = await useFetch(
         `${base_url}/product?pattern=${value}&limit=3`,
         {
             method: "GET",
@@ -30,16 +30,17 @@ const fetchProducts = async (value: string) => {
                 Authorization: "Bearer " + token,
             },
         }
-    );
-    if (data && data.value && data.value.products) {
-        const products = data.value.products;
-        items.value = products.map((product: { id: any; name: any; code: any; price: any; }) => ({
-            id: product.id,
-            name: product.name,
-            code: product.code,
-            price: product.price,
-        }));
-    }
+    ).json();
+    const products = data.value.products;
+    items.value = products.map((product: { id: string; name: string; code: string; price: number; }) => ({
+        id: product.id,
+        name: product.name,
+        code: product.code,
+        price: product.price,
+    }));
+    console.log(data.value.products)
+    console.log(items)
+    
 };
 
 const numberProduct = ref(1);
@@ -239,7 +240,7 @@ onMounted(() => {
                             <UiInput v-model="code" type="text" placeholder="Наименование, Артикул"
                                 @focus="toggleDropdown(0)" />
 
-                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute" :class="{ 'open': products[0].dropdownOpen }">
+                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute open" :class="{ 'open': products[0].dropdownOpen }">
                                 <li v-for="(item, index) in items" :key="item.id" @click="selectItem(item)"
                                     class="cursor-pointer flex justify-between border items-center ">
                                     <div class="">
@@ -254,11 +255,7 @@ onMounted(() => {
                             </ul>
                         </div>
                     </div>
-                    <!-- <InputSearch class="" /> -->
-                    <!-- <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
-                        <Icon name="fontisto:arrow-return-right" />
-                        <p>Возврат</p>
-                    </button> -->
+                  
                 </div>
                 <div class="body mt-5">
                     <div class="top flex items-center gap-6">
