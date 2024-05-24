@@ -198,7 +198,7 @@ const deleteItem = async (id: string) => {
                 <p>Сумма транзакций</p>
                 <div class="flex gap-1">
 
-                    <p class="etc">{{ Math.floor(totalUsd) }}</p>
+                    <p class="etc">{{ totalUsd.toFixed(2) }}</p>
                     <p class="unit">USD</p>
                 </div>
                 <div class="flex gap-1">

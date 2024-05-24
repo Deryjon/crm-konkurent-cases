@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
 import { base_url } from '~/api';
 import { useToast } from 'vue-toastification'
+import { useFetch } from "@vueuse/core";
+
 
 useHead({
     title: "Новая продажа"
@@ -9,6 +10,9 @@ useHead({
 
 const toast = useToast();
 
+
+const isLoading = ref(true);
+const valyutUsd = ref(0)
 
 const products = ref<{ id: string, quantity: number, cost_price: number, sale_price: number, code: string, dropdownOpen: boolean }[]>([
     { id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false }
@@ -201,31 +205,32 @@ const selectAgent = (item) => {
 const createAgent = () => {
     toast.warning("Обратитесь к директору")
 }
- const valyutUsd = localStorage.getItem('valyutUsd') || 0
  const fetchValyuta = async () => {
-    const { data, status } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
+    const { data } = await  useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
         method: 'GET'
-    });
-    if (status.value === "success") {
-        console.log(data.value[0].Rate)
-        const usd = data.value[0]
-        // valyutUsd = usd.Rate
-        console.log(usd.Rate)
-        localStorage.setItem('valyutUsd', usd.Rate)
-    } 
+    }).json();
+    const valyut = data.value
+    console.log(valyut[0].Rate)
+    valyutUsd.value = valyut[0].Rate
+    // console.log(valyutUsd);
+    
 }
-onMounted(async () => {
-    await fetchValyuta();
-});
+onMounted(() => {
+    fetchValyuta();
+    
+})
 </script>
 
 <template>
-    <section class="new-order lg:flex ">
+    <!-- <section class="loading" v-if="isLoading">
+        <div class="loader">loader</div>
+    </section> -->
+    <section class="new-order lg:flex " >
         <div class="left lg:w-[400px] xl:w-[800px] lg:border-r lg:pr-4">
             <div class="flex justify-between items-center">
 
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
-             <p class="text-xl font-semibold">Курс - {{Math.floor(valyutUsd)}} UZS</p>
+             <p class="text-xl font-semibold">Курс - {{valyutUsd}} USD</p>
         </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
@@ -375,7 +380,7 @@ onMounted(async () => {
                 </div>
                 <div class="obs flex items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ Math.floor(subtotal * valyutUsd - (discountAmount * valyutUsd)) }} UZS</p>
+                    <p>{{ (subtotal * valyutUsd - (discountAmount * valyutUsd)).toFixed(2) }} UZS</p>
                 </div>
                 <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>

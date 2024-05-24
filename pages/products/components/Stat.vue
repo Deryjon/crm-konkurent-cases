@@ -22,7 +22,6 @@ const fetchValyuta = async () => {
         method: 'GET'
     });
     if (status.value === "success") {
-        console.log(data.value);
         valyutaKurs.value = data.value[0].Rate
     }
 }
@@ -57,7 +56,7 @@ onMounted(() => {
             <Icon name="ph:money" class="h-5 w-5 text-muted-foreground" />
             <p class="text-sm">Сумма по цене продажи</p>
             <div class="flex items-center gap-1">
-                <p>{{ ёstatsProduct?.total_stock_value }}</p>
+                <p>{{ statsProduct?.total_stock_value }}</p>
                 <p>USD</p>
             </div>
         </div>
