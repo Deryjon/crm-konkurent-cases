@@ -77,19 +77,6 @@ const deleteItem = async (id: string) => {
     }
 
 };
-const truncateName = (name: string, index: number): string => {
-      return name.length > 10 ? name.substring(0, 10) + '...' : name;
-    };
-    const fullName = ref('');
-
-    const toggleFullName = (id, products) => {
-            for (const item of products) {
-                if (item.id === id) {
-                    fullName.value = item.name; 
-                    break;
-                }
-            }
-        }
 onMounted(() => {
 
     loadFromServer()
@@ -145,7 +132,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                         <p>Цена</p>
                     </div>
                     <div class="card flex items-center gap-2" v-for="item in selectedItem.products">
-                        <p @click="toggleFullName(item.id, selectedItem.products)" class="w-[112px]">{{ fullName || truncateName(item.name, item.id) }}</p> |
+                        <p @click="toggleFullName(item.id, selectedItem.products)" class="w-[112px]">{{item.name}}</p> |
                         <p class="w-[95px]">{{item.quantity}}</p> |
                         <p>{{item.cost_price}}</p>
                     </div>

@@ -214,12 +214,14 @@ const createAgent = () => {
         localStorage.setItem('valyutUsd', usd.Rate)
     } 
 }
-onMounted(fetchValyuta)
+onMounted(async () => {
+    await fetchValyuta();
+});
 </script>
 
 <template>
     <section class="new-order lg:flex ">
-        <div class="left lg:w-[840px] lg:border-r lg:pr-4">
+        <div class="left lg:w-[400px] xl:w-[800px] lg:border-r lg:pr-4">
             <div class="flex justify-between items-center">
 
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
@@ -292,7 +294,7 @@ onMounted(fetchValyuta)
                 </div>
             </div>
         </div>
-        <div class="right lg:w-[280px] lg:pl-3 lg:h-[630px]">
+        <div class="right lg:w-[250px] 2xl:w-[300px] lg:pl-3 ">
             <div class="clients mt-3">
                 <div class="top flex justify-between font-semibold text-lg ">
 

@@ -5,6 +5,7 @@ export interface IMenuItem {
   items?: { title: string; url: string }[];
 }
 
+
 let userRole: string | null = null;
 if (typeof localStorage !== "undefined") {
   userRole = localStorage.getItem("role");
