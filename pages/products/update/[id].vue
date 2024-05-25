@@ -126,8 +126,8 @@ onMounted(async () => {
                         
                         <div v-for="(imageUrl, index) in imageUrls" :key="index" class="relative w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] mt-10">
                             <img v-if="imageUrl" :src="imageUrl"
-                               class="w-full h-full rounded-2xl" alt="Выбранное изображение">
-                               <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="w-full h-full rounded-2xl">
+                               class="w-full h-full rounded-2xl object-cover" alt="Выбранное изображение">
+                               <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="w-full h-full rounded-2xl object-cover">
                             <button class="absolute top-0 right-0 p-2 bg-red-500 text-white rounded-full"
                                 @click="removeImage(index)">
                                 X
@@ -142,7 +142,7 @@ onMounted(async () => {
                 <div>
                     <div class="flex flex-wrap gap-10">
                         <img v-if="item.id" :src="`${base_url}/image/${item.id}`" alt="Photo"
-                            class="w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] mt-10 rounded-2xl"> 
+                            class="w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] mt-10 rounded-2xl object-cover"> 
                         
                     </div>
                 </div>

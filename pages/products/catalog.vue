@@ -1,4 +1,4 @@
-<script setup lang="ts">
+    <script setup lang="ts">
 import Stat from './components/Stat.vue';
 import CatalogTable from './components/CatalogTable.vue';
 import InputSearch from './components/InputSearch.vue'

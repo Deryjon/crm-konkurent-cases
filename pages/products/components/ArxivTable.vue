@@ -96,8 +96,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id, name, price, code, quantity })">{{ name }}</p>
         </template>
         <template #item-photo="{ id }">
-            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
+            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto object-cover">
+            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto object-cover">
         </template>
         <template #item-operation="{ id }">
       <div class="operation-wrapper flex gap-1 items-center justify-center">
@@ -127,7 +127,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 </div>
                 <div class="icon">
                     <img v-if="!selectedItem.photo" :src="`${base_url}/image/${selectedItem.id}`" alt="Photo"
-                        class="w-[200px] mx-auto">
+                        class="w-[200px] mx-auto object-cover">
                 </div>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <div class="name">

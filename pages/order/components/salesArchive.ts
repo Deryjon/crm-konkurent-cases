@@ -1,5 +1,4 @@
 import {  ref, watch } from "vue";
-import { useFetch } from "@vueuse/core";
 import { base_url } from "~/api";
 import { useSearchStore } from "~/store/searchCatalog.store";
 import { useToast } from 'vue-toastification'
@@ -21,7 +20,7 @@ export const useSaleService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate:
     const token = localStorage.getItem("token");
     if (!token) return; 
 
-    const { data,status } = await useFetch(
+    const { status, data  } = await useFetch(
       `${base_url}/sale/refund?from=${fromDate.value}&to=${toDate.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
         method: "GET",
@@ -29,7 +28,7 @@ export const useSaleService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate:
           Authorization: "Bearer " + token,
         },
       }
-    ).json();
+    );
     if (status.value === "success") {
       items.value = data.value.refunds;
     }

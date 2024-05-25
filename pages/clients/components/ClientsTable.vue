@@ -115,7 +115,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         </UCard>
     </USlideover>
 </template>
-<style scoped>.customize-table {
+<style scoped>
+.customize-table {
     --easy-table-border: 1px solid #262626;
     --easy-table-border-radius: 1000px;
     --easy-table-row-border: 1px solid #ffffff;

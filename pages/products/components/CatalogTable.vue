@@ -110,8 +110,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         </template>
         <template #item-photo="{ id }">
             <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo"
-                class="rounded-2xl border-black photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
+                class="rounded-2xl border-black photo-cell mx-auto object-cover">
+            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto object-cover">
         </template>
         <template #item-operation="{ id }" :key="id">
             <div class="operation-wrapper flex gap-1 items-center justify-center ">
@@ -141,7 +141,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
                 <div class="icon">
                     <img v-if="!selectedItem.photo" :src="`${base_url}/image/${selectedItem.id}`" alt="Photo"
-                        class="w-[200px] mx-auto border">
+                        class="w-[200px] mx-auto border object-cover">
                 </div>
                 <div class="wrapper flex items-center justify-center gap-6">
                     <div class="name">
