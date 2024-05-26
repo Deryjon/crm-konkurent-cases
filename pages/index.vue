@@ -77,7 +77,7 @@ const fetchDashboard = async () => {
       Authorization: "Bearer " + token,
     },
   }).json();
-  items.value = data.value;
+  items.value = data?.value;
   lastWeekData.value = data.value.last7daySales;
   lastYear.value = data.value.lastYearSales;
   weekdayData.labels = lastWeekData.value.map(item => item.label);

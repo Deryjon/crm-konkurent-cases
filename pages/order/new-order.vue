@@ -1,28 +1,24 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue';
 import { base_url } from '~/api';
-import { useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification';
 import { useFetch } from "@vueuse/core";
-
 
 useHead({
     title: "Новая продажа"
-})
+});
 
 const toast = useToast();
-
-
-const valyutUsd = ref(0)
-
-const products = ref<{ id: string, quantity: number, cost_price: number, sale_price: number, code: string, dropdownOpen: boolean }[]>([
-    { id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false }
-]);
+const valyutUsd = ref(0);
 const code = ref('');
-const items = ref<{ id: string, name: string, code: string, price: number }[]>([]);
-const selectedProducts = ref<{ name: string, code: string, price: number }[]>([]);
-const fetchProducts = async (value: string) => {
+const items = ref([]);
+const dropdownOpen = ref(false);
+const selectedProducts = ref([]);
+const products = ref([{ id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false }]);
+
+const fetchProducts = async (value) => {
     const token = localStorage.getItem("token") || "";
-    const { data, status } = await useFetch(
+    const { data } = await useFetch(
         `${base_url}/product?pattern=${value}&limit=3`,
         {
             method: "GET",
@@ -31,33 +27,29 @@ const fetchProducts = async (value: string) => {
             },
         }
     ).json();
-    const products = data.value.products;
-    items.value = products.map((product: { id: string; name: string; code: string; price: number; }) => ({
+    items.value = data.value.products.map(product => ({
         id: product.id,
         name: product.name,
         code: product.code,
         price: product.price,
     }));
-    console.log(data.value.products)
-    console.log(items)
-    
 };
 
 const numberProduct = ref(1);
 const selectedButton = ref('USD');
-const discountValue = ref(0); // Значение скидки
+const discountValue = ref(0);
 
-const selectButton = (button: string) => {
+const selectButton = (button) => {
     selectedButton.value = button;
 };
 
-const toggleDropdown = (index: number) => {
-    products.value[index].dropdownOpen = !products.value[index].dropdownOpen;
+const toggleDropdown = () => {
+    dropdownOpen.value = !dropdownOpen.value;
 };
 
-watch(code, (newCode, oldCode) => {
+watch(code, (newCode) => {
     fetchProducts(newCode);
-})
+});
 
 const selectItem = (item) => {
     selectedProducts.value.push({
@@ -65,28 +57,26 @@ const selectItem = (item) => {
         name: item.name,
         code: item.code,
         price: item.price,
-        quantity: ref(1)
+        quantity: 1, 
     });
-    code.value = '';
-    toggleDropdown(0);
-};
-
+dropdownOpen.value = false;
+    code.value = '';   
+}
 const subtotal = computed(() => {
     return selectedProducts.value.reduce((acc, product) => acc + product.price * product.quantity, 0);
 });
 
 const discountAmount = computed(() => {
     if (selectedButton.value === 'USD') {
-        // Если выбраны USD, то скидка применяется напрямую
         return discountValue.value;
     } else if (selectedButton.value === '%') {
-        // Если выбраны проценты, то скидка вычисляется как процент от общей суммы
         return (subtotal.value * discountValue.value) / 100;
     }
+    return 0;
 });
 
 const createOrder = async () => {
-    if (!selectedClient.value[0]?.id ) {
+    if (!selectedClient.value[0]?.id) {
         toast.warning("Выберите клиента");
         return;
     }
@@ -98,11 +88,10 @@ const createOrder = async () => {
             quantity: product.quantity,
             price: product.price
         })),
-        total_uzs: Math.floor((subtotal.value - discountAmount.value) * valyutUsd),
-        total_usd: subtotal.value - discountAmount.value ,
+        total_uzs: Math.floor((subtotal.value - discountAmount.value) * valyutUsd.value),
+        total_usd: subtotal.value - discountAmount.value,
         currency_code: "USD"
     };
-
 
     const token = localStorage.getItem('token') || '';
     const body = JSON.stringify(order);
@@ -119,7 +108,7 @@ const createOrder = async () => {
 
         if (response.ok) {
             toast.success("Продажа создана");
-        selectedProducts.value = [];
+            selectedProducts.value = [];
         } else {
             toast.error("Ошибка при создании продажи");
         }
@@ -127,11 +116,11 @@ const createOrder = async () => {
         console.error("Ошибка при выполнении запроса:", error);
         toast.error("Ошибка при выполнении запроса");
     }
-}
+};
 
 const clientName = ref('');
-const customers = ref<{ id: string, fio: string, phone: string, address: string}[]>([]);
-const selectedClient = ref<{ id: string, fio: string, phone: string }[]>([]);
+const customers = ref([]);
+const selectedClient = ref([]);
 const fetchClients = async () => {
     const token = localStorage.getItem('token') || '';
     const { data } = await useFetch(`${base_url}/customer?pattern=${encodeURIComponent(clientName.value)}&limit=3`, {
@@ -139,20 +128,19 @@ const fetchClients = async () => {
         headers: {
             "Authorization": "Bearer " + token,
         },
-    });
+    }).json();
     if (data) {
-        console.log(data.value);
         customers.value = data.value.customers;
     }
 };
 
-watch(clientName, (newName, oldName) => {
+watch(clientName, () => {
     fetchClients();
-})
+});
 
-const dropdownСlientOpen = ref(false);
+const dropdownClientOpen = ref(false);
 const toggleDropdownClient = () => {
-    dropdownСlientOpen.value = !dropdownСlientOpen.value;
+    dropdownClientOpen.value = !dropdownClientOpen.value;
 };
 
 const selectClient = (item) => {
@@ -166,8 +154,8 @@ const selectClient = (item) => {
 };
 
 const agentName = ref('');
-const agents = ref<{ id: string, fio: string, phone: string, instagram_username: string}[]>([]);
-const selectedAgent = ref<{ id: string, fio: string, phone: string }[]>([]);
+const agents = ref([]);
+const selectedAgent = ref([]);
 const fetchAgents = async () => {
     const token = localStorage.getItem('token') || '';
     const { data } = await useFetch(`${base_url}/agent?pattern=${encodeURIComponent(agentName.value)}&limit=3`, {
@@ -175,17 +163,15 @@ const fetchAgents = async () => {
         headers: {
             "Authorization": "Bearer " + token,
         },
-    });
+    }).json();
     if (data) {
-        console.log(data.value);
         agents.value = data.value.agents;
     }
 };
 
-watch(agentName, (newName, oldName) => {
+watch(agentName, () => {
     fetchAgents();
-})
-
+});
 
 const dropdownAgentOpen = ref(false);
 const toggleDropdownAgent = () => {
@@ -202,25 +188,22 @@ const selectAgent = (item) => {
     toggleDropdownAgent();
 };
 
-
 const createAgent = () => {
-    toast.warning("Обратитесь к директору")
-}
- const fetchValyuta = async () => {
-    const { data } = await  useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
+    toast.warning("Обратитесь к директору");
+};
+
+const fetchValyuta = async () => {
+    const { data } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
         method: 'GET'
     }).json();
-    const valyut = data.value
-    console.log(valyut[0].Rate)
-    valyutUsd.value = valyut[0].Rate
-    // console.log(valyutUsd);
-    
-}
+    valyutUsd.value = data.value[0].Rate;
+};
+
 onMounted(() => {
     fetchValyuta();
-    
-})
+});
 </script>
+
 
 <template>
     <!-- <section class="loading" v-if="isLoading">
@@ -240,7 +223,7 @@ onMounted(() => {
                             <UiInput v-model="code" type="text" placeholder="Наименование, Артикул"
                                 @focus="toggleDropdown(0)" />
 
-                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute open" :class="{ 'open': products[0].dropdownOpen }">
+                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute " :class="{ 'open': dropdownOpen }">
                                 <li v-for="(item, index) in items" :key="item.id" @click="selectItem(item)"
                                     class="cursor-pointer flex justify-between border items-center ">
                                     <div class="">
