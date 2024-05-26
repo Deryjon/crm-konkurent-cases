@@ -150,7 +150,7 @@ const selectClient = (item) => {
         phone: item.phone,
     });
     clientName.value = item.fio;
-    toggleDropdownClient();
+    dropdownClientOpen.value = false;
 };
 
 const agentName = ref('');
@@ -294,7 +294,7 @@ onMounted(() => {
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
                     <input type="text " placeholder="Имя и номер клиента" class="bg-white dark:bg-[#3b3b3b]" v-model="clientName"
                         @focus="toggleDropdownClient()" />
-                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownСlientOpen }">
+                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownClientOpen }">
                         <li v-for="(item, index) in customers" :key="item.id" @click="selectClient(item)"
                             class="cursor-pointer border flex justify-between items-center ">
                             <div>{{ item.fio }}</div>
