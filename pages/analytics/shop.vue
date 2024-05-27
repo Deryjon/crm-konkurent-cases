@@ -1,72 +1,125 @@
 <script lang="ts" setup>
-  import { Line } from 'vue-chartjs'
   import VueDatePicker from '@vuepic/vue-datepicker';
+  import { base_url } from '~/api';
+  import { useFetch } from "@vueuse/core";
+  import { ref, watch, onMounted } from 'vue';
 
-useHead({
-  title: "Главная"
-})
-const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'Data One',
-      backgroundColor: '#ffffff',
-      borderColor: '#1F78FF',
-      data: [40, 39, 10, 40, 39, 80, 40]
-    }
-  ]
-}
- const options = {
-  responsive: true,
-  maintainAspectRatio: false
-}
+  useHead({
+    title: "Отчеты"
+  });
 
-const date = ref({
-  month: new Date().getMonth(),
-  year: new Date().getFullYear()
-});
+  const headers = [
+    { text: "Дата", value: "date" },
+    { text: "UZS", value: "total_uzs" },
+    { text: "USD", value: "total_usd" },
+  ];
 
-watch(date, (newValue) => {
-  if (newValue) {
-console.log(newValue)  }
-});
-
-onMounted(() => {
-  date.value = {
-    month: new Date().getMonth(),
+  const date = ref({
+    month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
-  }
-})
+  });
 
-</script>
-<template>
-  <section class="new-order  mt-[15px]">
-    <div class="flex justify-between">
-        <h2 class="text-2xl lg:text-4xl font-semibold ">Статистика Магазина</h2>
-        <button class="flex text-white items-center justify-center gap-4 bg-[#1F78FF] lg:w-[200px] rounded-2xl p-5">
-        <Icon name="fa:download" />
-        <p class="text-[16px]  font-semibold hidden lg:block">
-            Скачать Excel
-        </p>
-    </button>    </div> 
-<div class="flex justify-between items-center mt-10">
+  const itemsMonthly = ref([]);
 
-  <p class="text-2xl lg:text-4xl font-semibold mt-[30px]">Ежемесяная продажа</p> 
-  <div class="w-[200px]" >
+  const fetchAnalytics = async () => {
+    let month = date.value.month;
+    month = month.toString().padStart(2, '0');
+    console.log(date.value.year + '-' + month);
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const { data } = await useFetch(`${base_url}/report/monthly?month=${date.value.year}-${month}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }).json();
+      itemsMonthly.value = data.value.report;
+    } catch (error) {
+      console.error('Failed to fetch analytics:', error);
+    }
+  };
+  const convertToCSV = (data: any[]) => {
+    const headers = Object.keys(data[0]);
     
-    <VueDatePicker v-model="date" month-picker  placeholder="Выберите дату"
-                        class=" p-3 rounded-2xl bg-[#1F78FF] " />
-  </div>
-</div>
+    // Создаем строки данных
+    const rows = data.map(obj => {
+        return headers.map(header => obj[header] ?? ''); // Если значение отсутствует, используем пустую строку
+    });
+    const csvRows = rows.map(row => row.join(';')).join('\n');
+        const csvString = headers.join(';') + '\n' + csvRows;
+    
+    return csvString;
+};
 
-    <div class="bar h-[300px]">
 
 
-      <Line :data="data" :options="options" />
+
+const downloadExcel = () => {
+    if (itemsMonthly.value.length === 0) {
+        console.error('No data available for CSV download.');
+        return;
+    }
+
+    const csvContent = convertToCSV(itemsMonthly.value);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "analytics.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+  watch(date, (newValue) => {
+    if (newValue) {
+      let month = newValue.month;
+      month = month.toString().padStart(2, '0');
+      fetchAnalytics();
+    }
+  });
+
+  onMounted(() => {
+    fetchAnalytics();
+    date.value = {
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear()
+    };
+  });
+</script>
+
+
+<template>
+  <section class="new-order mt-[15px]">
+    <div class="flex justify-between">
+      <h2 class="text-2xl lg:text-4xl font-semibold">Статистика Магазина</h2>
+      <button @click="downloadExcel" class="flex text-white items-center justify-center gap-4 bg-[#1F78FF] lg:w-[200px] rounded-2xl p-5">
+        <Icon name="fa:download" />
+        <p class="text-[16px] font-semibold hidden lg:block">
+          Скачать Excel
+        </p>
+      </button>
     </div>
-
+    <div class="flex justify-between items-center mt-10">
+      <p class="text-2xl lg:text-4xl font-semibold mt-[30px]">Ежемесячная продажа</p>
+      <div class="w-[200px]">
+        <VueDatePicker v-model="date" month-picker placeholder="Выберите дату"
+                       class="p-3 rounded-2xl bg-[#1F78FF]" />
+      </div>
+    </div>
+    <EasyDataTable :hide-footer="true"
+                   :headers="headers" :items="itemsMonthly" header-text-direction="center" body-text-direction="center"
+                   class="mt-10" :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']">
+      <template #item-date="{ date }">
+        <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer">{{ date }}</p>
+      </template>
+    </EasyDataTable>
   </section>
 </template>
+
 <style scoped>
 .cart {
   border: 1px #ffffff dashed;
@@ -98,6 +151,93 @@ onMounted(() => {
     --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
     --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
     --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+}
+.customize-table {
+    --easy-table-border: 1px solid #262626;
+    --easy-table-border-radius: 1000px;
+    --easy-table-row-border: 1px solid #ffffff;
+
+    --easy-table-header-font-size: 18px;
+    --easy-table-header-height: 50px;
+    --easy-table-header-font-color: #c1cad4;
+    --easy-table-header-background-color: #262626;
+    --easy-table-header-border-radius: 20px;
+
+    --easy-table-header-item-padding: 10px 15px;
+
+    --easy-table-body-even-row-font-color: #fff;
+    --easy-table-body-even-row-background-color: #262626;
+
+    --easy-table-body-row-font-color: #c0c7d2;
+    --easy-table-body-row-background-color: #262626;
+    --easy-table-body-row-height: 50px;
+    --easy-table-body-row-font-size: 18px;
+
+    --easy-table-body-row-hover-background-color: #535353;
+    --easy-table-body-row-hover-font-color: #c0c7d2;
+
+    --easy-table-body-item-padding: 10px 15px;
+
+    --easy-table-footer-background-color: #262626;
+    --easy-table-footer-font-color: #c0c7d2;
+    --easy-table-footer-font-size: 14px;
+    --easy-table-footer-padding: 0px 10px;
+    --easy-table-footer-height: 50px;
+
+    --easy-table-rows-per-page-selector-width: 70px;
+    --easy-table-rows-per-page-selector-option-padding: 10px;
+    --easy-table-rows-per-page-selector-z-index: 1;
+    --easy-table-scrollbar-track-color: #2d3a4f;
+    --easy-table-scrollbar-color: #2d3a4f;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
+    --easy-table-scrollbar-corner-color: #2d3a4f;
+
+    --easy-table-loading-mask-background-color: #262626;
+}
+
+.customize-light-table {
+    --easy-table-border: 1px solid #262626;
+    --easy-table-border-radius: 1000px;
+    --easy-table-row-border: 1px solid #262626;
+
+    --easy-table-header-font-size: 18px;
+    --easy-table-header-height: 50px;
+    --easy-table-header-font-color: #111;
+    --easy-table-header-background-color: #ffffff;
+    --easy-table-header-border-radius: 20px;
+
+    --easy-table-header-item-padding: 10px 15px;
+
+    --easy-table-body-even-row-font-color: #111;
+    --easy-table-body-even-row-background-color: #262626;
+
+    --easy-table-body-row-font-color: #111;
+    --easy-table-body-row-background-color: #ffffff;
+    --easy-table-body-row-height: 50px;
+    --easy-table-body-row-font-size: 18px;
+
+    --easy-table-body-row-hover-background-color: #909090;
+    --easy-table-body-row-hover-font-color: #111;
+
+    --easy-table-body-item-padding: 10px 15px;
+
+    --easy-table-footer-background-color: #ffffff;
+    --easy-table-footer-font-color: #111;
+    --easy-table-footer-font-size: 14px;
+    --easy-table-footer-padding: 0px 10px;
+    --easy-table-footer-height: 50px;
+
+    --easy-table-rows-per-page-selector-width: 70px;
+    --easy-table-rows-per-page-selector-option-padding: 10px;
+    --easy-table-rows-per-page-selector-z-index: 1;
+    --easy-table-scrollbar-track-color: #2d3a4f;
+    --easy-table-scrollbar-color: #2d3a4f;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
+    --easy-table-scrollbar-corner-color: #2d3a4f;
+
+    --easy-table-loading-mask-background-color: #262626;
 }
 input {
   outline: none;
