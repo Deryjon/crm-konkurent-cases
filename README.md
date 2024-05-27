@@ -2,6 +2,7 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+finished 2024-05-28
 ## Setup
 
 Make sure to install the dependencies:
