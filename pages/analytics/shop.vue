@@ -109,7 +109,7 @@ const downloadExcel = () => {
       </button>
     </div>
     <div class="flex justify-between items-center mt-10">
-      <p class="text-2xl lg:text-4xl font-semibold mt-[30px]">Ежемесячная продажа</p>
+      <p class="text-2xl lg:text-4xl font-semibold mt-[30px]">Ежемесячный отчет о продажах</p>
       <div class="w-[200px]">
         <VueDatePicker v-model="date" month-picker placeholder="Выберите дату"
                        class="p-3 rounded-2xl bg-[#1F78FF]" >
