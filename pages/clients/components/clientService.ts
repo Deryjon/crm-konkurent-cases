@@ -13,10 +13,10 @@ export const useClientsService = (serverOptions: Ref<ServerOptions>) => {
   const searchValue = computed(() => store.searchValue ?? "");
 
   const fetchClients = async () => {
-    if(localStorage.getItem("role") !== "salesman" && "admin") {
+    if(localStorage.getItem("role") !== "admin" && localStorage.getItem("role") !== "salesman") {
       useToast().error('Ошибка при запросе')
       return;
-    }
+    } 
 
     const token = localStorage.getItem('token') || '';
     const { data } = await useFetch(`${base_url}/customer?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`, {

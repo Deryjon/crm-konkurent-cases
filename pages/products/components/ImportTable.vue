@@ -75,8 +75,7 @@ const deleteItem = async (id: string) => {
     }
 
 };
- const goImport = async (id: string, item) => {
-    localStorage.setItem('import-item', JSON.stringify(item))
+ const goImport = async (id: string) => {
         router.push(`/products/imports/${id}`);
    
 }
@@ -129,7 +128,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
                 <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>
-<button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3" @click="goImport(selectedItem.id, selectedItem)">Подбронее об импорте</button>
+<button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3" @click="goImport(selectedItem.id)">Подбронее об импорте</button>
 
 
                     <!-- <div class="card flex gap-2" >

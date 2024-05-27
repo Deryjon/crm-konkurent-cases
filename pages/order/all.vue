@@ -34,7 +34,6 @@ onMounted(() => {
     const startDate = new Date();
     const endDate = new Date();
     date.value = [startDate, endDate];
-    //   fetchSales(); 
 });
 
 watch(date, (newValue) => {
@@ -44,8 +43,6 @@ watch(date, (newValue) => {
 });
 
 const totalUsd = computed(() => items.value.reduce((total, sale) => total + sale.total_usd, 0));
-
-// Вычисляем общий total_uzs из всех элементов массива items
 const totalUzs = computed(() => items.value.reduce((total, sale) => total + sale.total_uzs, 0));
 
 const calculateTotalQuantity = (products) => {

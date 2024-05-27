@@ -18,7 +18,7 @@ const router = useRouter();
 const toast = useToast();
 
 const createClient = async () => {
-    if(localStorage.getItem("role") !== "salesman" && "admin") {
+    if(localStorage.getItem("role") !== "salesman" && localStorage.getItem("role") !== "admin") {
       toast.error('Ошибка при запросе')
       return;
     }

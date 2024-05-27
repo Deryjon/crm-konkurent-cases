@@ -13,10 +13,10 @@ export const useAgentsService = (serverOptions: Ref<ServerOptions>) => {
   const searchValue = computed(() => store.searchValue ?? "");
 
   const fetchAgents = async () => {
-    if(localStorage.getItem("role") !== "salesman" && "admin") {
+    if(localStorage.getItem("role") !== "admin" && localStorage.getItem("role") !== "salesman") {
       useToast().error('Ошибка при запросе')
       return;
-    }
+    } 
     const token = localStorage.getItem('token') || '';
     const { data } = await useFetch(`${base_url}/agent?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`, {
       method: 'GET',

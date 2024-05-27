@@ -24,7 +24,7 @@
   const itemsMonthly = ref([]);
 
   const fetchAnalytics = async () => {
-    if(localStorage.getItem("role") !== "admin" && "manager") {
+    if(localStorage.getItem("role") !== "admin" && localStorage.getItem("role") !== "manager") {
       toast.error('Ошибка при запросе')
       return;
     }
@@ -67,7 +67,6 @@ const downloadExcel = () => {
         console.error('No data available for CSV download.');
         return;
     }
-
     const csvContent = convertToCSV(itemsMonthly.value);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -89,7 +88,7 @@ const downloadExcel = () => {
   });
 
   onMounted(() => {
-    fetchAnalytics();
+    // fetchAnalytics();
     date.value = {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear()
@@ -113,7 +112,10 @@ const downloadExcel = () => {
       <p class="text-2xl lg:text-4xl font-semibold mt-[30px]">Ежемесячная продажа</p>
       <div class="w-[200px]">
         <VueDatePicker v-model="date" month-picker placeholder="Выберите дату"
-                       class="p-3 rounded-2xl bg-[#1F78FF]" />
+                       class="p-3 rounded-2xl bg-[#1F78FF]" >
+                       <template #clear-icon="{ clear }">
+        </template>
+                      </VueDatePicker>
       </div>
     </div>
     <EasyDataTable :hide-footer="true"
