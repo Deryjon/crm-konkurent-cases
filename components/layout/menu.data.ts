@@ -28,22 +28,24 @@ export const MENU_DATA: IMenuItem[] = [
     name: "Продажи",
     icon: "heroicons:shopping-cart",
     url: "/order",
-    items: [ userRole !== "admin, director" ?
+    items: [ userRole !== "admin" && userRole !== "manager"  ?
       { title: "Новая продажа", url: "/order/new-order" } : null,
-      { title: "Все продажи", url: "/order/all" },
+      userRole !== "manager" && userRole !== "salesman"  ?
+
+      { title: "Все продажи", url: "/order/all" } : null,
       { title: "Возврат", url: "/order/archive-order" },
     ].filter(Boolean),
-  },
+  }, userRole !== "manager"  ?
   {
     name: "Клиенты и Агенты",
     icon: "heroicons:user-group",
     url: "/clients",
-    items: [
+    items: [ 
        { title: "Все клиенты", url: "/clients/all" } ,
-       userRole !== "manager" && userRole !== "salesman"  ?
+       userRole !== "salesman"  ?
       { title: "Все агенты", url: "/clients/agents" } : null,
     ].filter(Boolean),
-  },
+  } : null,
    userRole !== "salesman" ? 
   {
     name: "Отчеты",
