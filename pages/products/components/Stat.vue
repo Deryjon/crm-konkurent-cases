@@ -25,6 +25,10 @@ const fetchValyuta = async () => {
         valyutaKurs.value = data.value[0].Rate
     }
 }
+const formatNumber = (value: number | undefined): string => {
+  if (value === undefined) return '';
+  return new Intl.NumberFormat('de-DE').format(value);
+};
 fetchValyuta()
 onMounted(() => {
     fetchStats()
@@ -39,7 +43,7 @@ onMounted(() => {
             <p class="text-sm">Наименований</p>
             <div class="flex items-center gap-1">
 
-                <p>{{ statsProduct?.total_products }}</p>
+                <p>{{ formatNumber(statsProduct?.total_products) }}</p>
                 <p>шт</p>
             </div>
         </div>
@@ -48,15 +52,15 @@ onMounted(() => {
             <Icon name="heroicons:cube" class="h-5 w-5 text-muted-foreground" />
             <p class="text-sm">Товарных единиц</p>
             <div class="flex items-center gap-1">
-                <p>{{ statsProduct?.total_quantity }}</p>
-                <p>ед.</p>
+                <p>{{ formatNumber(statsProduct?.total_quantity) }}</p>
+                <p>ед</p>
             </div>
         </div>
         <div class="w-[150px] lg:w-[250px] bg-white border-2 dark:bg-[#353535] rounded-2xl p-1 lg:p-3">
             <Icon name="ph:money" class="h-5 w-5 text-muted-foreground" />
             <p class="text-sm">Сумма по цене продажи</p>
             <div class="flex items-center gap-1">
-                <p>{{ statsProduct?.total_stock_value }}</p>
+                <p>{{ formatNumber(statsProduct?.total_stock_value) }}</p>
                 <p>USD</p>
             </div>
         </div>
@@ -64,7 +68,7 @@ onMounted(() => {
             <Icon name="ph:money" class="h-5 w-5 text-muted-foreground" />
             <p class="text-sm">Сумма по цене продажи</p>
             <div class="flex items-center gap-1">
-                <p>{{ Math.round(statsProduct?.total_stock_value * valyutaKurs) }}</p>
+                <p>{{ formatNumber(Math.round(statsProduct?.total_stock_value * valyutaKurs)) }}</p>
                 <p>UZS</p>
             </div>
         </div>

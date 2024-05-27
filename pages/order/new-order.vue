@@ -43,6 +43,26 @@ const selectButton = (button) => {
     selectedButton.value = button;
 };
 
+watch(discountValue, (newDiscountValue) => {
+    if (selectedButton.value === '%') {
+        if (newDiscountValue > 100) {
+            discountValue.value = 0;
+            toast.warning("Скидка не может быть больше 100%");
+        }
+    }
+ 
+})
+
+watch(discountValue, (newDiscountValue) => {
+
+if (selectedButton.value === 'USD') {
+        if (newDiscountValue > subtotal.value || newDiscountValue === '') {
+            discountValue.value = 0;
+            toast.warning("Скидка не может быть больше суммы продажи");
+        }
+    }
+})
+
 const toggleDropdown = () => {
     dropdownOpen.value = !dropdownOpen.value;
 };
@@ -57,10 +77,10 @@ const selectItem = (item) => {
         name: item.name,
         code: item.code,
         price: item.price,
-        quantity: 1, 
+        quantity: 1,
     });
-dropdownOpen.value = false;
-    code.value = '';   
+    dropdownOpen.value = false;
+    code.value = '';
 }
 const subtotal = computed(() => {
     return selectedProducts.value.reduce((acc, product) => acc + product.price * product.quantity, 0);
@@ -74,6 +94,11 @@ const discountAmount = computed(() => {
     }
     return 0;
 });
+
+const formatNumber = (value: number | undefined): string => {
+  if (value === undefined) return '';
+  return new Intl.NumberFormat('de-DE').format(value);
+};
 
 const createOrder = async () => {
     if (!selectedClient.value[0]?.id) {
@@ -109,6 +134,11 @@ const createOrder = async () => {
         if (response.ok) {
             toast.success("Продажа создана");
             selectedProducts.value = [];
+            subtotal.value = 0;
+            discountValue.value = 0;
+            selectedButton.value = 'USD';
+            agentName.value = '';
+            clientName.value = '';
         } else {
             toast.error("Ошибка при создании продажи");
         }
@@ -209,13 +239,13 @@ onMounted(() => {
     <!-- <section class="loading" v-if="isLoading">
         <div class="loader">loader</div>
     </section> -->
-    <section class="new-order lg:flex " >
+    <section class="new-order lg:flex ">
         <div class="left lg:w-[400px] xl:w-[800px] lg:border-r lg:pr-4">
             <div class="flex justify-between items-center">
 
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
-             <p class="text-xl font-semibold">Курс - {{valyutUsd}} USD</p>
-        </div>
+                <p class="text-xl font-semibold">Курс - {{ valyutUsd }} USD</p>
+            </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
                     <div class="code w-full lg:w-3/4 relative">
@@ -223,7 +253,8 @@ onMounted(() => {
                             <UiInput v-model="code" type="text" placeholder="Наименование, Артикул"
                                 @focus="toggleDropdown(0)" />
 
-                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute " :class="{ 'open': dropdownOpen }">
+                            <ul class="options-list bg-white dark:bg-[#404040]  mt-1 absolute "
+                                :class="{ 'open': dropdownOpen }">
                                 <li v-for="(item, index) in items" :key="item.id" @click="selectItem(item)"
                                     class="cursor-pointer flex justify-between border items-center ">
                                     <div class="">
@@ -238,7 +269,7 @@ onMounted(() => {
                             </ul>
                         </div>
                     </div>
-                  
+
                 </div>
                 <div class="body mt-5">
                     <div class="top flex items-center gap-6">
@@ -256,7 +287,8 @@ onMounted(() => {
                             <div class="left flex items-center gap-6">
                                 <div class="etc flex items-center gap-2">
                                     <input v-model="product.quantity" type="number"
-                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-white border dark:bg-[#404040]"> шт
+                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-white border dark:bg-[#404040]">
+                                    шт
                                 </div>
                                 <div class="name-product">
                                     <p>{{ product.name }}</p>
@@ -292,9 +324,10 @@ onMounted(() => {
                 </div>
                 <div class=" bg-white border-2 dark:bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 relative">
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
-                    <input type="text " placeholder="Имя и номер клиента" class="bg-white dark:bg-[#3b3b3b]" v-model="clientName"
-                        @focus="toggleDropdownClient()" />
-                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownClientOpen }">
+                    <input type="text " placeholder="Имя и номер клиента" class="bg-white dark:bg-[#3b3b3b]"
+                        v-model="clientName" @focus="toggleDropdownClient()" />
+                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute"
+                        :class="{ 'open': dropdownClientOpen }">
                         <li v-for="(item, index) in customers" :key="item.id" @click="selectClient(item)"
                             class="cursor-pointer border flex justify-between items-center ">
                             <div>{{ item.fio }}</div>
@@ -318,9 +351,10 @@ onMounted(() => {
                 </div>
                 <div class="bg-white border-2 dark:bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 relative">
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
-                    <input type="text " placeholder="Имя и номер агента" class="bg-white dark:bg-[#404040]" v-model="agentName"
-                        @focus="toggleDropdownAgent()" />
-                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute" :class="{ 'open': dropdownAgentOpen }">
+                    <input type="text " placeholder="Имя и номер агента" class="bg-white dark:bg-[#404040]"
+                        v-model="agentName" @focus="toggleDropdownAgent()" />
+                    <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute"
+                        :class="{ 'open': dropdownAgentOpen }">
                         <li v-for="(item, index) in agents" :key="item.id" @click="selectAgent(item)"
                             class="cursor-pointer border flex justify-between items-center ">
                             <div>{{ item.fio }}</div>
@@ -341,7 +375,8 @@ onMounted(() => {
 
                     <UiInput type="number" placeholder="Введите скидку" class="w-[120px]" v-model="discountValue" />
 
-                    <div class="flex items-center bg-white border    dark:bg-[#404040] rounded-2xl w-[120px] h-[60px] mt-4">
+                    <div
+                        class="flex items-center bg-white border    dark:bg-[#404040] rounded-2xl w-[120px] h-[60px] mt-4">
                         <button class=" py-4 w-1/2 rounded-2xl" :class="{ 'border': selectedButton === 'USD' }"
                             @click="selectButton('USD')">
                             USD
@@ -354,25 +389,26 @@ onMounted(() => {
                 </div>
             </div>
             <div class="bg-white border-2 dark:bg-[#404040] rounded-2xl p-5 shadow-2xl mt-5 lg:mt-24">
-                <div class="obs flex items center justify-between text-md p-2">
+                <div class="obs flex flex-wrap items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ (subtotal - discountAmount) }} USD</p>
+                    <p>{{ formatNumber(subtotal - discountAmount) }} USD</p>
                 </div>
-                <div class="obs flex items center justify-between text-md p-2">
+                <div class="obs flex flex-wrap items center justify-between text-md p-2">
                     <p>Подитог</p>
-                    <p>{{ (subtotal * valyutUsd - (discountAmount * valyutUsd)).toFixed(2) }} UZS</p>
+                    <p>{{ formatNumber((subtotal * valyutUsd - (discountAmount * valyutUsd)).toFixed(2)) }} UZS</p>
                 </div>
-                <div class="discount flex items center justify-between text-md p-2" v-if="discountAmount !== 0">
+                <div class="discount flex flex-wrap items center justify-between text-md p-2" v-if="discountAmount !== 0">
                     <p>Скидка</p>
-                    <p>{{ (subtotal - discountAmount) }} USD</p>
+                    <p>{{ formatNumber(subtotal - discountAmount) }} USD</p>
                 </div>
 
 
 
-                <button class="btn bg-[#1F78FF] flex items-center justify-between rounded-2xl p-5 text-center w-full"
-                    @click="createOrder">                    <p>Оплатить</p>
-                             <p>{{ (subtotal - discountAmount) }} USD</p>
-</button>
+                <button class="btn bg-[#1F78FF] flex flex-wrap items-center justify-between rounded-2xl p-5 text-center w-full"
+                    @click="createOrder">
+                    <p>Оплатить</p>
+                    <p>{{ formatNumber(subtotal - discountAmount) }} USD</p>
+                </button>
             </div>
         </div>
     </section>
@@ -384,36 +420,36 @@ input {
 }
 
 .relative {
-  position: relative;
-  /* Изменено позиционирование */
+    position: relative;
+    /* Изменено позиционирование */
 }
 
 
 .options-list {
-  position: absolute;
-  top: calc(100% + -3px);
-  left: 0;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: hidden;
-  margin-top: 4px;
-  padding: 0;
-  list-style-type: none;
-  border-radius: 5px;
-  display: none;
+    position: absolute;
+    top: calc(100% + -3px);
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: hidden;
+    margin-top: 4px;
+    padding: 0;
+    list-style-type: none;
+    border-radius: 5px;
+    display: none;
 }
 
 .options-list.open {
-  display: block;
-  z-index: 10;
+    display: block;
+    z-index: 10;
 }
 
 .options-list li {
-  padding: 8px;
-  cursor: pointer;
+    padding: 8px;
+    cursor: pointer;
 }
 
 .options-list li:hover {
-  background-color: #878787;
+    background-color: #878787;
 }
 </style>
