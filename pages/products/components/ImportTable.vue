@@ -39,8 +39,6 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 function openSlideover(acceptance) {
-    console.log(acceptance)
-    console.log(acceptance.products)
     selectedItem.value = acceptance;
     isOpen.value = true;
 }
@@ -77,6 +75,11 @@ const deleteItem = async (id: string) => {
     }
 
 };
+ const goImport = async (id: string, item) => {
+    localStorage.setItem('import-item', JSON.stringify(item))
+        router.push(`/products/imports/${id}`);
+   
+}
 onMounted(() => {
 
     loadFromServer()
@@ -126,7 +129,10 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
                 <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>
-                    <div class="card flex gap-2" >
+<button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3" @click="goImport(selectedItem.id, selectedItem)">Подбронее об импорте</button>
+
+
+                    <!-- <div class="card flex gap-2" >
                         <p>Наименование</p> |
                         <p>Количество</p> |
                         <p>Цена</p>
@@ -135,7 +141,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                         <p @click="toggleFullName(item.id, selectedItem.products)" class="w-[112px]">{{item.name}}</p> |
                         <p class="w-[95px]">{{item.quantity}}</p> |
                         <p>{{item.cost_price}}</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             

@@ -123,7 +123,10 @@ const deleteItem = async (id: string) => {
                 <div class="w-[200px]">
 
                     <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
-                        class=" p-3 rounded-2xl bg-[#1F78FF] " />
+                        class=" p-3 rounded-2xl bg-[#1F78FF] " >
+                        <template #clear-icon="{ clear }">
+        </template>
+                    </VueDatePicker>
                 </div>
             </div>
             <div class="search mt-5 lg:mt-10">
@@ -256,30 +259,30 @@ input {
 }
 
 .dp__theme_light {
-    --dp-background-color: #1F78FF;
-    --dp-text-color: #ffffff;
-    --dp-hover-text-color: #ffffff;
-    --dp-hover-icon-color: #959595;
-    --dp-primary-color: #1976d2;
-    --dp-primary-disabled-color: #6bacea;
-    --dp-primary-text-color: #f8f5f5;
-    --dp-secondary-color: #c0c4cc;
-    --dp-menu-border-color: #1F78FF;
-    --dp-border-color: #1F78FF;
-    --dp-border-color-hover: #1F78FF;
-    --dp-disabled-color: #f6f6f6;
-    --dp-scroll-bar-background: #1F78FF;
-    --dp-scroll-bar-color: #1F78FF;
-    --dp-success-color: #76d275;
-    --dp-success-color-disabled: #a3d9b1;
-    --dp-icon-color: #ffffff;
-    --dp-danger-color: #ff6f60;
-    --dp-marker-color: #ff6f60;
-    --dp-tooltip-color: #fafafa;
-    --dp-disabled-color-text: #8e8e8e;
-    --dp-highlight-color: rgb(25 118 210 / 10%);
-    --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
-    --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
-    --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
-}
+      --dp-background-color: #1F78FF;
+      --dp-text-color: #ffffff;
+      --dp-hover-text-color: #ffffff;
+      --dp-hover-icon-color: #959595;
+      --dp-primary-color: #1976d2;
+      --dp-primary-disabled-color: #6bacea;
+      --dp-primary-text-color: #f8f5f5;
+      --dp-secondary-color: #c0c4cc;
+      --dp-menu-border-color: #1F78FF;
+      --dp-border-color: #1F78FF;
+      --dp-border-color-hover: #1F78FF;
+      --dp-disabled-color: #f6f6f6;
+      --dp-scroll-bar-background: #1F78FF;
+      --dp-scroll-bar-color: #1F78FF;
+      --dp-success-color: #76d275;
+      --dp-success-color-disabled: #a3d9b1;
+      --dp-icon-color: #ffffff;
+      --dp-danger-color: #ff6f60;
+      --dp-marker-color: #ff6f60;
+      --dp-tooltip-color: #fafafa;
+      --dp-disabled-color-text: #8e8e8e;
+      --dp-highlight-color: rgb(25 118 210 / 10%);
+      --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+      --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+      --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+  }
 </style>

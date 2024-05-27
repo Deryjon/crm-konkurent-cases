@@ -62,7 +62,7 @@ const headers = [
 
 ];
  
-const itemstopProducts = []
+const itemstopProducts = ref([])
 const fetchDashboard = async () => {
   const token = localStorage.getItem("token");
   if (!token) return;
@@ -73,6 +73,7 @@ const fetchDashboard = async () => {
     },
   }).json();
   items.value = data?.value;
+  itemstopProducts.value = data.value.topProducts
   lastWeekData.value = data.value.last7daySales;
   lastYear.value = data.value.lastYearSales;
   weekdayData.labels = lastWeekData.value.map(item => item.label);

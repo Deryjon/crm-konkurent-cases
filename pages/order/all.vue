@@ -124,16 +124,14 @@ const deleteItem = async (id: string) => {
                 <div class="w-[200px]">
 
                     <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
-                        class=" p-3 rounded-2xl bg-[#1F78FF] " />
+                        class=" p-3 rounded-2xl bg-[#1F78FF] " >
+                        <template #clear-icon="{ clear }">
+        </template>
+                    </VueDatePicker>
                 </div>
             </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
-
-                    <!-- <button class="flex items-center gap-4 bg-[#1F78FF]  rounded-2xl p-5">
-                        <Icon name="fontisto:arrow-return-right" />
-                        <p>Возврат</p>
-                    </button> -->
                 </div>
                 <div class="body mt-5">
                     <div class="cards flex flex-col gap-3 mt-5">
