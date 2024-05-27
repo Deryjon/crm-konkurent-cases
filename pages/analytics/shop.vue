@@ -3,10 +3,12 @@
   import { base_url } from '~/api';
   import { useFetch } from "@vueuse/core";
   import { ref, watch, onMounted } from 'vue';
-
+  import { useToast } from 'vue-toastification';
   useHead({
     title: "Отчеты"
   });
+
+  const toast = useToast();
 
   const headers = [
     { text: "Дата", value: "date" },
@@ -22,6 +24,10 @@
   const itemsMonthly = ref([]);
 
   const fetchAnalytics = async () => {
+    if(localStorage.getItem("role") !== "admin" && "manager") {
+      toast.error('Ошибка при запросе')
+      return;
+    }
     let month = date.value.month;
     month = month.toString().padStart(2, '0');
     console.log(date.value.year + '-' + month);

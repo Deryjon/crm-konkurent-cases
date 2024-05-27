@@ -18,6 +18,11 @@ const router = useRouter();
 const toast = useToast();
 
 const createClient = async () => {
+    if(localStorage.getItem("role") !== "salesman" && "admin") {
+      toast.error('Ошибка при запросе')
+      return;
+    }
+
     const phoneRegex = /^\+\d{3}\d{9}$/;
     const isValidPhone = phoneRegex.test(phone.value);
 

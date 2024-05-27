@@ -1,6 +1,8 @@
 import { ref, watch } from "vue";
 import { useFetch } from "@vueuse/core";
 import { base_url } from "~/api";
+import { useToast } from 'vue-toastification';
+
 // import { useSeller } from "~/store/searchImport";
 
 interface ServerOptions {
@@ -26,6 +28,11 @@ export const useSellerService = (
   let total = ref(0);
 
   const fetchSellers = async () => {
+    if(localStorage.getItem("role") !== "admin") {
+      useToast().error('Ошибка при запросе')
+      return;
+    }
+
     const token = localStorage.getItem("token");
     if (!token) return;
     const { data } = await useFetch(`${base_url}/user?&limit=10`, {

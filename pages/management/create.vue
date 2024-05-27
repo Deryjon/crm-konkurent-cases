@@ -18,6 +18,15 @@ const router = useRouter();
 const toast = useToast();
 
 const createWorker = async () => {
+    if(localStorage.getItem("role") !== "admin") {
+      toast.error('Ошибка при запросе')
+      return;
+    }
+
+    if (!name.value || !login.value || !role.value || !password.value) {
+        toast.error('Заполните все обязательные поля');
+        return;
+    }
     const body = {
         fio: name.value,
         login: login.value,

@@ -22,6 +22,11 @@ const phoneValid = computed(() => {
     return phoneRegex.test(phone.value);
 });
 const createAgent = async () => {
+    if(localStorage.getItem("role") !== "admin") {
+      toast.error('Ошибка при запросе')
+      return;
+    }
+
     const phoneRegex = /^\+\d{3}\d{9}$/;
     const isValidPhone = phoneRegex.test(phone.value);
 

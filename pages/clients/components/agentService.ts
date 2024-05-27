@@ -2,6 +2,7 @@ import { useFetch } from '@vueuse/core';
 import { base_url } from '~/api';
 import { ref, watch } from 'vue';
 import { useSearchAgentStore } from '~/store/searchAgentStore.store'
+import { useToast } from 'vue-toastification';
 
 
 export const useAgentsService = (serverOptions: Ref<ServerOptions>) => {
@@ -12,6 +13,10 @@ export const useAgentsService = (serverOptions: Ref<ServerOptions>) => {
   const searchValue = computed(() => store.searchValue ?? "");
 
   const fetchAgents = async () => {
+    if(localStorage.getItem("role") !== "salesman" && "admin") {
+      useToast().error('Ошибка при запросе')
+      return;
+    }
     const token = localStorage.getItem('token') || '';
     const { data } = await useFetch(`${base_url}/agent?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`, {
       method: 'GET',
