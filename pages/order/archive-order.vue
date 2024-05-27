@@ -8,7 +8,7 @@ import { useToast } from 'vue-toastification'
 
 
 useHead({
-    title: "Архив продажи"
+    title: "Возврат продажи"
 })
 
 const date = ref<Date[]>([]);
@@ -119,7 +119,7 @@ const deleteItem = async (id: string) => {
     <section class="new-order lg:flex mt-[15px]">
         <div class="left lg:w-[830px] lg:border-r lg:pr-4 mt-[10px]">
             <div class="flex justify-between">
-                <h2 class="text-2xl lg:text-4xl font-semibold ">Архив продаж</h2>
+                <h2 class="text-2xl lg:text-4xl font-semibold ">Возврат </h2>
                 <div class="w-[200px]">
 
                     <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
@@ -238,26 +238,6 @@ const deleteItem = async (id: string) => {
                         </div>
                     </div>
                 </div>
-
-                <template #footer>
-                    <div class="wrapper flex items-center justify-center gap-6">
-                        <button @click="deleteOpen = true" class="bg-red-500 w-[100px] rounded-lg py-2">
-                            <Icon name="mdi:trash-can-outline" />
-                            Удалить
-                        </button>
-                        <UModal v-model="deleteOpen">
-                            <Placeholder>
-                                <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                                <div class=" flex gap-10 items-center justify-center my-10">
-                                    <button @click="deleteOpen = false"
-                                        class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                    <button @click="deleteItem(selectedItem.id)"
-                                        class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                                </div>
-                            </Placeholder>
-                        </UModal>
-                    </div>
-                </template>
             </UCard>
         </USlideover>
     </section>

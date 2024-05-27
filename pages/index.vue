@@ -31,7 +31,7 @@ const weekdayData = {
   labels: lastWeekData.value.map(item => item.label),
   datasets: [
     {
-      label: 'Продажи за последние 7 дней',
+      label: 'Продажа',
       backgroundColor: '#ffffff',
       borderColor: '#1F78FF',
       data: lastWeekData.value.map(item => item.value)
@@ -42,7 +42,7 @@ const yearData = {
   labels: lastWeekData.value.map(item => item.label),
   datasets: [
     {
-      label: 'Продажи за последние 7 дней',
+      label: 'Продажа',
       backgroundColor: '#ffffff',
       borderColor: '#1F78FF',
       data: lastWeekData.value.map(item => item.value)
@@ -62,12 +62,7 @@ const headers = [
 
 ];
  
-const itemstopProducts = [
-
-  {label: "Drell", value: 2},
-  
-  {label: "Led Fara", value: 2}
-]
+const itemstopProducts = []
 const fetchDashboard = async () => {
   const token = localStorage.getItem("token");
   if (!token) return;
