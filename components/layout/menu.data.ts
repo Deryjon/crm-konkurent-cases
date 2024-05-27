@@ -53,7 +53,6 @@ export const MENU_DATA: IMenuItem[] = [
     url: "/analytics",
     items: [
         { title: "Магазин", url: "/analytics/shop" },
-        { title: "Агента", url: "/analytics/agents" },
       ],
   } : null,
   userRole !== "manager" && userRole !== "salesman" ? 

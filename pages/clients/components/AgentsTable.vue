@@ -76,9 +76,6 @@ const loadFromServer = async () => {
         loading.value = false;
     }
 };
-function routeEdit() {
-    router.push('/products/update/id');
-}
 onMounted(() => {
     
     loadFromServer()
@@ -87,6 +84,12 @@ function openSlideover(agent) {
     console.log(agent)
     selectedItem.value = agent;
     isOpen.value = true;
+}
+
+const goToReports = (id) => {
+
+    router.push(`/analytics/${id}`);
+
 }
 
 watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
@@ -131,6 +134,9 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                     <p>Телефон: {{selectedItem?.phone}}</p>
                     <p>Бонусный процент: {{selectedItem?.bonus_percent}}</p>
                 </div>
+                <button class="btn bg-[#1F78FF]  rounded-2xl p-3 text-center text-white font-bold w-[150px] mt-10" @click="goToReports(selectedItem?.id)"> 
+Отчеты
+                </button>
             </div>
             <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">

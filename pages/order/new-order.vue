@@ -101,10 +101,6 @@ const formatNumber = (value: number | undefined): string => {
 };
 
 const createOrder = async () => {
-    if (!selectedClient.value[0]?.id) {
-        toast.warning("Выберите клиента");
-        return;
-    }
     const order = {
         customer_id: selectedClient.value[0]?.id,
         agent_id: selectedAgent.value[0]?.id,
