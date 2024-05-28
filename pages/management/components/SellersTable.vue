@@ -115,7 +115,7 @@ onMounted(() => {
                     <button @click="deleteOpen = true" class="bg-red-400 w-[100px] rounded-lg">Удалить 
                     <Icon name="mdi:delete" />
                     </button>
-                    <UModal v-model="deleteOpen" >
+                    <UModal v-model="deleteOpen"  class="text-black dark:text-white">
                 
                         <Placeholder>
 
