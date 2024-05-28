@@ -46,40 +46,41 @@ const fetchAgents = async () => {
 itemsMonthly.value = data.value.report;
     };
 
-    const convertToCSV = (data: any[]) => {
-    const headers = Object.keys(data[0]);
-    
-    headers.push('Бонус');
-    const rows = data.map(obj => {
-        const row = Object.values(obj);
-        row.push(bonus.value);
-        return row;
-    });
-    const csvRows = rows.map(row => row.join(';')).join('\n');
-        const csvString = headers.join(';') + '\n' + csvRows;
-    
-    return csvString;
+    import * as XLSX from 'xlsx';
+
+const convertToXLSX = (data, bonusValue) => {
+    // Добавляем колонку "Бонус" к данным
+    const dataWithBonus = data.map(obj => ({
+        ...obj,
+        'Бонус': bonusValue
+    }));
+
+    // Создаем рабочий лист из данных с бонусами
+    const worksheet = XLSX.utils.json_to_sheet(dataWithBonus);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    // Преобразуем рабочую книгу в массив байтов
+    return XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 };
-
-
-
 
 const downloadExcel = () => {
     if (itemsMonthly.value.length === 0) {
-        console.error('No data available for CSV download.');
+        console.error('No data available for Excel download.');
         return;
     }
-    const csvContent = convertToCSV(itemsMonthly.value);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const xlsxContent = convertToXLSX(itemsMonthly.value, bonus.value);
+    const blob = new Blob([xlsxContent], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "analytics-agent.csv");
+    link.setAttribute("download", "analytics-agent.xlsx");
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 };
+
 
   watch(date, (newValue) => {
     if (newValue) {
@@ -99,25 +100,23 @@ const downloadExcel = () => {
 </script>
 <template>
   <section class="new-order  mt-[15px]">
-    <div class="flex justify-between">
-      <h2 class="text-2xl lg:text-4xl font-semibold ">Отчет Агента</h2>
-      <button @click="downloadExcel" class="flex text-white items-center justify-center gap-4 bg-[#1F78FF] lg:w-[200px] rounded-2xl p-5">
-        <Icon name="fa:download" />
-        <p class="text-[16px] font-semibold hidden lg:block">
-          Скачать Excel
-        </p>
-      </button> 
-    </div>
-    <div class="flex justify-between items-center mt-10">
-      <p class="text-xl lg:text-3xl font-semibold mt-[30px]">Ежемесячный отчет об агенте</p>
-      <div class="w-[200px]">
+    <div class="flex justify-between items-center   ">
+      <p class="text-xl lg:text-3xl font-semibold ">Ежемесячный отчет об агенте</p>
+      <div class="w-[150px]">
         <VueDatePicker v-model="date" month-picker placeholder="Выберите дату"
                        class="p-3 rounded-2xl bg-[#1F78FF]" >
                        <template #clear-icon="{ clear }">
         </template>
                       </VueDatePicker>
       </div>
-    </div>
+      <button @click="downloadExcel" class="flex text-white items-center justify-center gap-4 bg-[#1F78FF] lg:w-[200px] rounded-2xl p-5">
+        <Icon name="fa:download" />
+        <p class="text-[16px] font-semibold hidden lg:block">
+          Скачать Excel
+        </p>
+      </button> 
+      </div>
+    
     <h3 class="text-2xl font-semibold mt-10">
      Общие Бонусы - {{ bonus }} USD
     </h3>
@@ -125,7 +124,7 @@ const downloadExcel = () => {
                    :headers="headers" :items="itemsMonthly" header-text-direction="center" body-text-direction="center"
                    class="mt-10" :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']">
       <template #item-date="{ date }">
-        <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer">{{ date }}</p>
+        <p class="mx-auto text-[#4993dd] font-semibold">{{ date }}</p>
       </template>
     </EasyDataTable>
 
