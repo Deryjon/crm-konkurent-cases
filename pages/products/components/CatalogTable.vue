@@ -65,9 +65,12 @@ const loadFromServer = async () => {
     }
 };
 
-const deleteItem = async (id: string) => {
-    // console.log(id)
-    const token = localStorage.getItem("token") || "";
+const deleteItem = async (id: string, quantity: number) => {
+if(quantity > 0){
+    toast.error("Для удалении продукта необходимо количество = 0")       
+    return
+}
+  const token = localStorage.getItem("token") || "";
     const { status } = await useFetch(
       `${base_url}/product?id=${id}`,
       {
@@ -169,7 +172,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                             <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
                             <div class=" flex gap-10 items-center justify-center my-10">
                                 <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(selectedItem.id)"
+                                <button @click="deleteItem(selectedItem.id, selectedItem.quantity)"
                                     class="bg-green-400 w-[100px] rounded-lg">Да</button>
                             </div>
                         </Placeholder>
