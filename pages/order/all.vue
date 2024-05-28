@@ -118,14 +118,12 @@ const deleteItem = async (id: string) => {
         <div class="left lg:w-[830px] lg:border-r lg:pr-4 mt-[10px]">
             <div class="flex justify-between">
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Все продажи</h2>
-                <div class="w-[200px]">
-
-                    <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
-                        class=" p-3 rounded-2xl bg-[#1F78FF] " >
-                        <template #clear-icon="{ clear }">
+                <div class="picker-date">
+        <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class="p-3 rounded-2xl bg-[#1F78FF]" >
+          <template #clear-icon="{ clear }">
         </template>
-                    </VueDatePicker>
-                </div>
+        </VueDatePicker>
+      </div>
             </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">

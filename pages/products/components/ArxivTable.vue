@@ -6,6 +6,9 @@ import { useRouter } from 'vue-router';
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import EditBtn from '../../../components/layout/EditBtn.vue';
 import { base_url } from '~/api';
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 
 const isOpen = ref(false);
@@ -59,18 +62,27 @@ const loadFromServer = async () => {
     }
 };
 
-const deleteItem = async (id: string) => {
-    // const token = localStorage.getItem("token") || "";
-    // const { data } = await useFetch(
-    //   `${base_url}/product?`,
-    //   {
-    //     method: "DELETE",
-    //     headers: {
-    //       Authorization: "Bearer " + token,
-    //     },
-    //   }
-    // ).json();
-    console.log(id)
+const backItem = async (id: string) => {
+    const token = localStorage.getItem("token") || "";
+    const { status } = await useFetch(
+      `${base_url}/product/archive?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (status.value === "success") {
+        deleteOpen.value = false
+        isOpen.value = false
+        toast.success("Продукт восстановлен")
+        loadFromServer()
+    }
+    if (status.value === "error") {
+        deleteOpen.value = false
+        toast.error("Ошибка при восстановлении продукта")
+    }
 
 };
 
@@ -146,22 +158,21 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
             </div>
 
-            <!-- <template #footer>
+ <template #footer>
                 <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(selectedItem.id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
-                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                    <button @click="deleteOpen = true" class="bg-blue-400 w-[120px] rounded-lg">Восстановить 
+                    </button>                 <UModal v-model="deleteOpen">
+                        <Placeholder class="text-black dark:text-white">
+                            <p class="mt-5 text-center"> Вы точно хотите восстановить? </p>
                             <div class=" flex gap-10 items-center justify-center my-10">
                                 <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(selectedItem.id)"
+                                <button @click="backItem(selectedItem.id, selectedItem.quantity)"
                                     class="bg-green-400 w-[100px] rounded-lg">Да</button>
                             </div>
                         </Placeholder>
                     </UModal>
                 </div>
-            </template> -->
+            </template>
         </UCard>
     </USlideover>
 </template>
