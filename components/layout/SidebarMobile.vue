@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
-function logOut(){
+function logOut() {
   localStorage.removeItem('token');
   window.location.reload();
   router.push('/login')
@@ -10,15 +10,11 @@ function logOut(){
 </script>
 <template>
   <aside class="w-[290px] h-[700px] bg-white dark:bg-[#404040]">
-    <div class="flex h-[650px] w-full flex-col gap-3 lg:gap-5 overflow-hidden rounded-md p-[10px]">
+    <div class="flex h-[650px] w-full flex-col gap-3 lg:gap-5 rounded-md p-[10px]">
       <LayoutLogoMobile @click="$router.push('/')" class="  lg:hidden" />
-      <!-- <LayoutLogo @click="$router.push('/')" class="hidden" /> -->
       <LayoutMenu class="" />
-      <div class="mt-auto">
-        <LayoutLogout @click="logOut" />
-        <!-- <LayoutHelp /> -->
-      </div>
+      <LayoutLogout @click="logOut" class="mt-[30px]" />
+
     </div>
   </aside>
 </template>
-
