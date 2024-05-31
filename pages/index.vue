@@ -90,7 +90,7 @@ const date2 = new Date(epoch * 1000);
 console.log('Текущая дата (date1):', date1);
 console.log('Дата из локального хранилища (date2):', date2);
 
-const isExpired = date1 < date2;
+const isExpired = date1 > date2;
 console.log('Истек ли срок:', isExpired);
 
 if (isExpired) {
