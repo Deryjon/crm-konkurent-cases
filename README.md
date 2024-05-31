@@ -1,76 +1,13 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 Lignis CRM System
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+We are proud to present our latest CRM system, developed using Nuxt 3 and Vue 3. This is not just a tool, but a true assistant in managing client databases and sales.
 
-finished 2024-05-28
-## Setup
+Inside the system, we have utilized a range of modern technologies such as Nuxt UI, Iconify, Date Picker, Tailwind, Pinia, UseFetch, JWT, Vue3 Easy Data Table, and Headless UI to make the work as convenient and efficient as possible.
 
-Make sure to install the dependencies:
+Our sellers will gain access to an extensive database and will be able to work with agents who help find new clients. Additionally, we have developed a user-friendly catalog for managing and importing products, as well as a special section for sellers where they can create and track their sales in real-time.
 
-```bash
-# npm
-npm install
+For in-depth analysis and sales monitoring, we used Chart.js, which provides detailed analytics by months and years. This allows not only to monitor current performance but also to build strategic plans for the future.
 
-# pnpm
-pnpm install
+Our CRM system is distinguished by a high level of functionality and convenience, making it an indispensable tool for any business.
 
-# yarn
-yarn install
 
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
