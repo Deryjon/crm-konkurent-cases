@@ -81,8 +81,6 @@ const fetchDashboard = async () => {
   yearData.labels = lastYear.value.map(item => item.label);
   yearData.datasets[0].data = lastYear.value.map(item => item.value);
   loaded.value = true
-
-  console.log(weekdayData.labels)
 };
 const date1 = new Date();
 const epoch = localStorage.getItem('epoch');
@@ -92,13 +90,13 @@ const date2 = new Date(epoch * 1000);
 console.log('Текущая дата (date1):', date1);
 console.log('Дата из локального хранилища (date2):', date2);
 
-const isExpired = date1 > date2;
+const isExpired = date1 < date2;
 console.log('Истек ли срок:', isExpired);
 
 if (isExpired) {
     console.log('Срок действия истек. Очищаем локальное хранилище и перезагружаем страницу.');
     localStorage.clear();
-    // location.reload();
+    window.location.reload();
 } else {
     console.log('Срок действия не истек. Продолжаем выполнение.');
 }
@@ -167,10 +165,6 @@ input {
   --easy-table-body-row-background-color: #262626;
   --easy-table-body-row-height: 50px;
   --easy-table-body-row-font-size: 18px;
-
-  --easy-table-body-row-hover-background-color: #535353;
-  --easy-table-body-row-hover-font-color: #c0c7d2;
-
   --easy-table-body-item-padding: 10px 15px;
 
   --easy-table-footer-background-color: #262626;
@@ -211,10 +205,6 @@ input {
   --easy-table-body-row-background-color: #ffffff;
   --easy-table-body-row-height: 50px;
   --easy-table-body-row-font-size: 18px;
-
-  --easy-table-body-row-hover-background-color: #909090;
-  --easy-table-body-row-hover-font-color: #111;
-
   --easy-table-body-item-padding: 10px 15px;
 
   --easy-table-footer-background-color: #ffffff;

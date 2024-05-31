@@ -202,8 +202,6 @@ const downloadExcel = () => {
     --easy-table-body-row-height: 50px;
     --easy-table-body-row-font-size: 18px;
 
-    --easy-table-body-row-hover-background-color: #535353;
-    --easy-table-body-row-hover-font-color: #c0c7d2;
 
     --easy-table-body-item-padding: 10px 15px;
 
@@ -246,8 +244,6 @@ const downloadExcel = () => {
     --easy-table-body-row-height: 50px;
     --easy-table-body-row-font-size: 18px;
 
-    --easy-table-body-row-hover-background-color: #909090;
-    --easy-table-body-row-hover-font-color: #111;
 
     --easy-table-body-item-padding: 10px 15px;
 

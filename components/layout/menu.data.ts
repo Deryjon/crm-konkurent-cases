@@ -31,10 +31,9 @@ export const MENU_DATA: IMenuItem[] = [
     url: "/order",
     items: [ userRole !== "admin" && userRole !== "manager"  ?
       { title: "Новая продажа", url: "/order/new-order" } : null,
-      userRole !== "manager" && userRole !== "salesman"  ?
-
-      { title: "Все продажи", url: "/order/all" } : null,
-      { title: "Возврат", url: "/order/archive-order" },
+      { title: "Все продажи", url: "/order/all" },
+       userRole !== "salesman"  ?
+      { title: "Возврат", url: "/order/archive-order" } : null,
     ].filter(Boolean),
   }, userRole !== "manager"  ?
   {
