@@ -47,7 +47,7 @@ const createClient = async () => {
     })
     if (status.value === "success") {
         toast.success("Клиент создан")
-        router.push('/clients/all')
+        router.push('/order/new-order')
     }
     if (status.value === "error") {
         deleteOpen.value = false

@@ -276,9 +276,6 @@ onMounted(() => {
 
                         <h3 class="text-xl lg:text-3xl font-semibold
                         ">Корзина</h3>
-                        <div class="etc bg-white border dark:bg-[#404040] p-2 rounded-xl">
-                            {{ selectedProducts.length }}
-                        </div>
                     </div>
                     <Agents />
                     <div class="cards flex flex-col gap-3 mt-5">
@@ -287,7 +284,7 @@ onMounted(() => {
                             <div class="left flex items-center gap-6">
                                 <div class="etc flex items-center gap-2">
                                     <input v-model="product.quantity" type="number"
-                                        class="w-[30px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-white border dark:bg-[#404040]">
+                                        class="w-[60px] lg:w-[50px] h-[30px] border rounded-lg px-[10px] bg-white border dark:bg-[#404040]">
                                     шт
                                 </div>
                                 <div class="name-product">

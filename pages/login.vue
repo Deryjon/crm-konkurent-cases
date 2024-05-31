@@ -62,8 +62,11 @@ export default defineComponent({
         <UiInput placeholder="Логин" type="text" class="mb-3" v-model="loginRef" />
         <span v-if="loginRef.length < 5" class="text-red-500 text-xs lg:text-sm">Минимальная длина логина - 5 символов</span>
         <UiInput placeholder="Пароль" type="password" class="mb-3" v-model="passwordRef" />
-        <span v-if="passwordRef.length < 8" class="text-red-500 text-xs lg:text-sm">Минимальная длина пароля - 8 символов</span>
-        <span class="text-red-500 text-xs lg:text-sm">{{ errorText }}</span>
+        <div class="flex flex-col">
+
+          <span v-if="passwordRef.length < 8" class="text-red-500 text-xs lg:text-sm">Минимальная длина пароля - 8 символов</span>
+          <span class="text-red-500 text-xs lg:text-sm">{{ errorText }}</span>
+        </div>
         <div class="flex items-center justify-center gap-5 mt-6">
           <button :disabled="isDisabled" type="submit" class="border p-3 rounded-xl cursor-pointer w-[120px]"
             :class="isDisabled ? 'bg-gray-500' : 'bg-blue-500'" @click="loginUser">Войти</button>
