@@ -313,7 +313,7 @@ onMounted(() => {
                 <div class="top flex justify-between font-semibold text-lg ">
 
                     <p class="">Клиент</p>
-                    <router-link to="/clients/create">
+                 <router-link to="/clients/create" target="_blank">
                         <button class="create text-[#1F78FF]">
                             Создать
                         </button>
