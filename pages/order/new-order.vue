@@ -13,7 +13,7 @@ const valyutUsd = ref(0);
 const code = ref('');
 const items = ref([]);
 const dropdownOpen = ref(false);
-const selectedProducts = ref([]);
+const selectedProducts = ref(JSON.parse(localStorage.getItem('selectedProducts')) || []);
 const products = ref([{ id: '', quantity: 0, cost_price: 0, sale_price: 0, code: '', dropdownOpen: false }]);
 
 const fetchProducts = async (value) => {
@@ -79,6 +79,7 @@ const selectItem = (item) => {
         price: item.price,
         quantity: 1,
     });
+   localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts.value));
     dropdownOpen.value = false;
     code.value = '';
 }
@@ -139,6 +140,7 @@ const createOrder = async () => {
             selectedButton.value = 'USD';
             agentName.value = '';
             clientName.value = '';
+        localStorage.removeItem('selectedProducts');
         } else {
             toast.error("Ошибка при создании продажи");
         }
