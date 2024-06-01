@@ -55,6 +55,7 @@ const loadFromServer = async () => {
     }
 };
 const deleteItem = async (id: string) => {
+    // console.log
     const token = localStorage.getItem("token") || "";
     const { status } = await useFetch(
         `${base_url}/acceptance?id=${id}`,
@@ -98,12 +99,11 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         :search-value="searchValue">
         <template #item-operation="{ id, date, products }">
             <div class="operation-wrapper flex gap-1 items-center justify-center">
-                <DeleteBtn @click="deleteOpen = true" />
                 <button @click="openSlideover({ id, date, products })"
                     class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
                     <Icon name="mdi:eye" />
                 </button>
-                <UModal v-model="deleteOpen" class="text-black dark:text-white ">
+                <!-- <UModal v-model="deleteOpen" class="text-black dark:text-white ">
                     <Placeholder>
                         <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
                         <div class=" flex gap-10 items-center justify-center my-10">
@@ -111,7 +111,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                             <button @click="deleteItem(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
                         </div>
                     </Placeholder>
-                </UModal>
+                </UModal> -->
             </div>
         </template>
     </EasyDataTable>
@@ -130,10 +130,23 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                     <p>Код импорта: {{ selectedItem.id }}</p>
                     <p>Количество товаров: {{ selectedItem.products.length }}</p>
                 </div>
-                <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
-                    <p class="text-2xl font-semibold">Добавленные товары</p>
-                    <button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3"
+                <p class="text-2xl font-semibold mt-10">Добавленные товары</p>
+                <div class="cards wrapper flex gap-3 mt-10">
+                    <button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1"
                         @click="goImport(selectedItem.id, selectedItem)">Подбронее об импорте</button>
+                        <button @click="deleteOpen = true" class="bg-red-400 w-[150px] text-white rounded-2xl ">Удалить 
+                    <Icon name="mdi:delete" />
+                    </button> 
+                    <UModal v-model="deleteOpen">
+                        <Placeholder class="text-black dark:text-white">
+                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                            <div class=" flex gap-10 items-center justify-center my-10">
+                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                <button @click="deleteItem(selectedItem.id)"
+                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                            </div>
+                        </Placeholder>
+                    </UModal>
                 </div>
             </div>
 
