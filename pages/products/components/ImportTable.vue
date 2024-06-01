@@ -101,7 +101,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
             <div class="operation-wrapper flex gap-1 items-center justify-center">
                 <button @click="openSlideover({ id, date, products })"
                     class="flex items-center  bg-blue-500  rounded-2xl px-3 py-3">
-                    <Icon name="mdi:eye" />
+                    <Icon name="mdi:eye" class="text-white"/>
                 </button>
                 <!-- <UModal v-model="deleteOpen" class="text-black dark:text-white ">
                     <Placeholder>
