@@ -19,7 +19,7 @@ const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
 
 const currentPage = ref(1); 
-const itemsPerPage = ref(5); 
+const itemsPerPage = ref(25); 
 const serverOptions = ref<ServerOptions>({
     page: currentPage.value,
     rowsPerPage: itemsPerPage.value,
