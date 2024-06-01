@@ -1,90 +1,16 @@
 <script setup lang="ts">
-import EditBtn from '../../../components/layout/EditBtn.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ExitButton from '../../../components/layout/ExitButton.vue';
-import { base_url } from "~/api";
 import { useToast } from 'vue-toastification'
-
+import TheLoader from '../../../components/layout/TheLoader.vue';
 
 const isLoading = ref(true);
 const imageUrls = ref<string[]>([]);
 let item = ref([]);
 
-const router = useRouter();
-const id = useRoute().params.id;
-
 const toast = useToast();
 
-const removeImage = (index: number) => {
-    imageUrls.value.splice(index, 1);
-};
-
-let file: File | undefined;
-const openFilePicker = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        if (target.files && target.files.length > 0) {
-            file = target.files[0];
-            const reader = new FileReader();
-            reader.onload = (e: ProgressEvent<FileReader>) => {
-                imageUrls.value = []; // Очищаем список изображений перед добавлением нового
-                imageUrls.value.push(e.target!.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    input.click();
-};
-
-
-
-// const fetchProduct = async () => {
-//     try {
-//         const token = localStorage.getItem("token") || "";
-//         const response = await fetch(`${base_url}/product?pattern=${id}&page=1&limit=1`, {
-//             method: "GET",
-//             headers: {
-//                 Authorization: "Bearer " + token,
-//             },
-//         });
-//         const data = await response.json();
-//         if (data && data.products && data.products.length > 0) {
-//             item.value = data.products[0];
-//         }
-//     } catch (error) {
-//         console.error("Error fetching product:", error);
-//     }
-// }
-
-// const editProduct = async () => {
-// //     if (item.value.price === 0) {
-// //         toast.error("Цена не может быть равна 0");
-// //         return;
-// //    }
-//     const formData = new FormData();
-
-//     formData.append('photo', file);
-//     formData.append('name', item.value.name);
-//     formData.append('code', item.value.code);
-//     formData.append('price', item.value.price);
-//     const token = localStorage.getItem("token") || "";
-//     const {status} = await useFetch(`${base_url}/product?id=${id}`, {
-//         method: "PATCH",
-//         headers: {
-//             Authorization: "Bearer " + token,
-//         },
-//         body: formData,
-//     });
-//     if (status.value === "success") {
-//         toast.success("Продукт успешно изменен")
-//         router.push('/products/catalog')
-//     }
-
-// };
 const headers = [
   { text: "Наименование", value: "name" },
   { text: "Количество", value: "quantity" },
@@ -115,9 +41,9 @@ onMounted( () => {
             <h2 class="text-xl lg:text-4xl font-semibold ml-5">Данные об импорте</h2>
         </div>
                 <div class="flex flex-col gap-5 mt-10">
-                    <p>Дата: {{ item.date }}</p>
-                    <p>Код импорта: {{ item.id }}</p>
-                    <p>Количество товаров: {{ item.products.length }}</p>
+                    <p>Дата: {{ item?.date }}</p>
+                    <p>Код импорта: {{ item?.id }}</p>
+                    <p>Количество товаров: {{ item.products?.length }}</p>
                 </div>
                 <div class="products mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>

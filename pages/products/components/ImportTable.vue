@@ -3,7 +3,7 @@ import { useSearchStore } from '../../../store/searchCatalog.store.ts';
 import { useImportService } from './importService';
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import {base_url} from '~/api'
+import { base_url } from '~/api'
 import DeleteBtn from '../../../components/layout/DeleteBtn.vue';
 import { useToast } from 'vue-toastification'
 
@@ -57,13 +57,13 @@ const loadFromServer = async () => {
 const deleteItem = async (id: string) => {
     const token = localStorage.getItem("token") || "";
     const { status } = await useFetch(
-      `${base_url}/acceptance?id=${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
+        `${base_url}/acceptance?id=${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        }
     );
     if (status.value === "success") {
         deleteOpen.value = false
@@ -75,10 +75,13 @@ const deleteItem = async (id: string) => {
     }
 
 };
- const goImport = async (id: string) => {
-        router.push(`/products/imports/${id}`);
-   
+const goImport = async (id: string, item: []) => {
+    console.log(item)
+    localStorage.setItem('import-item', JSON.stringify(item))
+    router.push(`/products/imports/${id}`);
+
 }
+
 onMounted(() => {
 
     loadFromServer()
@@ -89,7 +92,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 </script>
 <template>
     <EasyDataTable :loading="loading" v-model:server-options="serverOptions" :server-items-length="serverItemsLength"
-        :headers="headers" buttons-pagination :items="items"         :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']"
+        :headers="headers" buttons-pagination :items="items"
+        :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']"
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
         :search-value="searchValue">
         <template #item-operation="{ id, date, products }">
@@ -119,8 +123,8 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
 
 
                     <h3 class="text-2xl font-semibold">Данные о импорте продуктов</h3>
-<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
-</div>
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" @click="isOpen = false" />
+                </div>
                 <div class="flex flex-col gap-5 mt-10">
                     <p>Дата: {{ selectedItem.date }}</p>
                     <p>Код импорта: {{ selectedItem.id }}</p>
@@ -128,26 +132,16 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
                 </div>
                 <div class="cards wrapper flex flex-col  justify-center gap-3 mt-10">
                     <p class="text-2xl font-semibold">Добавленные товары</p>
-<button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3" @click="goImport(selectedItem.id)">Подбронее об импорте</button>
-
-
-                    <!-- <div class="card flex gap-2" >
-                        <p>Наименование</p> |
-                        <p>Количество</p> |
-                        <p>Цена</p>
-                    </div>
-                    <div class="card flex items-center gap-2" v-for="item in selectedItem.products">
-                        <p @click="toggleFullName(item.id, selectedItem.products)" class="w-[112px]">{{item.name}}</p> |
-                        <p class="w-[95px]">{{item.quantity}}</p> |
-                        <p>{{item.cost_price}}</p>
-                    </div> -->
+                    <button class="btn bg-[#1F78FF] w-[150px] text-white rounded-2xl p-1 mt-3"
+                        @click="goImport(selectedItem.id, selectedItem)">Подбронее об импорте</button>
                 </div>
             </div>
-            
+
         </UCard>
     </USlideover>
 </template>
-<style scoped>.customize-table {
+<style scoped>
+.customize-table {
     --easy-table-border: 1px solid #262626;
     --easy-table-border-radius: 1000px;
     --easy-table-row-border: 1px solid #ffffff;
