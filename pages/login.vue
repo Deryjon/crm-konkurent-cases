@@ -37,8 +37,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      const token = localStorage.getItem('token');
-      if (token || authStore.status) {
+      if (localStorage.getItem('token')) {
         router.push('/');
       }
     })

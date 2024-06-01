@@ -92,7 +92,6 @@ console.log('Дата из локального хранилища (date2):', da
 
 const isExpired = date1 > date2;
 console.log('Истек ли срок:', isExpired);
-
 if (isExpired) {
     console.log('Срок действия истек. Очищаем локальное хранилище и перезагружаем страницу.');
     localStorage.clear();
@@ -100,8 +99,14 @@ if (isExpired) {
 } else {
     console.log('Срок действия не истек. Продолжаем выполнение.');
 }
+
 onMounted(() => {
-  fetchDashboard();
+ if (localStorage.getItem('token')) {
+   
+   fetchDashboard();
+ } else {
+   window.location.href = '/login';
+ }
 })
 
 </script>
