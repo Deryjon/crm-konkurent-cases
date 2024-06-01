@@ -169,4 +169,91 @@ input {
     --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
     --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
 }
+.customize-table {
+    --easy-table-border: 1px solid #262626;
+    --easy-table-border-radius: 1000px;
+    --easy-table-row-border: 1px solid #ffffff;
+
+    --easy-table-header-font-size: 18px;
+    --easy-table-header-height: 50px;
+    --easy-table-header-font-color: #c1cad4;
+    --easy-table-header-background-color: #262626;
+    --easy-table-header-border-radius: 20px;
+
+    --easy-table-header-item-padding: 10px 15px;
+
+    --easy-table-body-even-row-font-color: #fff;
+    --easy-table-body-even-row-background-color: #262626;
+
+    --easy-table-body-row-font-color: #c0c7d2;
+    --easy-table-body-row-background-color: #262626;
+    --easy-table-body-row-height: 50px;
+    --easy-table-body-row-font-size: 18px;
+
+    --easy-table-body-row-hover-background-color: #262626;
+
+    --easy-table-body-item-padding: 10px 15px;
+
+    --easy-table-footer-background-color: #262626;
+    --easy-table-footer-font-color: #c0c7d2;
+    --easy-table-footer-font-size: 14px;
+    --easy-table-footer-padding: 0px 10px;
+    --easy-table-footer-height: 50px;
+
+    --easy-table-rows-per-page-selector-width: 70px;
+    --easy-table-rows-per-page-selector-option-padding: 10px;
+    --easy-table-rows-per-page-selector-z-index: 1;
+    --easy-table-scrollbar-track-color: #2d3a4f;
+    --easy-table-scrollbar-color: #2d3a4f;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
+    --easy-table-scrollbar-corner-color: #2d3a4f;
+
+    --easy-table-loading-mask-background-color: #262626;
+}
+
+.customize-light-table {
+    --easy-table-border: 1px solid #262626;
+    --easy-table-border-radius: 1000px;
+    --easy-table-row-border: 1px solid #262626;
+
+    --easy-table-header-font-size: 18px;
+    --easy-table-header-height: 50px;
+    --easy-table-header-font-color: #111;
+    --easy-table-header-background-color: #ffffff;
+    --easy-table-header-border-radius: 20px;
+
+    --easy-table-header-item-padding: 10px 15px;
+
+    --easy-table-body-even-row-font-color: #111;
+    --easy-table-body-even-row-background-color: #262626;
+
+    --easy-table-body-row-font-color: #111;
+    --easy-table-body-row-background-color: #ffffff;
+    --easy-table-body-row-height: 50px;
+    --easy-table-body-row-font-size: 18px;
+
+    --easy-table-body-row-hover-background-color: rgb(255, 255, 255);
+
+    /* --easy-table-body-row-hover-background-color: rgb(235, 235, 237); */
+    --easy-table-body-item-padding: 10px 15px;
+
+    --easy-table-footer-background-color: #ffffff;
+    --easy-table-footer-font-color: #111;
+    --easy-table-footer-font-size: 14px;
+    --easy-table-footer-padding: 0px 10px;
+    --easy-table-footer-height: 50px;
+
+    --easy-table-rows-per-page-selector-width: 70px;
+    --easy-table-rows-per-page-selector-option-padding: 10px;
+    --easy-table-rows-per-page-selector-z-index: 1;
+    --easy-table-scrollbar-track-color: #2d3a4f;
+    --easy-table-scrollbar-color: #2d3a4f;
+    --easy-table-scrollbar-thumb-color: #4c5d7a --easy-table-scrollbar-thumb-color: #4c5d7a;
+
+    --easy-table-scrollbar-corner-color: #2d3a4f;
+
+    --easy-table-loading-mask-background-color: #262626;
+}
+
 </style>
