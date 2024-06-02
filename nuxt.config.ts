@@ -11,6 +11,16 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     '@nuxtjs/color-mode',
   ],
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '-mode',
+    storageKey: 'nuxt-color-mode'
+  },
   build: {
     transpile: ['vue-toastification'],
   },
