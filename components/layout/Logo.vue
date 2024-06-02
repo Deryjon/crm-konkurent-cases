@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {useRouter} from 'vue-router'
-const selected = ref(false) || localStorage.getItem('nuxt-color-mode') === 'light'
 
 const router = useRouter()
+const mode = ref('')
+ type Theme = 'light' | 'dark'
 
 const setColorTheme = (newTheme: Theme) => {
-    localStorage.setItem('nuxt-color-mode', newTheme)
     useColorMode().preference = newTheme
 }
 
+
 onMounted(() => {
-    if (!selected) {
-        setColorTheme('light')
-    } else {
-        setColorTheme('dark')
-    }
+    mode.value = localStorage.getItem('nuxt-color-mode')
+    useColorMode().preference = mode.value
 })
 </script>
 
