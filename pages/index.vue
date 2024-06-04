@@ -12,7 +12,6 @@ const lastYear = ref([]);
 const items = ref([]);
 const labelsData = ref([]);
 
-// const { labelsData, items, fetchDashboard } = useDashboardService();
 
 interface Dataset {
   label: string;

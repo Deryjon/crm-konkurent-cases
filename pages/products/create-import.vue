@@ -92,7 +92,7 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
       <router-link to="/products/import">
         <ExitButton />
       </router-link>
-      <h2 class="text-4xl font-semibold ml-5">Новый импорт</h2>
+      <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Новый импорт</h2>
       <CreateBtn class="ml-auto" @click="createImport">Создать</CreateBtn>
 
     </div>
