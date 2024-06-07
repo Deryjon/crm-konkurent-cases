@@ -51,7 +51,6 @@ const createAgent = async () => {
     })
     if (status.value === "success") {
         toast.success("Агент создан")
-       router.push('/order/new-order')
 
       }
       if (status.value === "error") {
