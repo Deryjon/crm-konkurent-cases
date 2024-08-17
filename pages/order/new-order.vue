@@ -225,15 +225,29 @@ const createAgent = () => {
 };
 
 const fetchValyuta = async () => {
-    const { data } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
-        method: 'GET'
-    }).json();
-    valyutUsd.value = data.value[0].Rate;
+    try {
+        const { data, error } = await useFetch(`https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/`, {
+            method: 'GET',
+        }).json();
+
+        if (!error.value && data.value && data.value[0].Rate) {
+            valyutUsd.value = data.value[0].Rate;
+        } else {
+            // Установка fallback значения
+            valyutUsd.value = 10800; // например, значение на момент последнего успешного запроса
+            toast.warning("Ошибка при получении курса валют. Используется последнее известное значение.");
+        }
+    } catch (err) {
+        valyutUsd.value = 10800; // fallback значение
+        toast.error("Не удалось получить курс валют. Проверьте подключение к интернету.");
+        console.error("Ошибка при получении курса валют:", err);
+    }
 };
 
 onMounted(() => {
     fetchValyuta();
 });
+
 </script>
 
 

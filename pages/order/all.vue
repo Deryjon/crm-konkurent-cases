@@ -18,6 +18,10 @@ const selectedItem = ref<any>(null);
 
 const toast = useToast();
 
+const formatNumber = (value: number | undefined): string => {
+  if (value === undefined) return '';
+  return new Intl.NumberFormat('de-DE').format(value);
+};
 
 function formatDate(date: Date): string {
     return date.toISOString().slice(0, 10);
@@ -154,8 +158,8 @@ const deleteItem = async (id: string) => {
                             <div class="right flex items-center gap-6">
 
                                 <div class="price flex lg:flex-col items-center gap-2 text-[#1F78FF] cursor-pointer">
-                                    <p class="text-md font-semibold">{{ sale.total_usd }} USD</p>
-                                    <p class="text-md font-semibold">{{ sale.total_uzs }} UZS</p>
+                                    <p class="text-md font-semibold">{{ formatNumber(sale.total_usd) }} USD</p>
+                                    <p class="text-md font-semibold">{{ formatNumber(sale.total_uzs) }} UZS</p>
 
                                 </div>
 
@@ -191,12 +195,12 @@ const deleteItem = async (id: string) => {
                 <p>Сумма транзакций</p>
                 <div class="flex gap-1">
 
-                    <p class="etc">{{ totalUsd.toFixed(2) }}</p>
+                    <p class="etc">{{ formatNumber(totalUsd) }} </p>
                     <p class="unit">USD</p>
                 </div>
                 <div class="flex gap-1">
 
-                    <p class="etc">{{ totalUzs }}</p>
+                    <p class="etc">{{ formatNumber(totalUzs) }}</p>
                     <p class="unit">UZS</p>
                 </div>
             </div>

@@ -8,9 +8,6 @@ const router = useRouter()
 const isLoading = ref(false)
 
 onMounted(async () => {
-    if(localStorage.getItem('nuxt-color-mode') === 'null') {
-        localStorage.setItem('nuxt-color-mode', 'light')    
-    }
     if (process.client) {
         const token = localStorage.getItem('token')
         if (token) {
