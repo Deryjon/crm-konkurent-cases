@@ -136,7 +136,7 @@ const deleteItem = async (id: string) => {
                     </div>
                     <h4 class="text-xl font-semibold mb-3">Бракованные товары</h4>
                     <div class="sold-items flex flex-col gap-4">
-                        <div class="sold-item flex flex-wrap justify-between p-3 border rounded-lg"
+                        <div :class="[$colorMode.preference === 'dark' ? 'sold-item-dark' : 'sold-item-light']" class="sold-item flex flex-wrap justify-between p-3 border rounded-lg"
                             v-for="item in selectedItem.defects" :key="item.id">
                             <p><strong>Название:</strong> {{ item.name }}</p>
                             <p><strong>Количество:</strong> {{ item.quantity }}</p>
@@ -260,13 +260,16 @@ const deleteItem = async (id: string) => {
     gap: 10px;
 }
 
-.sold-item {
+.sold-item-light {
     background-color: #f9f9f9;
-    /* Можно адаптировать под dark mode */
     border: 1px solid #ddd;
     border-radius: 8px;
 }
-
+.sold-item-dark {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
 .sold-item p {
     margin: 0;
     padding: 0;
