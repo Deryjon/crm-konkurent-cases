@@ -22,6 +22,10 @@
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
   });
+  const formatNumber = (value: number | undefined): string => {
+    if (value === undefined) return '';
+    return new Intl.NumberFormat('de-DE').format(value);
+};
 
   const itemsMonthly = ref([]);
 
@@ -144,6 +148,12 @@ const downloadExcel = () => {
                    class="mt-10" :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']">
       <template #item-date="{ date }">
         <p class="mx-auto text-[#4993dd] font-semibold">{{ date }}</p>
+      </template>
+      <template #item-total_uzs="{ total_uzs }">
+        <p class="mx-auto text-[#4993dd] font-semibold">{{ formatNumber(total_uzs) }}</p>
+      </template>
+      <template #item-total_usd="{ total_usd }">
+        <p class="mx-auto text-[#4993dd] font-semibold">{{ formatNumber(total_usd) }}</p>
       </template>
     </EasyDataTable>
   </section>

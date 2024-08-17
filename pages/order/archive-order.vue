@@ -121,11 +121,12 @@ const deleteItem = async (id: string) => {
             <div class="flex flex-wrap justify-between">
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Возврат </h2>
                 <div class="picker-date">
-        <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class="p-3 rounded-2xl bg-[#1F78FF]" >
-          <template #clear-icon="{ clear }">
-        </template>
-        </VueDatePicker>
-      </div>
+                    <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату"
+                        class="p-3 rounded-2xl bg-[#1F78FF]">
+                        <template #clear-icon="{ clear }">
+                        </template>
+                    </VueDatePicker>
+                </div>
             </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
@@ -209,14 +210,16 @@ const deleteItem = async (id: string) => {
             </div>
         </div>
         <USlideover v-model="isOpen" class="text-black dark:text-white">
-            <UCard class="flex flex-col flex-1"
-                :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+            <UCard class="flex flex-col flex-1 max-h-screen overflow-y-auto" :ui="{
+                        body: { base: 'flex-1' },
+                        ring: '',
+                        divide: 'divide-y divide-gray-100 dark:divide-gray-800'
+                    }">
                 <template #header>
                     <div class="flex justify-end">
-
-
-<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
-</div> 
+                        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
+                            @click="isOpen = false" />
+                    </div>
                     <div class="wrapper flex items-center justify-center gap-6">
                         <div class="obs flex flex-col items-center gap-3 p-2">
                             <p class="text-2xl">Продажа</p>
@@ -225,25 +228,45 @@ const deleteItem = async (id: string) => {
                     </div>
                 </template>
 
-                <div class="product" v-if="selectedItem">
-                    <h3 class="text-2xl font-semibold">Данные о продаже</h3>
-                    <div class="flex flex-col gap-4 mt-2">
-                        <p>Клиент: {{ clientName }}</p>
-                        <p>Агент: {{ agentName }}</p>
-                        <p>Сумма продажи: {{ selectedItem.total_usd }} USD</p>
-                        <p>Сумма продажи: {{ selectedItem.total_uzs }} UZS</p>
-                        <p>Количество товаров: {{ calculateTotalQuantity(selectedItem.products) }}</p>
+                <div class="product-details" v-if="selectedItem">
+                    <h3 class="text-2xl font-semibold mb-4">Данные о продаже</h3>
+                    <div class="details-grid grid grid-cols-2 gap-4 mb-6">
+                        <p><strong>Клиент:</strong> {{ clientName }}</p>
+                        <p><strong>Агент:</strong> {{ agentName }}</p>
+                        <p><strong>Сумма продажи:</strong> {{ selectedItem.total_usd }} USD</p>
+                        <p><strong>Сумма продажи:</strong> {{ selectedItem.total_uzs }} UZS</p>
+                        <p><strong>Количество товаров:</strong> {{ calculateTotalQuantity(selectedItem.products) }}</p>
                     </div>
-                    <p class="text-2xl font-semibold mt-3">Проданные товары</p>
-                    <div class="flex flex-col gap-4 mt-2">
-                        <div class="card flex gap-3" v-for="item in selectedItem.products">
-
-                            <p> {{ item.name }}</p> |
-                            <p> {{ item.quantity }}</p>|
-                            <p> {{ item.price }}</p>
+                    <h4 class="text-xl font-semibold mb-3">Проданные товары</h4>
+                    <div class="sold-items flex flex-col gap-4">
+                        <div class="sold-item flex flex-wrap justify-between p-3 border rounded-lg"
+                            v-for="item in selectedItem.products" :key="item.id">
+                            <p><strong>Название:</strong> {{ item.name }}</p>
+                            <p><strong>Количество:</strong> {{ item.quantity }}</p>
+                            <p><strong>Цена:</strong> {{ item.price }} USD</p>
                         </div>
                     </div>
                 </div>
+
+                <template #footer>
+                    <div class="wrapper flex items-center justify-center gap-6">
+                        <button @click="deleteOpen = true" class="bg-red-500 w-[100px] rounded-lg py-2">
+                            <Icon name="mdi:trash-can-outline" />
+                            Удалить
+                        </button>
+                        <UModal v-model="deleteOpen">
+                            <Placeholder>
+                                <p class="mt-5 text-center">Вы точно хотите удалить?</p>
+                                <div class="flex gap-10 items-center justify-center my-10">
+                                    <button @click="deleteOpen = false"
+                                        class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                    <button @click="deleteItem(selectedItem.id)"
+                                        class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                                </div>
+                            </Placeholder>
+                        </UModal>
+                    </div>
+                </template>
             </UCard>
         </USlideover>
     </section>
@@ -262,30 +285,48 @@ input {
 }
 
 .dp__theme_light {
-      --dp-background-color: #1F78FF;
-      --dp-text-color: #ffffff;
-      --dp-hover-text-color: #ffffff;
-      --dp-hover-icon-color: #959595;
-      --dp-primary-color: #1976d2;
-      --dp-primary-disabled-color: #6bacea;
-      --dp-primary-text-color: #f8f5f5;
-      --dp-secondary-color: #c0c4cc;
-      --dp-menu-border-color: #1F78FF;
-      --dp-border-color: #1F78FF;
-      --dp-border-color-hover: #1F78FF;
-      --dp-disabled-color: #f6f6f6;
-      --dp-scroll-bar-background: #1F78FF;
-      --dp-scroll-bar-color: #1F78FF;
-      --dp-success-color: #76d275;
-      --dp-success-color-disabled: #a3d9b1;
-      --dp-icon-color: #ffffff;
-      --dp-danger-color: #ff6f60;
-      --dp-marker-color: #ff6f60;
-      --dp-tooltip-color: #fafafa;
-      --dp-disabled-color-text: #8e8e8e;
-      --dp-highlight-color: rgb(25 118 210 / 10%);
-      --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
-      --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
-      --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
-  }
+    --dp-background-color: #1F78FF;
+    --dp-text-color: #ffffff;
+    --dp-hover-text-color: #ffffff;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #1976d2;
+    --dp-primary-disabled-color: #6bacea;
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-menu-border-color: #1F78FF;
+    --dp-border-color: #1F78FF;
+    --dp-border-color-hover: #1F78FF;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #1F78FF;
+    --dp-scroll-bar-color: #1F78FF;
+    --dp-success-color: #76d275;
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #ffffff;
+    --dp-danger-color: #ff6f60;
+    --dp-marker-color: #ff6f60;
+    --dp-tooltip-color: #fafafa;
+    --dp-disabled-color-text: #8e8e8e;
+    --dp-highlight-color: rgb(25 118 210 / 10%);
+    --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+    --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+    --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.sold-item {
+    background-color: #f9f9f9;
+    /* Можно адаптировать под dark mode */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.sold-item p {
+    margin: 0;
+    padding: 0;
+}
 </style>
