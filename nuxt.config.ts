@@ -12,9 +12,12 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
   ],
   colorMode: {
-    preference: 'system',
+    preference: 'dark',
     fallback: 'light',
+<<<<<<< HEAD
     classSuffix: '-mode',
+=======
+>>>>>>> cc41346a1d1ee2ba2067f47053df9c12734d4f34
     storageKey: 'nuxt-color-mode'
   },
   build: {

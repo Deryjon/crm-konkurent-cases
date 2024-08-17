@@ -257,10 +257,10 @@ onMounted(() => {
     </section> -->
     <section class="new-order lg:flex ">
         <div class="left lg:w-[400px] xl:w-[800px] lg:border-r lg:pr-4">
-            <div class="flex justify-between items-center">
+            <div class="flex flex-wrap justify-between items-center">
 
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Новая продажа</h2>
-                <p class="text-xl font-semibold">Курс - {{ valyutUsd }} USD</p>
+                <p class="text-sm lg:text-xl font-semibold">Курс - {{ valyutUsd }} USD</p>
             </div>
             <div class="search mt-5 lg:mt-10">
                 <div class="top flex justify-between">
@@ -364,7 +364,7 @@ onMounted(() => {
                 </div>
                 <div class="bg-white border-2 dark:bg-[#3b3b3b] mt-4 px-2 py-4 rounded-2xl flex gap-3 relative">
                     <Icon name="heroicons:user" class="text-[#1F78FF]" size="24" />
-                    <input type="text " placeholder="Имя и номер агента" class="bg-white dark:bg-[#404040]"
+                    <input type="text " placeholder="Имя и номер агента" class="bg-white dark:bg-[#3b3b3b]"
                         v-model="agentName" @focus="toggleDropdownAgent()" />
                     <ul class="options-list bg-white dark:bg-[#404040] mt-1 absolute"
                         :class="{ 'open': dropdownAgentOpen }">

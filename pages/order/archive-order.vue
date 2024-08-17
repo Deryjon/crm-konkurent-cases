@@ -118,7 +118,7 @@ const deleteItem = async (id: string) => {
 <template>
     <section class="new-order lg:flex mt-[15px]">
         <div class="left lg:w-[830px] lg:border-r lg:pr-4 mt-[10px]">
-            <div class="flex justify-between">
+            <div class="flex flex-wrap justify-between">
                 <h2 class="text-2xl lg:text-4xl font-semibold ">Возврат </h2>
                 <div class="picker-date">
         <VueDatePicker v-model="date" :enable-time-picker="false" range placeholder="Выберите дату" class="p-3 rounded-2xl bg-[#1F78FF]" >
@@ -212,6 +212,11 @@ const deleteItem = async (id: string) => {
             <UCard class="flex flex-col flex-1"
                 :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
                 <template #header>
+                    <div class="flex justify-end">
+
+
+<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
+</div> 
                     <div class="wrapper flex items-center justify-center gap-6">
                         <div class="obs flex flex-col items-center gap-3 p-2">
                             <p class="text-2xl">Продажа</p>

@@ -91,27 +91,27 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
       <router-link to="/products/defective">
         <ExitButton />
       </router-link>
-      <h2 class="text-4xl font-semibold ml-5">Бракованный товар</h2>
+      <h2 class="text-2xl lg:text-4xl font-semibold ml-5">Бракованный товар</h2>
       <CreateBtn class="ml-auto" @click="createImport">Создать</CreateBtn>
 
     </div>
     <div class="basic mt-10">
       <div class="labels flex gap-3">
-        <div class="art w-1/4">
+        <div class="art w-1/3">
           <label for="">Артикул</label>
         </div>
-        <div class="art w-1/4">
+        <div class="art w-1/3">
 
           <label for="">Количество</label>
         </div>
-        <div class="art w-1/4">
+        <div class="art w-1/3">
 
           <label for="">Комментарий</label>
         </div>
 
       </div>
       <div v-for="(product, index) in products" :key="index" class="flex  gap-2 mt-5 ">
-        <div class="code w-1/4 relative">
+        <div class="code w-1/3 relative">
           <div class="search-select mt-4 rounded-2xl">
             <UiInput v-model="product.code" type="text" placeholder="Артикул" @focus="product.dropdownOpen = true" />
 
@@ -123,10 +123,10 @@ const closeDropdown = (product: { dropdownOpen: boolean; }) => {
           </div>
         </div>
 
-        <div class="articul w-1/4">
+        <div class="articul w-1/3">
           <UiInput placeholder="Введите колл-во" type="number" v-model="product.quantity" />
         </div>
-        <div class="articul w-1/4">
+        <div class="articul w-1/3">
           <UiInput placeholder="Введите комментарий" type="text" v-model="product.remark" />
         </div>
 
