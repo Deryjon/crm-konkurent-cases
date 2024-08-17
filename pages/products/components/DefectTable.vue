@@ -14,10 +14,10 @@ const store = useSearchDefectStore();
 
 const searchField = computed(() => store.searchField);
 const searchValue = computed(() => store.searchValue);
-    
+
 const router = useRouter();
-const currentPage = ref(1); 
-const itemsPerPage = ref(25); 
+const currentPage = ref(1);
+const itemsPerPage = ref(25);
 const serverOptions = ref<ServerOptions>({
     page: currentPage.value,
     rowsPerPage: itemsPerPage.value,
@@ -27,9 +27,8 @@ const { items, total: serverItemsLength, fetchDefect } = useDefectService(server
 const urlImage = 'https://lignis-srv.webhook.uz/images/'
 
 const headers = [
-    { text: "Наименование", value: "name" },
+    { text: "Добавил", value: "name" },
     { text: "Артикул", value: "code" },
-    { text: "Количество", value: "quantity" },
     { text: "Действие", value: "operation" },
 ];
 
@@ -39,8 +38,8 @@ let selectedItem = ref(null);
 const loading = ref(false);
 
 
-function openSlideover(item: { id: string, name: string, code: string, quantity: number, price: number }) {
-console.log(item)
+
+function openSlideover(item: { id: string, created_by: string, defects: [] }) {
     selectedItem.value = item;
     isOpen.value = true;
 }
@@ -49,13 +48,21 @@ const loadFromServer = async () => {
     try {
         loading.value = true;
         await fetchDefect();
+        console.log('Items after fetching:', items.value); // Debugging line
     } catch (error) {
         console.error('Ошибка загрузки данных:', error);
-        // Обработка ошибок, если необходимо
     } finally {
         loading.value = false;
     }
 };
+
+onMounted(() => {
+    loadFromServer();
+});
+
+watch(serverOptions, (value) => {
+    loadFromServer();
+}, { deep: true });
 
 const deleteItem = async (id: string) => {
     // const token = localStorage.getItem("token") || "";
@@ -72,94 +79,93 @@ const deleteItem = async (id: string) => {
 
 };
 
-onMounted(() => {
-    
-    loadFromServer()
-})
-
-watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
-
 </script>
 <template>
-    <EasyDataTable     :loading="loading"
- v-model:server-options="serverOptions" :server-items-length="serverItemsLength" :headers="headers"
-        buttons-pagination :items="items"         :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']"
-
+    <EasyDataTable :loading="loading" v-model:server-options="serverOptions" :server-items-length="serverItemsLength"
+        :headers="headers" buttons-pagination :items="items"
+        :class="[$colorMode.preference === 'dark' ? 'customize-table' : 'customize-light-table']"
         header-text-direction="center" body-text-direction="center" class="mt-10" :search-field="searchField"
-        :search-value="searchValue"
-        >
-        <template #item-name="{ name, id, price, code, quantity }">
-            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer" @click="openSlideover({ id, name, price, code, quantity })">{{ name }}</p>
+        :search-value="searchValue">
+        <template #item-name="{ id, defects, created_by }">
+            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer"
+                @click="openSlideover({ id, defects, created_by })">{{ created_by }}</p>
         </template>
-        <template #item-photo="{ id }">
-            <img v-if="id" :src="`${base_url}/image/${id}`" alt="Photo" class="rounded-2xl photo-cell mx-auto">
-            <img v-else src="../../../assets/icons/placeholder_img.svg" alt="Photo" class="photo-cell mx-auto">
+        <template #item-code="{ id, }">
+            <p class="mx-auto text-[#4993dd] font-semibold cursor-pointer">{{ id }}</p>
         </template>
-        <template #item-operation="{ id }">
-      <div class="operation-wrapper flex gap-1 items-center justify-center">
-        <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
-                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                            <div class=" flex gap-10 items-center justify-center my-10">
-                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(id)"
-                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                            </div>
-                        </Placeholder>
-                    </UModal>
-      </div>
-    </template>
+        <template #item-operation="{ id }" :key="id">
+            <div class="operation-wrapper flex gap-1 items-center justify-center">
+
+                <DeleteBtn @click="deleteOpen = true" />
+                <UModal v-model="deleteOpen">
+                    <Placeholder>
+                        <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
+                        <div class=" flex gap-10 items-center justify-center my-10">
+                            <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                            <button @click="deleteItem(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                        </div>
+                    </Placeholder>
+                </UModal>
+            </div>
+        </template>
     </EasyDataTable>
-    <USlideover v-model="isOpen">
-        <UCard class="flex flex-col flex-1"
-            :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-            <template #header>
-                <div class="flex justify-end">
+    <USlideover v-model="isOpen" class="text-black dark:text-white">
+            <UCard class="flex flex-col flex-1 max-h-screen overflow-y-auto" :ui="{
+                        body: { base: 'flex-1' },
+                        ring: '',
+                        divide: 'divide-y divide-gray-100 dark:divide-gray-800'
+                    }">
+                <template #header>
+                    <div class="flex justify-end">
+                        <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"
+                            @click="isOpen = false" />
+                    </div>
+                    <div class="wrapper flex items-center justify-center gap-6">
+                        <div class="obs flex flex-col items-center gap-3 p-2">
+                            <p class="text-2xl">Бракованные товары</p>
+                            <p>#{{ selectedItem?.id }} </p>
+                        </div>
+                    </div>
+                </template>
 
-
-<UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid"  @click="isOpen = false" />
-</div>
-                <div class="icon">
-                    <img v-if="!selectedItem.photo" :src="`${base_url}/image/${selectedItem.id}`" alt="Photo"
-                        class="w-[200px] mx-auto">
-                </div>
-                <div class="wrapper flex items-center justify-center gap-6">
-                    <div class="name">
-                        <p>{{ selectedItem && selectedItem.name }}</p>
+                <div class="product-details" v-if="selectedItem">
+                    <h3 class="text-2xl font-semibold mb-4">Данные о браке</h3>
+                    <div class="details-grid grid grid-cols-2 gap-4 mb-6">
+                        <p><strong>Работник:</strong> {{ selectedItem.created_by }}</p>
+                        <p><strong>Количество товаров:</strong> {{ selectedItem.products }}</p>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Бракованные товары</h4>
+                    <div class="sold-items flex flex-col gap-4">
+                        <div class="sold-item flex flex-wrap justify-between p-3 border rounded-lg"
+                            v-for="item in selectedItem.defects" :key="item.id">
+                            <p><strong>Название:</strong> {{ item.name }}</p>
+                            <p><strong>Количество:</strong> {{ item.quantity }}</p>
+                            <p><strong>Причина:</strong> {{ item.remark }}</p>
+                        </div>
                     </div>
                 </div>
-            </template>
 
-            <div class="product" v-if="selectedItem">
-                <h3 class="text-2xl font-semibold">Данные о продукте</h3>
-                <div class="flex flex-col gap-10 mt-10">
-                    <p>Наименование: {{ selectedItem.name }}</p>
-                    <p>Артикул: {{ selectedItem.code }}</p>
-                    <p>Цена: {{ selectedItem.price }} USD</p>
-                    <p>Количество: {{ selectedItem.quantity }}</p>
-                </div>
-            </div>
-
-            <!-- <template #footer>
-                <div class="wrapper flex items-center justify-center gap-6">
-                    <DeleteBtn @click="deleteOpen = true" />
-                    <EditBtn @click="routeEdit(selectedItem.id)" />
-                    <UModal v-model="deleteOpen">
-                        <Placeholder>
-                            <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                            <div class=" flex gap-10 items-center justify-center my-10">
-                                <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                <button @click="deleteItem(selectedItem.id)"
-                                    class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                            </div>
-                        </Placeholder>
-                    </UModal>
-                </div>
-            </template> -->
-        </UCard>
-    </USlideover>
+                <template #footer>
+                    <div class="wrapper flex items-center justify-center gap-6">
+                        <button @click="deleteOpen = true" class="bg-red-500 w-[100px] rounded-lg py-2">
+                            <Icon name="mdi:trash-can-outline" />
+                            Удалить
+                        </button>
+                        <UModal v-model="deleteOpen">
+                            <Placeholder>
+                                <p class="mt-5 text-center">Вы точно хотите удалить?</p>
+                                <div class="flex gap-10 items-center justify-center my-10">
+                                    <button @click="deleteOpen = false"
+                                        class="bg-red-400 w-[100px] rounded-lg">Нет</button>
+                                    <button @click="deleteItem(selectedItem.id)"
+                                        class="bg-green-400 w-[100px] rounded-lg">Да</button>
+                                </div>
+                            </Placeholder>
+                        </UModal>
+                    </div>
+                </template>
+            </UCard>
+        </USlideover>
 </template>
 <style scoped>
 .customize-table {
@@ -247,5 +253,22 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
     --easy-table-scrollbar-corner-color: #2d3a4f;
 
     --easy-table-loading-mask-background-color: #262626;
+}
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.sold-item {
+    background-color: #f9f9f9;
+    /* Можно адаптировать под dark mode */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.sold-item p {
+    margin: 0;
+    padding: 0;
 }
 </style>

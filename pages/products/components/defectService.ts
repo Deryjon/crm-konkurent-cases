@@ -11,26 +11,37 @@ export const useDefectService = (serverOptions: Ref<ServerOptions>) => {
   const searchValue = computed(() => store.searchValue ?? "");
 
   const fetchDefect = async () => {
-    const token = localStorage.getItem("token") || "";
-    const { data } = await useFetch(
-      `${base_url}/defect?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).json();
-    if (data) {
-      items.value = data.value.defects;
-      total.value = data.value.total;
+    try {
+        const token = localStorage.getItem("token") || "";
+        const { data, isFetching, error } = await useFetch(
+            `${base_url}/defect?pattern=${encodeURIComponent(searchValue.value)}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            }
+        ).json();
+
+        if (error.value) {
+            console.error('Error fetching data:', error.value);
+            return;
+        }
+
+        if (data.value) {
+
+            items.value = data.value.defects;
+            total.value = data.value.total;
+        }
+    } catch (error) {
+        console.error('Fetch failed:', error);
     }
-  };
+};
+
 
   // Вызываем fetchDefect при каждом изменении searchValue
-  watch(searchValue, () => {
-    fetchDefect();
-  });
+  watch([searchValue, serverOptions], fetchDefect, { deep: true });
+
 
   const setSearchValue = (value: string) => {
     store.searchValue = value;

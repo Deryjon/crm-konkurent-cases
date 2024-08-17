@@ -118,17 +118,7 @@ watch(serverOptions, (value) => { loadFromServer(); }, { deep: true });
         </template>
         <template #item-operation="{ id }" :key="id">
             <div class="operation-wrapper flex gap-1 items-center justify-center ">
-                <!-- <DeleteBtn @click="deleteOpen = true" /> -->
                 <EditBtn @click="routeEdit(id)" />
-                <!-- <UModal v-model="deleteOpen" class="text-black dark:text-white" :key="id">
-                    <Placeholder>
-                        <p class="mt-5 text-center"> Вы точно хотите удалить? </p>
-                        <div class=" flex gap-10 items-center justify-center my-10">
-                            <button @click="deleteOpen = false" class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                            <button @click="deleteItem(id)" class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                        </div>
-                    </Placeholder>
-                </UModal> -->
             </div>
         </template>
     </EasyDataTable>
