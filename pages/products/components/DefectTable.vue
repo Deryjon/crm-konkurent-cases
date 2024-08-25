@@ -65,17 +65,21 @@ watch(serverOptions, (value) => {
 }, { deep: true });
 
 const deleteItem = async (id: string) => {
-    // const token = localStorage.getItem("token") || "";
-    // const { data } = await useFetch(
-    //   `${base_url}/product?`,
-    //   {
-    //     method: "DELETE",
-    //     headers: {
-    //       Authorization: "Bearer " + token,
-    //     },
-    //   }
-    // ).json();
-    console.log(id)
+    const token = localStorage.getItem("token") || "";
+    const { status } = await useFetch(
+      `${base_url}/defect?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (status.value === "success") {
+        deleteOpen.value = false
+        isOpen.value = false
+fetchDefect()
+    }
 
 };
 
@@ -144,26 +148,6 @@ const deleteItem = async (id: string) => {
                         </div>
                     </div>
                 </div>
-
-                <template #footer>
-                    <div class="wrapper flex items-center justify-center gap-6">
-                        <button @click="deleteOpen = true" class="bg-red-500 w-[100px] rounded-lg py-2">
-                            <Icon name="mdi:trash-can-outline" />
-                            Удалить
-                        </button>
-                        <UModal v-model="deleteOpen">
-                            <Placeholder>
-                                <p class="mt-5 text-center">Вы точно хотите удалить?</p>
-                                <div class="flex gap-10 items-center justify-center my-10">
-                                    <button @click="deleteOpen = false"
-                                        class="bg-red-400 w-[100px] rounded-lg">Нет</button>
-                                    <button @click="deleteItem(selectedItem.id)"
-                                        class="bg-green-400 w-[100px] rounded-lg">Да</button>
-                                </div>
-                            </Placeholder>
-                        </UModal>
-                    </div>
-                </template>
             </UCard>
         </USlideover>
 </template>
