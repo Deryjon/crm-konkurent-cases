@@ -21,6 +21,8 @@ const createClient = async () => {
     if(localStorage.getItem("role") !== "salesman" && localStorage.getItem("role") !== "admin") {
       toast.error('Ошибка при запросе')
       return;
+    } else if(address.value.length < 5) {
+        toast.error('Неверный формат адреса')
     }
 
     const phoneRegex = /^\+\d{3}\d{9}$/;
