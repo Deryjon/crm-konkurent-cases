@@ -27,7 +27,27 @@ function formatDate(date: Date): string {
     return date.toISOString().slice(0, 10);
 }
 
-const serverOptions = ref<ServerOptions>({ page: 1, rowsPerPage: 10 });
+const serverOptions = ref({
+  page: 1,
+  rowsPerPage: 10,
+  totalPages: 0 
+});
+
+const nextPage = () => {
+    console.log(serverOptions.value.page)
+
+    serverOptions.value.page++; 
+    fetchSales();
+  }
+
+const prevPage = () => {
+    serverOptions.value.page--;
+    fetchSales();
+}
+
+watch(serverOptions, (value) => {
+    fetchSales();
+}, { deep: true });
 
 const { items, fetchSales } = useSaleService(date, fromDate, toDate, serverOptions);
 
@@ -45,6 +65,7 @@ watch(date, (newValue) => {
     toDate.value = formatDate(date.value[1]);
     fetchSales();
 });
+
 
 const totalUsd = computed(() => items.value.reduce((total, sale) => total + sale.total_usd, 0));
 const totalUzs = computed(() => items.value.reduce((total, sale) => total + sale.total_uzs, 0));
@@ -115,7 +136,6 @@ const deleteItem = async (id: string) => {
 
 };
 
-
 </script>
 <template>
     <section class="new-order lg:flex mt-[15px]">
@@ -169,8 +189,28 @@ const deleteItem = async (id: string) => {
                     </div>
                 </div>
 
-
             </div>
+            <div class="pagination mt-5 lg:mt-10 flex justify-end">
+            <div class="flex gap-2">
+                <button 
+    @click="prevPage" 
+    class="bg-white dark:bg-[#404040] p-2 rounded-lg" 
+   >
+    <Icon name="mdi:chevron-left" />
+</button>
+
+                <!-- Current Page Indicator -->
+                <button class="bg-white dark:bg-[#404040] p-2 rounded-lg">
+                    {{ serverOptions.page }}
+                </button>
+                <button 
+    @click="nextPage" 
+    class="bg-white dark:bg-[#404040] p-2 rounded-lg" 
+   >
+    <Icon name="mdi:chevron-right" />
+</button>
+            </div>
+        </div>
         </div>
         <div class="right w-full lg:w-[300px] lg:p-4 lg:h-[630px] mt-5 lg:mt-0">
             <div class=" shadow-2xl bg-white border-2 dark:bg-[#404040] rounded-2xl ">

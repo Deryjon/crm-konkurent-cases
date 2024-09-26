@@ -15,9 +15,10 @@ export const useSaleService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate:
   const store = useSearchStore();
 
   const fetchSales = async () => {
+    console.log('Текущая страница:', serverOptions.value.page); // Для проверки
     const token = localStorage.getItem("token");
-    if (!token) return; 
-
+    if (!token) return;
+  
     const { data } = await useFetch(
       `${base_url}/sale?from=${fromDate.value}&to=${toDate.value}&page=${serverOptions.value.page}&limit=${serverOptions.value.rowsPerPage}`,
       {
@@ -28,8 +29,8 @@ export const useSaleService = (date: Ref<Date[]>, fromDate: Ref<string>, toDate:
       }
     ).json();
     items.value = data.value.sales;
-
   };
+  
   watch([() => store.searchValue, serverOptions, fromDate, toDate], () => {
     fetchSales();
   });
